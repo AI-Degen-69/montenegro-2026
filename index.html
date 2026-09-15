@@ -1,0 +1,1343 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F0F3F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F212B" media="(prefers-color-scheme: dark)">
+<meta name="description" content="מסלול מונטנגרו 24–27 בספטמבר 2026: ארבעה ימים עם ציר זמן, מרחקים וזמני נסיעה, ניווט מוכן ב־Google Maps ותמונות של כל מקום.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="ארבעה ימים במונטנגרו">
+<meta property="og:description" content="24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו">
+<meta property="og:image" content="https://ai-degen-69.github.io/montenegro-2026/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="מונטנגרו">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<link rel="icon" type="image/png" sizes="512x512" href="img/icon-512.png">
+<title>ארבעה ימים במונטנגרו</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+:root{
+  --paper:#F0F3F2; --surface:#FFFFFF; --surface-2:#E8EDEC; --raise:#FBFCFC;
+  --line:#D4DCDB; --line-soft:#E4EAE9;
+  --text:#14232E; --muted:#5D7078; --faint:#8A9BA1;
+  --sea:#13707F; --sea-ink:#0C4C57; --sea-soft:#DDECEE;
+  --gold:#A87A25; --gold-soft:#F3E9D6;
+  --blue:#1F6FEB; --blue-soft:#E4EDFD;
+  --red:#C93A36; --red-soft:#FBE7E6;
+  --land:#E7E4DA; --water:#CBE1E4; --route:#13707F;
+  --shadow:0 1px 2px rgba(11,27,43,.05), 0 8px 24px -14px rgba(11,27,43,.28);
+  --radius:14px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#08151D; --surface:#0F212B; --surface-2:#152E39; --raise:#143039;
+    --line:#22404B; --line-soft:#1A333D;
+    --text:#E6EEF0; --muted:#93A9B0; --faint:#6E878F;
+    --sea:#4FB6C6; --sea-ink:#8FD6E2; --sea-soft:#10333B;
+    --gold:#D6A44A; --gold-soft:#2B2416;
+    --blue:#5A95FF; --blue-soft:#12243D;
+    --red:#F0756C; --red-soft:#33191A;
+    --land:#13232A; --water:#0B2A33; --route:#4FB6C6;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.9);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#08151D; --surface:#0F212B; --surface-2:#152E39; --raise:#143039;
+  --line:#22404B; --line-soft:#1A333D;
+  --text:#E6EEF0; --muted:#93A9B0; --faint:#6E878F;
+  --sea:#4FB6C6; --sea-ink:#8FD6E2; --sea-soft:#10333B;
+  --gold:#D6A44A; --gold-soft:#2B2416;
+  --blue:#5A95FF; --blue-soft:#12243D;
+  --red:#F0756C; --red-soft:#33191A;
+  --land:#13232A; --water:#0B2A33; --route:#4FB6C6;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.9);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{direction:rtl}
+body{
+  margin:0; background:var(--paper); color:var(--text);
+  direction:rtl; text-align:right;
+  font-family:"Assistant","Segoe UI",system-ui,sans-serif;
+  font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1060px; margin:0 auto; padding-inline:clamp(16px,4vw,40px); padding-block:0}
+h1,h2,h3{font-family:"Frank Ruhl Libre","David",Georgia,serif; font-weight:700; text-wrap:balance; margin:0}
+button{font-family:inherit; font-size:inherit; cursor:pointer}
+:focus-visible{outline:2px solid var(--blue); outline-offset:2px; border-radius:6px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+
+/* ---------- masthead ---------- */
+.masthead{padding-block:clamp(28px,5vw,52px) 22px; border-bottom:1px solid var(--line)}
+.eyebrow{
+  font-size:11px; letter-spacing:.22em; color:var(--gold);
+  font-weight:700; text-transform:uppercase; margin-bottom:10px;
+}
+.masthead h1{font-size:clamp(30px,6vw,50px); line-height:1.08; letter-spacing:-.01em}
+.masthead .sub{color:var(--muted); margin-top:8px; font-size:clamp(14px,2.4vw,17px)}
+.masthead-row{display:flex; gap:20px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap}
+.tools{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.pill{
+  display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:600;
+  padding:7px 13px; border-radius:999px; border:1px solid var(--line);
+  background:var(--surface); color:var(--muted);
+}
+.pill .dot{width:7px; height:7px; border-radius:50%; background:var(--faint)}
+.pill.live .dot{background:var(--sea)}
+.pill.live{color:var(--sea); border-color:color-mix(in srgb, var(--sea) 35%, var(--line))}
+.ghost{
+  background:var(--surface); border:1px solid var(--line); color:var(--text);
+  padding:7px 14px; border-radius:999px; font-size:13px; font-weight:600;
+  transition:background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.ghost:hover{background:var(--surface-2); transform:translateY(-1px)}
+
+/* ---------- day rail ---------- */
+.rail{
+  position:sticky; top:0; z-index:40; background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
+}
+.rail-inner{display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; position:relative}
+.rail-inner::-webkit-scrollbar{display:none}
+.tab{
+  background:none; border:0; padding:15px 16px 13px; white-space:nowrap;
+  color:var(--muted); display:flex; align-items:baseline; gap:9px;
+  border-bottom:2px solid transparent; transition:color .2s ease;
+}
+.tab .n{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--faint); font-weight:500}
+.tab .t{font-weight:700; font-size:15px}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{color:var(--text)}
+.tab[aria-selected="true"] .n{color:var(--gold)}
+.rail-ink{position:absolute; bottom:0; height:2px; background:var(--sea); border-radius:2px 2px 0 0; pointer-events:none}
+
+/* ---------- day head ---------- */
+.dayhead{padding-block:clamp(26px,4.5vw,44px) 4px}
+.dayhead .kicker{font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); font-weight:700}
+.dayhead h2{font-size:clamp(24px,4.6vw,38px); margin-top:8px; line-height:1.14}
+.dayhead .blurb{color:var(--muted); max-width:62ch; margin-top:12px; font-size:clamp(14.5px,2.2vw,16.5px)}
+
+.stats{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px}
+.stat{
+  flex:1 1 150px; background:var(--surface); border:1px solid var(--line-soft);
+  border-radius:var(--radius); padding:13px 15px;
+}
+.stat .lab{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); font-weight:700}
+.stat .val{font-family:"Frank Ruhl Libre",serif; font-size:21px; font-weight:500; margin-top:3px; letter-spacing:-.01em}
+.stat .note{font-size:12.5px; color:var(--muted); margin-top:1px}
+
+/* ---------- overview map ---------- */
+.mapcard{
+  margin-top:20px; border:1px solid var(--line-soft); border-radius:var(--radius);
+  background:var(--surface); overflow:hidden;
+}
+.mapcard header{
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  padding:12px 16px; border-bottom:1px solid var(--line-soft); flex-wrap:wrap;
+}
+.mapcard h3{font-size:14.5px; font-weight:700}
+.mapcard .legend{font-size:11.5px; color:var(--faint)}
+.mapcard svg{display:block; width:100%; height:auto; max-width:100%; background:var(--land)}
+
+/* ---------- timeline ---------- */
+.timeline{margin-top:30px; padding-bottom:70px}
+.stop{
+  display:grid; grid-template-columns:96px minmax(0,1fr); gap:0;
+  position:relative;
+}
+.stop .when{
+  position:relative; padding:20px 14px 20px 30px; text-align:right;
+}
+.stop .when::before{
+  content:""; position:absolute; top:0; bottom:0; left:15px;
+  width:2px; background:var(--line); transform:translateX(50%);
+}
+.stop:first-child .when::before{top:30px}
+.stop .node{
+  position:absolute; left:16px; top:28px; width:11px; height:11px; border-radius:50%;
+  background:var(--surface); border:2.5px solid var(--sea); transform:translateX(50%);
+  z-index:2;
+}
+.stop .hhmm{font-family:"IBM Plex Mono",monospace; font-size:17px; font-weight:500; letter-spacing:-.02em}
+.stop .dur{font-size:11px; color:var(--gold); font-weight:700; margin-top:2px; letter-spacing:.04em}
+
+.card{
+  background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--radius);
+  padding:17px 19px; margin:14px 0 14px 0; box-shadow:var(--shadow);
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.card:hover{border-color:var(--line)}
+.stop.anchor .when{padding-block:16px}
+.stop.anchor .node{
+  width:13px; height:13px; border-radius:3px; background:var(--gold);
+  border:0; top:24px; transform:translateX(50%) rotate(45deg);
+}
+.stop.anchor .tag{
+  font-size:10px; letter-spacing:.14em; font-weight:700; color:var(--gold);
+  text-transform:uppercase;
+}
+.stop.special .node{
+  width:13px; height:13px; border-radius:3px; background:var(--gold);
+  border:0; transform:translateX(50%) rotate(45deg);
+}
+.card.special{
+  background:color-mix(in srgb, var(--gold-soft) 55%, var(--surface));
+  border-color:color-mix(in srgb, var(--gold) 42%, var(--line));
+  border-inline-start:4px solid var(--gold);
+}
+.card.special .speclab{
+  display:block; font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--gold); font-weight:700; margin-bottom:6px;
+}
+.card.special .specnote{
+  margin-top:11px; padding:9px 13px; border-radius:8px; font-size:13px; line-height:1.45;
+  color:var(--muted); background:var(--gold-soft);
+  border-inline-start:3px solid color-mix(in srgb, var(--gold) 60%, transparent);
+}
+.anchor-card{
+  margin:12px 0; padding:15px 18px; border-radius:var(--radius);
+  background:var(--gold-soft);
+  border:1px solid color-mix(in srgb, var(--gold) 38%, var(--line));
+  border-inline-start:4px solid var(--gold);
+  display:grid; grid-template-columns:minmax(0,1fr) 148px; gap:16px; align-items:center;
+}
+.anchor-card .lab{
+  font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--gold); font-weight:700;
+}
+.anchor-card h3{font-family:"Frank Ruhl Libre",serif; font-size:18px; margin-top:4px; line-height:1.2}
+.anchor-card .note{font-size:13px; color:var(--muted); margin-top:6px; line-height:1.45; max-width:58ch}
+.anchor-card .rows{display:flex; flex-direction:column; gap:5px; margin-top:9px}
+.anchor-card .rows a{
+  color:var(--sea); font-size:13px; text-decoration:none;
+  border-bottom:1px solid color-mix(in srgb,var(--sea) 35%,transparent); align-self:flex-start;
+}
+.anchor-card .rows a:hover{border-bottom-color:var(--sea)}
+.anchor-card .navlink{align-self:flex-start; margin-top:4px}
+.anchor-card img{
+  width:100%; height:auto; aspect-ratio:4/3; object-fit:cover;
+  border-radius:9px; display:block; border:1px solid color-mix(in srgb,var(--gold) 30%,transparent);
+}
+@media (max-width:640px){
+  .anchor-card{grid-template-columns:minmax(0,1fr)}
+  .anchor-card .shotwrap{order:-1; max-width:260px}
+}
+.card-grid{display:grid; grid-template-columns:minmax(0,1fr) 196px; gap:18px; align-items:start}
+.card-grid.noimg{grid-template-columns:minmax(0,1fr)}
+.shot{margin:0; display:flex; flex-direction:column; gap:6px}
+.shot a{display:block; border-radius:10px; overflow:hidden; border:1px solid var(--line-soft);
+  background:var(--surface-2); line-height:0;
+  transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease}
+.shot a:hover{transform:translateY(-2px); border-color:var(--sea); box-shadow:var(--shadow)}
+.shot img{width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; display:block; max-width:100%}
+.shot figcaption{font-size:11.5px; color:var(--faint); line-height:1.4}
+.shot .links{display:flex; flex-direction:column; gap:2px; margin-top:2px}
+.shot .venue{
+  display:flex; align-items:center; gap:5px; font-size:11.5px; font-weight:700;
+  color:var(--blue); text-decoration:none;
+}
+.shot .venue:hover{text-decoration:underline}
+.shot .badge{
+  position:absolute; inset-block-start:8px; inset-inline-start:8px;
+  background:color-mix(in srgb, var(--surface) 88%, transparent); color:var(--sea);
+  font-size:10px; font-weight:700; letter-spacing:.06em; padding:3px 7px; border-radius:6px;
+  backdrop-filter:blur(6px); border:1px solid var(--line-soft);
+}
+.shot .frame{position:relative; display:block; border-radius:10px; overflow:hidden}
+.noshot{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px;
+  aspect-ratio:4/3; border:1.5px dashed color-mix(in srgb,var(--blue) 40%,var(--line));
+  border-radius:10px; color:var(--blue); font-size:12px; font-weight:700; text-align:center;
+  padding:10px; text-decoration:none; background:var(--blue-soft);
+  transition:background .18s ease;
+}
+.noshot:hover{background:color-mix(in srgb,var(--blue) 18%,var(--surface))}
+.noshot span{font-weight:400; color:var(--muted); font-size:11px; line-height:1.35}
+.photobox{
+  border:1px solid var(--line); border-radius:10px; padding:12px; background:var(--raise);
+  display:grid; grid-template-columns:120px minmax(0,1fr); gap:12px; align-items:start;
+}
+.photobox img{width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; border-radius:8px; display:block}
+.photobox .empty{
+  aspect-ratio:4/3; border:1px dashed var(--line); border-radius:8px;
+  display:flex; align-items:center; justify-content:center; color:var(--faint); font-size:11px;
+}
+.photobox .ctrl{display:grid; gap:8px}
+.photobox .row{display:flex; gap:7px; flex-wrap:wrap; align-items:center}
+.photobox .note{font-size:11.5px; color:var(--muted); line-height:1.4}
+.upwrap{position:relative; overflow:hidden; display:inline-flex}
+.upwrap input[type=file]{position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; font-size:0}
+@media (max-width:480px){ .photobox{grid-template-columns:minmax(0,1fr)} }
+.shot figcaption a{display:inline; border:0; color:var(--sea); text-decoration:none; line-height:1.35}
+.shot figcaption a:hover{text-decoration:underline; transform:none; box-shadow:none}
+.card h3{font-size:19px; line-height:1.25}
+.card .kick{color:var(--sea); font-size:13.5px; margin-top:5px; font-style:italic}
+.card .body{margin-top:10px; color:var(--text); font-size:15px; max-width:62ch}
+.meta{margin-top:12px; display:flex; flex-direction:column; gap:5px}
+.meta-row{display:flex; gap:9px; align-items:baseline; font-size:13.5px; flex-wrap:wrap}
+.meta-row .k{
+  font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint);
+  font-weight:700; flex:none; padding-top:2px;
+}
+.meta-row a{color:var(--sea); text-decoration:none; border-bottom:1px solid color-mix(in srgb,var(--sea) 35%,transparent)}
+.meta-row a:hover{border-bottom-color:var(--sea)}
+.meta-row .v{color:var(--muted)}
+.alt{
+  margin-top:12px; background:var(--red-soft); border-inline-start:3px solid var(--red);
+  padding:9px 13px; border-radius:0 8px 8px 0; font-size:13.5px; color:var(--text);
+}
+.alt .k{font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--red); font-weight:700; margin-inline-end:7px}
+
+.actions{display:flex; gap:7px; margin-top:14px; flex-wrap:wrap; align-items:center}
+.btn{
+  border:1px solid var(--line); background:var(--surface); color:var(--muted);
+  padding:6px 12px; border-radius:8px; font-size:12.5px; font-weight:600;
+  transition:all .16s ease; display:inline-flex; align-items:center; gap:6px;
+}
+.btn:hover{color:var(--text); border-color:var(--faint)}
+.btn.primary{background:var(--blue); border-color:var(--blue); color:#fff}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{color:var(--red); border-color:color-mix(in srgb,var(--red) 38%,var(--line))}
+.btn.danger:hover{background:var(--red); border-color:var(--red); color:#fff}
+.btn.danger.armed{background:var(--red); border-color:var(--red); color:#fff}
+.btn.icon{padding:6px 9px; font-family:"IBM Plex Mono",monospace}
+.btn[disabled]{opacity:.35; cursor:not-allowed}
+.spacer{flex:1}
+
+/* ---------- editor ---------- */
+.editor{display:grid; gap:11px}
+.field{display:grid; gap:4px}
+.field label{font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); font-weight:700}
+.field select{
+  font-family:inherit; font-size:14.5px; color:var(--text); background:var(--raise);
+  border:1px solid var(--line); border-radius:9px; padding:9px 11px; width:100%;
+}
+.field select:focus{outline:none; border-color:var(--sea); background:var(--surface)}
+.field input, .field textarea{
+  font-family:inherit; font-size:14.5px; color:var(--text); background:var(--raise);
+  border:1px solid var(--line); border-radius:9px; padding:9px 11px; width:100%;
+  transition:border-color .16s ease, background .16s ease;
+}
+.field input:focus, .field textarea:focus{outline:none; border-color:var(--sea); background:var(--surface)}
+.field textarea{resize:vertical; min-height:74px; line-height:1.5}
+.field.mono input{font-family:"IBM Plex Mono",monospace}
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:11px}
+
+/* ---------- leg: vertical connector between two cards ---------- */
+.leg{
+  grid-column:1 / -1; display:grid; grid-template-columns:96px minmax(0,1fr);
+  margin:0; padding:0;
+}
+.legrail{position:relative; min-height:68px}
+.legrail::before{
+  content:""; position:absolute; inset-block:0; left:15px; width:2px;
+  transform:translateX(50%);
+  background-image:linear-gradient(to bottom, var(--line) 0 7px, transparent 7px 15px);
+  background-size:2px 15px; background-repeat:repeat-y;
+  animation:legflow 1.1s linear infinite;
+}
+@keyframes legflow{ from{background-position:0 0} to{background-position:0 15px} }
+.leginfo{
+  display:flex; align-items:center; gap:9px; flex-wrap:wrap;
+  padding:14px 0 14px 4px; align-self:center;
+}
+.modeicon{
+  flex:none; width:30px; height:30px; border-radius:9px; display:grid; place-items:center;
+  background:var(--sea-soft); color:var(--sea);
+  border:1px solid color-mix(in srgb, var(--sea) 26%, transparent);
+}
+.modeicon svg{width:16px; height:16px; display:block}
+.legfacts{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; min-width:0}
+.legfacts b{font-family:"IBM Plex Mono",monospace; font-weight:500; font-size:13px; color:var(--text)}
+.legfacts .sep{color:var(--faint); font-size:11px}
+.legfacts .mode{font-size:11.5px; color:var(--faint)}
+.navlink{
+  flex:none; display:inline-flex; align-items:center; gap:6px; text-decoration:none;
+  font-size:12.5px; font-weight:700; color:var(--blue);
+  background:var(--blue-soft); border:1px solid color-mix(in srgb,var(--blue) 30%,transparent);
+  padding:6px 12px; border-radius:999px; white-space:nowrap;
+  transition:background .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+.navlink:hover{background:color-mix(in srgb,var(--blue) 16%,var(--surface)); transform:translateY(-1px); box-shadow:var(--shadow)}
+.navlink svg{width:14px; height:14px; flex:none; display:block}
+
+/* ---------- insert bar ---------- */
+/* the add-stop pill straddles the bottom edge of the card above it */
+.insert{
+  grid-column:1 / -1; display:flex; justify-content:center; align-items:flex-start;
+  height:0; overflow:visible; position:relative; z-index:6;
+}
+.insert button{
+  border:1px solid color-mix(in srgb, var(--blue) 45%, var(--line));
+  background:var(--blue-soft); color:var(--blue);
+  font-size:12px; font-weight:700; letter-spacing:.01em;
+  padding:6px 17px; border-radius:999px; line-height:1.3;
+  margin-top:-14px; transform:translateY(-50%);
+  box-shadow:0 0 0 5px var(--paper);
+  transition:background .16s ease, color .16s ease, border-color .16s ease, transform .16s ease;
+}
+.insert button:hover{
+  background:var(--blue); color:#fff; border-color:var(--blue);
+  transform:translateY(-50%) scale(1.04);
+}
+.insert.first{height:auto; align-items:center; margin-bottom:10px}
+.insert.first button{margin-top:0; transform:none; box-shadow:none}
+.insert.first button:hover{transform:scale(1.04)}
+
+.dayfoot{
+  margin-top:26px; border-top:1px solid var(--line); padding-top:18px;
+  display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; align-items:center;
+}
+.dayfoot .hint{font-size:12.5px; color:var(--faint); max-width:54ch}
+
+.pagefoot{border-top:1px solid var(--line); padding-block:22px 40px; color:var(--faint); font-size:12.5px}
+
+@media (max-width:720px){
+  .card-grid{grid-template-columns:minmax(0,1fr)}
+  .shot{order:-1; max-width:320px}
+}
+@media (max-width:560px){
+  .stop{grid-template-columns:70px minmax(0,1fr)}
+  .stop .when{padding:16px 8px 16px 24px}
+  .stop .when::before{left:11px}
+  .stop .node{left:12px}
+  .stop .hhmm{font-size:15px}
+  .leg{grid-template-columns:70px minmax(0,1fr)}
+  .legrail::before{left:11px}
+  .legrail{min-height:74px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="masthead-row">
+      <div>
+        <div class="eyebrow">מסלול פרטי · ניתן לעריכה</div>
+        <h1>ארבעה ימים במונטנגרו</h1>
+        <p class="sub">24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו</p>
+      </div>
+      <div class="tools">
+        <span class="pill" id="statusPill"><span class="dot"></span><span id="statusText">טוען…</span></span>
+        <button class="ghost" id="shareBtn" type="button">שיתוף</button>
+        <button class="ghost" id="resetAll" type="button">איפוס</button>
+        <button class="ghost" id="themeBtn" type="button">מצב כהה</button>
+      </div>
+    </div>
+  </header>
+</div>
+
+<nav class="rail" aria-label="ימי הטיול">
+  <div class="wrap">
+    <div class="rail-inner" id="rail" role="tablist"></div>
+  </div>
+</nav>
+
+<main class="wrap" id="day" aria-live="polite"></main>
+
+<div class="wrap">
+  <footer class="pagefoot">
+    המפות סכמטיות — מיועדות להבין את סדר התחנות ואת יחסי המרחק, לא לניווט. לניווט בפועל: הקישור בכל תחנה נפתח ב־Google&nbsp;Maps.<br>
+    התמונות בכל תחנה הן צילומי המקום עצמו מעמוד העסק ב־Google&nbsp;Maps, לשימוש אישי בלבד. לצידן שמורות תמונות אזור מ־Wikimedia&nbsp;Commons. אפשר להחליף תמונה לכל תחנה — או להעלות תמונה משלך — דרך "ערוך".
+  </footer>
+</div>
+
+<script>
+/* =========================================================
+   nodes — schematic projection of the Montenegrin coast
+   x = (lon - 18.45) * 1000 ,  y = (42.55 - lat) * 1345
+   ========================================================= */
+const NODES = {
+  tiv:      {x:273, y:196, label:"שדה תעופה טיווט"},
+  tivat:    {x:246, y:153, label:"טיווט / פורטו"},
+  kotor:    {x:321, y:169, label:"קוטור"},
+  perast:   {x:252, y:84,  label:"פרסט"},
+  budva:    {x:391, y:356, label:"בודווה"},
+  sveti:    {x:441, y:395, label:"סבטי סטפן"},
+  drobni:   {x:463, y:429, label:"דרובני פייסק"},
+  rezevici: {x:479, y:446, label:"רז׳ביצ׳י"},
+  podgorica:{x:813, y:147, label:"פודגוריצה"}
+};
+const SEA_PATH = "M0,120 L55,152 L110,205 L160,232 L215,250 L300,300 L392,358 L452,406 L497,468 L560,532 L652,614 L720,760 L-40,760 Z";
+const BAY_MAIN = "M46,150 L130,146 L200,152 L238,114 L252,70 L300,124 L326,172";
+const BAY_ARM  = "M200,152 L208,188 L248,178";
+const VIEWBOX  = "0 52 878 452";
+
+const PLACES = {
+  villa:{
+    name:"Villa Mare Reževići",
+    addr:"Reževići, katun bb, Budva 85300",
+    maps:"Villa Mare Rezevici Budva",
+    link:"https://maps.app.goo.gl/8DbYkCTZ2sV72Z1N7",
+    img:"img/v_villa.jpg"
+  },
+  tiv:{
+    name:"שדה התעופה טיווט (TIV)",
+    addr:"Tivat Airport, Tivat 85320",
+    maps:"Tivat Airport Montenegro",
+    link:"https://www.google.com/maps/search/?api=1&query=Tivat%20Airport%20Montenegro",
+    img:"img/v_tivat_airport.jpg"
+  }
+};
+
+const PHOTOS = {
+  v_tivat_airport:{f:"img/v_tivat_airport.jpg", l:"שדה התעופה טיווט", g:"https://www.google.com/maps/search/?api=1&query=Tivat%20Airport%20Montenegro", v:1},
+  v_mlin:{f:"img/v_mlin.jpg", l:"Restoran Mlin", g:"https://www.google.com/maps/search/?api=1&query=Restoran%20Mlin%20Budva", v:1},
+  v_budva_oldtown:{f:"img/v_budva_oldtown.jpg", l:"העיר העתיקה של בודווה", g:"https://www.google.com/maps/search/?api=1&query=Budva%20Old%20Town", v:1},
+  v_rezevici:{f:"img/v_rezevici.jpg", l:"מנזר רז׳ביצ׳י", g:"https://www.google.com/maps/search/?api=1&query=Manastir%20Rezevici", v:1},
+  v_podvolat:{f:"img/v_podvolat.jpg", l:"Pod Volat", g:"https://www.google.com/maps/search/?api=1&query=Pod%20Volat%20Podgorica", v:1},
+  v_hilton:{f:"img/v_hilton.jpg", l:"Hilton Podgorica · Sky Bar", g:"https://www.google.com/maps/search/?api=1&query=Hilton%20Podgorica%20Crna%20Gora", v:1},
+  v_biro:{f:"img/v_biro.jpg", l:"BIRO", g:"https://www.google.com/maps/search/?api=1&query=Biro%20Podgorica%20club", v:1},
+  v_drobni:{f:"img/v_drobni.jpg", l:"חוף Drobni Pijesak", g:"https://www.google.com/maps/search/?api=1&query=Drobni%20Pijesak%20beach", v:1},
+  v_puravida:{f:"img/v_puravida.jpg", l:"Pura Vida", g:"https://www.google.com/maps/search/?api=1&query=Pura%20Vida%20Drobni%20Pijesak", v:1},
+  v_svetistefan:{f:"img/v_svetistefan.jpg", l:"Sveti Stefan", g:"https://www.google.com/maps/search/?api=1&query=Aman%20Sveti%20Stefan", v:1},
+  v_slovenska:{f:"img/v_slovenska.jpg", l:"טיילת Slovenska", g:"https://www.google.com/maps/search/?api=1&query=Hotel%20Slovenska%20Plaza%20Budva", v:1},
+  v_dusanov:{f:"img/v_dusanov.jpg", l:"Konoba Dušanov Vrt", g:"https://www.google.com/maps/search/?api=1&query=Konoba%20Dusanov%20Vrt%20Budva", v:1},
+  v_tophill:{f:"img/v_tophill.jpg", l:"Top Hill", g:"https://www.google.com/maps/search/?api=1&query=Top%20Hill%20Budva", v:1},
+  v_kotor_gate:{f:"img/v_kotor_gate.jpg", l:"שער הים, קוטור", g:"https://www.google.com/maps/search/?api=1&query=Sea%20Gate%20Kotor", v:1},
+  v_kotor_market:{f:"img/v_kotor_market.jpg", l:"שוק קוטור", g:"https://www.google.com/maps/search/?api=1&query=Kotor%20Food%20Market", v:1},
+  v_tryphon:{f:"img/v_tryphon.jpg", l:"קתדרלת סבטי טריפון", g:"https://www.google.com/maps/search/?api=1&query=Cathedral%20of%20Saint%20Tryphon%20Kotor", v:1},
+  v_perast:{f:"img/v_perast.jpg", l:"פרסט", g:"https://www.google.com/maps/search/?api=1&query=Perast%20Montenegro", v:1},
+  v_ourlady:{f:"img/v_ourlady.jpg", l:"Gospa od Škrpjela", g:"https://www.google.com/maps/search/?api=1&query=Our%20Lady%20of%20the%20Rocks%20Perast", v:1},
+  v_rosmarino:{f:"img/v_rosmarino.jpg", l:"Trattoria Rosmarino", g:"https://www.google.com/maps/search/?api=1&query=Trattoria%20Rosmarino%20Perast", v:1},
+  v_porto:{f:"img/v_porto.jpg", l:"Porto Montenegro", g:"https://www.google.com/maps/search/?api=1&query=Porto%20Montenegro%20Tivat", v:1},
+  v_bokka:{f:"img/v_bokka.jpg", l:"Bokka Modern", g:"https://www.google.com/maps/search/?api=1&query=Bokka%20Modern%20Tivat", v:1},
+  v_alposto:{f:"img/v_alposto.jpg", l:"Al Posto Giusto", g:"https://www.google.com/maps/search/?api=1&query=Al%20Posto%20Giusto%20Porto%20Montenegro", v:1},
+  v_gas:{f:"img/v_gas.jpg", l:"תחנת הדלק לפני השדה", g:"https://www.google.com/maps/search/?api=1&query=EKO%20gas%20station%20Tivat", v:1},
+  tivat_arrive:{f:"img/tivat_arrive.jpg", l:"טיווט ושדה התעופה", g:"https://commons.wikimedia.org/wiki/Category:Tivat"},
+  budva_old:{f:"img/budva_old.jpg", l:"בודווה — העיר העתיקה", g:"https://commons.wikimedia.org/wiki/Category:Budva"},
+  budva_citadel:{f:"img/budva_citadel.jpg", l:"הציטדלה של בודווה", g:"https://www.google.com/search?udm=2&q=Budva%20Citadela"},
+  budva_view:{f:"img/budva_view.jpg", l:"בודווה מלמעלה", g:"https://commons.wikimedia.org/wiki/Category:Budva"},
+  budva_promenade:{f:"img/budva_promenade.jpg", l:"הטיילת בבודווה", g:"https://www.google.com/search?udm=2&q=Budva%20promenade%20evening"},
+  budva_night:{f:"img/budva_night.jpg", l:"בודווה בלילה", g:"https://www.google.com/search?udm=2&q=Budva%20night"},
+  rezevici:{f:"img/rezevici.jpg", l:"רז׳ביצ׳י — הכפר", g:"https://www.google.com/search?udm=2&q=Rezevici%20Montenegro"},
+  rezevici2:{f:"img/rezevici2.jpg", l:"מנזר רז׳ביצ׳י", g:"https://www.google.com/search?udm=2&q=Manastir%20Rezevici"},
+  podgorica:{f:"img/podgorica.jpg", l:"סטארה וארוש, פודגוריצה", g:"https://commons.wikimedia.org/wiki/Category:Stara_varo%C5%A1_(Podgorica)"},
+  pg_clock:{f:"img/pg_clock.jpg", l:"מגדל השעון, פודגוריצה", g:"https://www.google.com/search?udm=2&q=Sahat%20Kula%20Podgorica"},
+  pg_bridge:{f:"img/pg_bridge.jpg", l:"גשר המילניום, פודגוריצה", g:"https://commons.wikimedia.org/wiki/Category:Podgorica"},
+  drobni:{f:"img/drobni.jpg", l:"דרובני פייסק", g:"https://www.google.com/search?udm=2&q=Drobni%20Pijesak%20beach%20Montenegro"},
+  petrovac:{f:"img/petrovac.jpg", l:"פטרובאץ׳ והחופים", g:"https://www.google.com/search?udm=2&q=Petrovac%20Montenegro%20beach"},
+  svetistefan:{f:"img/svetistefan.jpg", l:"סבטי סטפן", g:"https://commons.wikimedia.org/wiki/Category:Sveti_Stefan"},
+  sveti2:{f:"img/sveti2.jpg", l:"סבטי סטפן — מבט שני", g:"https://commons.wikimedia.org/wiki/Category:Sveti_Stefan"},
+  boka_road:{f:"img/boka_road.jpg", l:"הכביש סביב המפרץ", g:"https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor"},
+  kotor_road:{f:"img/kotor_road.jpg", l:"פיתולי הדרך לקוטור", g:"https://www.google.com/search?udm=2&q=Kotor%20serpentine%20road"},
+  kotor_gate:{f:"img/kotor_gate.jpg", l:"שער הים, קוטור", g:"https://commons.wikimedia.org/wiki/Category:Kotor"},
+  kotor_square:{f:"img/kotor_square.jpg", l:"כיכר בקוטור", g:"https://commons.wikimedia.org/wiki/Category:Kotor"},
+  kotor_tryphon:{f:"img/kotor_tryphon.jpg", l:"קתדרלת סבטי טריפון", g:"https://www.google.com/search?udm=2&q=Cathedral%20of%20Saint%20Tryphon%20Kotor"},
+  kotor_bay:{f:"img/kotor_bay.jpg", l:"מפרץ קוטור", g:"https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor"},
+  prsut:{f:"img/prsut.jpg", l:"שוק ומעדנים מקומיים", g:"https://www.google.com/search?udm=2&q=Njegu%C5%A1ki%20pr%C5%A1ut"},
+  perast:{f:"img/perast.jpg", l:"פרסט", g:"https://commons.wikimedia.org/wiki/Category:Perast"},
+  perast2:{f:"img/perast2.jpg", l:"פרסט מהמערב", g:"https://commons.wikimedia.org/wiki/Category:Perast"},
+  ourlady:{f:"img/ourlady.jpg", l:"גברתנו מן הסלע", g:"https://www.google.com/search?udm=2&q=Our%20Lady%20of%20the%20Rocks%20Perast"},
+  porto:{f:"img/porto.jpg", l:"פורטו מונטנגרו", g:"https://commons.wikimedia.org/wiki/Category:Porto_Montenegro"},
+  porto_marina:{f:"img/porto_marina.jpg", l:"המרינה בטיווט", g:"https://commons.wikimedia.org/wiki/Category:Porto_Montenegro"},
+  tivat_sunset:{f:"img/tivat_sunset.jpg", l:"שקיעה מעל טיווט", g:"https://commons.wikimedia.org/wiki/Category:Tivat"},
+};
+
+/* =========================================================
+   the itinerary — page content, and the base every edit starts from
+   ========================================================= */
+const BASE = [
+{
+  id:"d1", anchors:{start:{place:"tiv", lab:"תחילת הטיול", title:"נחיתה בטיווט", link:false, note:""}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"58.1 ק״מ", min:"66 דק׳", mode:"נסיעה"}, note:"70 ק״מ מפודגוריצה דרך מנהרת Sozina, כ־1:10 בלילה. נהג תורן — סף האלכוהול 0.03%."}}, tab:"חמישי", date:"24 בספטמבר 2026",
+  title:"נחיתה, בודווה, ולילה בפודגוריצה",
+  blurb:"יום שמתחיל בשדה תעופה קטן ונגמר במועדון טכנו. ההיגיון שלו הוא ניצול אור היום בחוף ושמירת האנרגיה של הערב לבירה — עם עצירת מנוחה של שעתיים באמצע, שהיא מה שמאפשר את הלילה.",
+  stats:[["מזג אוויר","25° / 18°","ים 24° · יבש"],["נהיגה","3:10 שעות","165 ק״מ · אגרה 5 €"],["תקציב","125–170 €","לאדם, ללא לינה ורכב"]],
+  route:["tiv","budva","rezevici","podgorica","rezevici"],
+  stops:[
+   {id:"s101", img:"v_tivat_airport", time:"10:00", dur:"60 דק׳", node:"tiv",
+    title:"נחיתה בטיווט (TIV) ואיסוף הרכב",
+    kicker:"שדה קטן, יציאה מהירה — דלפק ההשכרה הוא צוואר הבקבוק היחיד",
+    body:"תכננו 45–60 דקות מהרגע שהגלגלים נוגעים ועד שהרכב בחוץ. לפני היציאה: צילום וידאו סביב הרכב, בדיקת גלגל רזרבי ואפוד זוהר (חובה חוקית). מונטנגרו אינה דורשת מדבקת כביש — אל תקנו ויניטה.",
+    addr:"Tivat Airport (TIV), Tivat 85320", maps:"Tivat Airport Montenegro",
+    alt:"אם הרכב מתעכב מעבר לשעה — שבו בבית הקפה בטרמינל ואל תזיזו את הצהריים. Mlin מחזיק שולחן כ־20 דקות בשיחת טלפון."},
+   {id:"s102", img:"v_mlin", time:"12:00", dur:"90 דק׳", node:"budva", leg:{km:"20 ק״מ", min:"30–35 דק׳", mode:"נסיעה"},
+    title:"צהריים ב־Restoran Mlin",
+    kicker:"קונובה בלב העיר העתיקה, בנויה סביב בית בד בן 400 שנה",
+    body:"הבעלים דג בעצמו, ולכן התפריט קצר וישיר: דגת היום על הגריל, תמנון, בוזרה. הפנים קומפקטי ומתמלא. 20–30 € לאדם עם יין בית.",
+    addr:"Vuka Karadžića 11, Stari Grad, Budva 85310", maps:"Restoran Mlin Budva",
+    move:"6–8 דק׳ הליכה מחניון Slovenska Obala אל תוך העיר העתיקה",
+    alt:"מלא? Konoba Stari Grad · Jadran kod Krsta (על הטיילת) · Tropico (תמנון ונתחי טונה)."},
+   {id:"s103", img:"v_budva_oldtown", time:"13:30", dur:"60 דק׳", node:"budva", leg:{km:"160 מ׳", min:"2 דק׳", mode:"הליכה"},
+    title:"סיבוב בעיר העתיקה של בודווה",
+    kicker:"שלוש כיכרות, חומות מול הים, והכול נסגר בהקפה אחת",
+    body:"משער העיר לציטדלה 8 דקות הליכה. הציטדלה בתשלום סמלי (כ־5 €) ופותחת את הנוף הטוב ביותר על האי Sveti Nikola. הרצפה אבן מלוטשת ומחליקה — נעליים סגורות.",
+    addr:"Stari Grad, Budva 85310", maps:"Budva Old Town",
+    move:"הקפה מלאה של הרובע: 25 דק׳ · משער לשער: 8 דק׳",
+    alt:"שמש כבדה מדי? החצרות הפנימיות מאחורי כנסיית Sveti Ivan בצל מלא כל אחר הצהריים."},
+   {id:"s104", img:"budva_view", time:"14:30", dur:"45 דק׳", node:"budva", leg:{km:"על הדרך", min:"ללא סטייה", mode:"נסיעה"},
+    title:"קניות לווילה — HDL / Voli",
+    kicker:"הרגע הכי לא זוהר ביום, וגם הכי משתלם",
+    body:"מים, קפה, פירות, לחם, גבינה, ויין מקומי — Vranac אדום או Krstač לבן, 6–12 € לבקבוק טובה. 30–50 € לכל הווילה יחסכו ארוחת בוקר בחוץ בכל אחד מהימים הבאים.",
+    addr:"Voli / HDL Market, Jadranski put, Budva", maps:"Voli supermarket Budva",
+    move:"על הדרך מבודווה לווילה — בלי סטייה",
+    alt:"סגור או עמוס? Mercator ב־Bečići, או Franca ב־Petrovac שפתוח עד 22:00."},
+   {id:"s105", img:"v_rezevici", time:"15:30", dur:"2.5 שע׳", node:"rezevici", leg:{km:"18 ק״מ", min:"25 דק׳", mode:"נסיעה"},
+    title:"צ׳ק־אין בווילה, Reževići",
+    kicker:"הבסיס לשלושת הלילות — כפר שקט מעל הכביש האדריאטי",
+    body:"Reževići הוא יישוב קטן בין Petrovac ל־Sveti Stefan, ארבעה קילומטרים מ־Drobni Pijesak ו־18 מבודווה. מנזר Reževići מ־1226 נמצא במרחק הליכה. זו שעת המנוחה היחידה ביום — נצלו אותה, הלילה ארוך.",
+    addr:"Reževići, עיריית Budva 85315", maps:"Villa Mare Rezevici Budva"},
+   {id:"s106", img:"v_podvolat", time:"19:15", dur:"90 דק׳", node:"podgorica", leg:{km:"70 ק״מ", min:"65–80 דק׳", mode:"מנהרת Sozina · 2.50 €"},
+    title:"ארוחת ערב ב־Pod Volat",
+    kicker:"המטבח המונטנגרי הכי אמיתי בבירה, בבניין עות׳מאני בסטארה וארוש",
+    body:"Njeguški pršut, ćevapi, כבש ispod sača, סלט šopska. מנות ענקיות ומחירים נמוכים — 15–25 € לאדם עם שתייה. לא מקום של עיצוב, מקום של אוכל.",
+    addr:"Trg Vojvode Bećira Osmanagića 1, Podgorica 81000", maps:"Pod Volat Podgorica",
+    move:"2 דק׳ הליכה ממגדל השעון (Sahat Kula)",
+    alt:"מלא? Lanterna (ים־תיכוני) · Carine · Kod Pera na Bulevaru — כולם ברדיוס 10 דקות."},
+   {id:"s107", img:"v_hilton", time:"21:00", dur:"90 דק׳", node:"podgorica", leg:{km:"600 מ׳", min:"8 דק׳", mode:"הליכה"},
+    title:"Hilton Sky Bar",
+    kicker:"הגג המקורי של פודגוריצה — נוף לעיר, לעמק ולהרים",
+    body:"קוקטיילים 8–12 €, מוזיקת צ׳יל־אאוט מוקדם ו־DJ מאוחר יותר. Smart casual. סוף ספטמבר: הטרסה פתוחה אבל יורדת ל־18° אחרי 22:00 — קחו שכבה.",
+    addr:"Bulevar Svetog Petra Cetinjskog 7, Podgorica 81000", maps:"Hilton Podgorica Sky Bar",
+    move:"10 דק׳ הליכה מ־Pod Volat",
+    alt:"סגור לאירוע פרטי? Culture Club Tarantino, או רחוב Bokeška — רחוב ברים שלם במרחק 5 דקות."},
+   {id:"s108", img:"v_biro", time:"22:30", dur:"פתוח", node:"podgorica", leg:{km:"1.1 ק״מ", min:"3 דק׳", mode:"נסיעה"},
+    title:"BIRO — טכנו / האוס",
+    kicker:"קונספט מחסן, פתוח 21:00–05:00, שבעה ימים בשבוע",
+    body:"BIRO הוא הבית של הסצנה האלקטרונית בפודגוריצה, כולל גן קיץ גדול ואורחים בינלאומיים. הליינאפ מתפרסם מאוחר — בדקו את עמוד הפייסבוק שלהם בשבוע שלפני ובחרו לפי מי מנגן.",
+    addr:"BIRO Club, Podgorica", maps:"Biro Club Podgorica",
+    move:"החזרה לווילה 70 ק״מ — נהג תורן. סף האלכוהול במונטנגרו 0.03%.",
+    alt:"אין ליינאפ מעניין? Kolektor (מפעל טקסטיל לשעבר) · Sejdefa · או חזרה מוקדמת — יש עוד שני לילות."}
+  ]
+},
+{
+  id:"d2", anchors:{start:{place:"villa", lab:"תחילת היום", title:"יציאה מהבסיס", note:"הבוקר האיטי היחיד. החוף 4 ק״מ מכאן, 7 דקות נסיעה."}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"15.8 ק״מ", min:"25 דק׳", mode:"נסיעה"}, note:"מבודווה 18 ק״מ, כ־25 דקות. אם שתיתם — מונית 20–30 € והרכב נשאר בחניון."}}, tab:"שישי", date:"25 בספטמבר 2026",
+  title:"יום החוף, ואז בודווה עד מאוחר",
+  blurb:"היום הפשוט ביותר בטיול, ובכוונה. מפרץ אחד עד אחר הצהריים, מקלחת, ובודווה מהשעה הטובה של האור ועד הסוף. אין נהיגה ארוכה ואין לוח זמנים שצריך לרדוף אחריו.",
+  stats:[["מזג אוויר","25° / 19°","ים 24° · UV גבוה"],["נהיגה","0:55 שעות","45 ק״מ · ללא אגרה"],["תקציב","140–190 €","לאדם, ללא לינה ורכב"]],
+  route:["rezevici","drobni","rezevici","sveti","budva","rezevici"],
+  stops:[
+   {id:"s201", img:"v_rezevici", time:"09:30", dur:"60 דק׳", node:"rezevici",
+    title:"ארוחת בוקר בווילה",
+    kicker:"הבוקר היחיד בטיול בלי שעון",
+    body:"מה שקניתם אתמול. קפה על המרפסת, ואז ישר לחוף — לפני 11:00 החניות למטה עוד פתוחות.",
+    addr:"הווילה, Reževići", maps:"Villa Mare Rezevici Budva"},
+   {id:"s202", img:"v_drobni", time:"10:30", dur:"3.5 שע׳", node:"drobni", leg:{km:"4 ק״מ", min:"7 דק׳", mode:"נסיעה"},
+    title:"Drobni Pijesak Beach",
+    kicker:"מפרץ מבודד של 250 מטר, מהמים הצלולים במונטנגרו",
+    body:"חלוקים מעוגלים, לא חול, ובריכות טבעיות רדודות בקצוות. ראות תת־מימית של 20–30 מטר — שווה משקפת שנורקל. שלוש חניות: התחתונה יקרה יותר (כ־5 € ליום) וחוסכת את רוב הירידה.",
+    addr:"Drobni Pijesak, Drobnići, עיריית Budva", maps:"Drobni Pijesak Beach Montenegro",
+    move:"ירידה תלולה ברגל מהחניה: 5–8 דק׳ · מיטות ושמשייה 20–40 € לזוג",
+    alt:"ים סוער או החוף מלא? Perazića Do (7 דק׳ צפונה) או Lučice ליד Petrovac — שניהם מוגנים יותר."},
+   {id:"s203", img:"v_puravida", time:"13:00", dur:"60 דק׳", node:"drobni", leg:{km:"100 מ׳", min:"2 דק׳", mode:"הליכה"},
+    title:"צהריים ב־Pura Vida",
+    kicker:"בר־מסעדה במרכז המפרץ, רגליים בחלוקים",
+    body:"תפריט רחב מדי בכוונה: סטייקים, פירות ים, פיצה, המבורגר. לא סיבה לנסוע, סיבה מצוינת לא לעזוב. 15–25 € לאדם.",
+    addr:"Pura Vida, Drobni Pijesak (BD 23A)", maps:"Pura Vida Drobni Pijesak",
+    alt:"Smokov Vijenac על הצוק בצד הימני של המפרץ — שקט יותר, נוף טוב יותר."},
+   {id:"s204", img:"v_rezevici", time:"14:30", dur:"75 דק׳", node:"rezevici", leg:{km:"4 ק״מ", min:"7 דק׳", mode:"נסיעה"},
+    title:"חזרה לווילה, מקלחת והתארגנות",
+    kicker:"החלון שמאפשר לערב להיות ארוך",
+    body:"גם אם מתחשק להישאר בחוף — צאו ב־14:15. ההבדל בין ערב טוב לערב גרור הוא המקלחת הזו.",
+    addr:"הווילה, Reževići", maps:"Villa Mare Rezevici Budva"},
+   {id:"s205", img:"v_svetistefan", time:"15:45", dur:"30 דק׳", node:"sveti", leg:{km:"8 ק״מ", min:"12 דק׳", mode:"נסיעה"},
+    title:"עצירת נוף — Sveti Stefan",
+    kicker:"חמש דקות עצירה על הדרך שמניבות את התמונה של הטיול",
+    body:"נקודת התצפית על הכביש הראשי מעל Miločer מביטה ישר על האי־מלון. יש מפרצון חניה קטן — היכנסו אליו, אל תעצרו בשוליים.",
+    addr:"Sveti Stefan viewpoint, Jadranski put", maps:"Sveti Stefan viewpoint",
+    alt:"החניה תפוסה? המשיכו 400 מטר — יש מפרצון שני עם זווית דומה."},
+   {id:"s206", img:"v_slovenska", time:"16:15", dur:"2.5 שע׳", node:"budva", leg:{km:"10 ק״מ", min:"20 דק׳", mode:"נסיעה"},
+    title:"העיר העתיקה, הטיילת וקוקטיילים",
+    kicker:"השעות שבהן האור בבודווה עובד לטובתכם",
+    body:"התחילו מהחומות מול הים, צאו לטיילת Slovenska, ותפסו כיסא לשקיעה. בסוף ספטמבר השמש שוקעת בסביבות 18:50 והטיילת מתרוקנת מקהל היום.",
+    addr:"Šetalište Slovenska obala, Budva", maps:"Slovenska obala Budva",
+    move:"חניה: חניון Slovenska Obala, 1–1.5 € לשעה · 5 דק׳ לעיר העתיקה",
+    alt:"גשם קצר? החצרות המקורות של Mediteranska מחזיקות את כל השורה."},
+   {id:"s207", img:"v_dusanov", time:"19:00", dur:"2 שע׳", node:"budva", leg:{km:"1.2 ק״מ", min:"5 דק׳", mode:"נסיעה"},
+    title:"ארוחת ערב ב־Konoba Dušanov Vrt",
+    kicker:"קונובה של שף ברחוב מגורים, לא על חזית הים",
+    body:"בישול קונובה מונטנגרי במשלב ים־תיכוני מודרני: דגת אדריאטי, נתחים על הגריל, סלטים ויין בית. 25–40 € לאדם. הזמינו — המקום קטן והמוניטין גדול.",
+    addr:"Petrovačka 1, Budva 85310", maps:"Konoba Dusanov Vrt Budva",
+    move:"4 דק׳ נסיעה מהעיר העתיקה · חניה ברחוב",
+    alt:"מלא? Konoba Portun · Ribarsko Selo ב־Rafailovići (על המים, 10 דק׳) · Jadran kod Krsta."},
+   {id:"s208", img:"v_budva_oldtown", time:"21:00", dur:"2.5 שע׳", node:"budva", leg:{km:"160 מ׳", min:"2 דק׳", mode:"הליכה"},
+    title:"ברים בבודווה",
+    kicker:"חצרות העיר העתיקה ורחוב Mediteranska",
+    body:"הרובע העתיק עובר מארוחות לשתייה בסביבות 21:30. שתי שורות מקבילות: החצרות שבתוך החומות (שקט, יין) ו־Mediteranska מחוץ להן (רועש, קוקטיילים). 6–10 € למנה.",
+    addr:"Stari Grad / Mediteranska, Budva", maps:"Mediteranska Budva",
+    move:"הכול במרחק הליכה — השאירו את הרכב בחניון",
+    alt:"Top Hill (המועדון הגדול מעל העיר) לרוב סוגר את העונה בסוף אוגוסט — אל תבנו עליו בלי אישור באתר שלו."},
+   {id:"s209", img:"v_tophill", time:"23:30", dur:"פתוח", node:"budva", leg:{km:"2.3 ק״מ", min:"7 דק׳", mode:"נסיעה"},
+    title:"המסיבה הטובה שנמצא",
+    kicker:"שם המועדון נשאר פתוח בכוונה",
+    body:"לוח Budva Noću מתעדכן עם מסיבות DJ כמעט מדי יום בעונה — Teatro, Palazzo, Omnia, Perla. אם מתפרסם אירוע open-air או משהו בסגנון UMOYA / New Millennium ליום שישי, הוא מנצח כל מועדון מסחרי.",
+    addr:"Budva Old Town והסביבה", maps:"Top Hill Budva",
+    move:"הליכה · מונית חזרה לווילה 20–30 €",
+    alt:"הכול מאכזב? Casper בחצר האחורית פתוח מאוחר ושקט — סיום מכובד בלי להילחם על זה."}
+  ]
+},
+{
+  id:"d3", anchors:{start:{place:"villa", lab:"תחילת היום", title:"יציאה מהבסיס", note:"היום היחיד שדורש להקדים. צאו ב־08:00 בדיוק — 42 ק״מ לקוטור דרך פיתולי Trojica."}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"38.3 ק״מ", min:"55 דק׳", mode:"נסיעה"}, note:"מטיווט 38 ק״מ, כ־55 דקות. נהג תורן אם הערב התגלגל."}}, tab:"שבת", date:"26 בספטמבר 2026",
+  title:"בוקה קוטורסקה — שוק, פרסט, קוטור ופורטו",
+  blurb:"היום הצפוף והיפה בטיול, והיחיד שדורש להקדים. שוק שבת בקוטור קורה רק הבוקר הזה, ושתי אוניות קרוז אמורות לרוקן מעל 3,300 נוסעים לתוך העיר העתיקה במהלך היום — והן עוזבות ב־17:00 וב־18:00.",
+  stats:[["מזג אוויר","24° / 17°","סיכוי לממטר קצר"],["נהיגה","2:20 שעות","135 ק״מ · ללא אגרה"],["תקציב","150–210 €","לאדם, ללא לינה ורכב"]],
+  route:["rezevici","kotor","perast","kotor","tivat","rezevici"],
+  stops:[
+   {id:"s301", img:"v_kotor_gate", time:"08:00", dur:"75 דק׳", node:"kotor", leg:{km:"42 ק״מ", min:"60–70 דק׳", mode:"נסיעה"},
+    title:"יציאה מהווילה לקוטור",
+    kicker:"ההקדמה היחידה שהטיול מבקש — ומשתלמת פי כמה",
+    body:"ב־08:00 הכביש ריק; ב־09:00 הוא כבר לא. תדלקו בדרך אם המד מתחת לחצי.",
+    addr:"Kotor ← Reževići", maps:"Sea Gate Kotor",
+    move:"חניון ליד שער הים, 1.5–2 € לשעה",
+    alt:"החניון מלא (בדרך כלל מ־09:30)? חניון Kotor Shopping Center צפונית לחומות, 6 דק׳ הליכה."},
+   {id:"s302", img:"v_kotor_market", time:"09:15", dur:"60 דק׳", node:"kotor", leg:{km:"160 מ׳", min:"2 דק׳", mode:"הליכה"},
+    title:"שוק האיכרים של קוטור",
+    kicker:"מחוץ לשער הים, שבת היא יום השיא — 07:00 עד הצהריים",
+    body:"גבינות Njeguši, pršut מעושן, זיתים, דבש, תאנים, מאפים וראקיה ביתית. חקלאים מכל מונטנגרו מגיעים דווקא בשבת. קחו מזומן — רוב הדוכנים לא מעבירים כרטיס.",
+    addr:"מחוץ ל־Vrata od mora, Kotor 85330", maps:"Kotor Farmers Market",
+    alt:"שוק חלש בגלל גשם? שוק Tivat פועל יומית ליד המרינה — נקודת גיבוי לסוף היום."},
+   {id:"s303", img:"v_tryphon", time:"10:15", dur:"45 דק׳", node:"kotor", leg:{km:"350 מ׳", min:"5 דק׳", mode:"הליכה"},
+    title:"סיבוב ראשון בעיר העתיקה",
+    kicker:"קצר ומכוון — הסיבוב האמיתי יקרה אחר הצהריים",
+    body:"משער הים אל Trg od oružja (דקה), קתדרלת Sveti Tripun (עוד 3 דקות), ו־Trg od brašna. זה הזמן לסמן מה תרצו לחזור אליו ב־16:30, כשהעיר מתרוקנת.",
+    addr:"Stari Grad Kotor, 85330", maps:"Cathedral of Saint Tryphon Kotor",
+    move:"הקפה מלאה של הרובע: 20 דק׳ הליכה",
+    alt:"חומות העיר (15 € לאדם, 1,350 מדרגות, 1.5 שעות) לא נכנסות ללוח הזה — אם זו חובה, החליפו אותן בשוק ועלו ב־08:00."},
+   {id:"s304", img:"v_perast", time:"11:30", dur:"60 דק׳", node:"perast", leg:{km:"12 ק״מ", min:"20 דק׳", mode:"נסיעה"},
+    title:"פרסט",
+    kicker:"כפר ברוקי אחד, טיילת אחת, ושתי כנסיות על אי",
+    body:"1.2 ק״מ של טיילת שטוחה מקצה לקצה, 15–18 דקות הליכה רגועה. מגדל Sveti Nikola, ארמונות ונציאניים, ואפס תנועה. הכפר סגור לתנועה — חונים בחניון בכניסה, 2–3 € לשעה.",
+    addr:"Obala kapetana Marka Martinovića, Perast 85336", maps:"Perast Montenegro"},
+   {id:"s305", img:"v_ourlady", time:"12:00", dur:"40 דק׳", node:"perast", leg:{km:"600 מ׳", min:"9 דק׳", mode:"שיט"},
+    title:"סירה ל־Gospa od Škrpjela",
+    kicker:"אי מלאכותי שנבנה מאבנים ומספינות טבועות מאז 1452",
+    body:"סירות יוצאות מהטיילת ברגע שמתמלאות, 5–8 € הלוך־חזור. הביקור עצמו 20–25 דקות: כנסייה בארוקית, מוזיאון קטן, ולוח קיר מרוקם בשיער של אישה שחיכתה 25 שנה.",
+    addr:"Our Lady of the Rocks, Perast", maps:"Our Lady of the Rocks Perast",
+    move:"10 דק׳ שיט לכל כיוון · אין לוח זמנים קבוע",
+    alt:"ים גבוה או תור ארוך? דחו את זה ל־14:30 — אחרי הצהריים הסירות פנויות יותר."},
+   {id:"s306", img:"v_rosmarino", time:"12:30", dur:"2 שע׳", node:"perast", leg:{km:"600 מ׳", min:"10 דק׳", mode:"שיט והליכה"},
+    title:"Trattoria Rosmarino",
+    kicker:"הארוחה המרכזית של הטיול — 70 מדרגות מעל המפרץ",
+    body:"מטבח איטלקי־אדריאטי עם נוף ישר אל שני האיים. פסטה ביתית, דג שלם, רשימת יינות אמיתית. 45–70 € לאדם. הזמנה מראש היא חובה, לא המלצה: ‎+382 69 559 449.",
+    addr:"Perast 85336 (מעל הטיילת, מדרגות מסומנות)", maps:"Trattoria Rosmarino Perast",
+    move:"5–7 דק׳ עלייה במדרגות מהטיילת — לא נגיש לעגלה או כיסא",
+    alt:"אין מקום? Conte (על המים) · Konoba Otok Bronza · Konoba Školji (כבש ispod sača, מעל הכפר)."},
+   {id:"s307", img:"v_perast", time:"14:30", dur:"90 דק׳", node:"perast", leg:{km:"150 מ׳", min:"2 דק׳", mode:"הליכה"},
+    title:"פרסט ללא תוכנית",
+    kicker:"קפה, מים, ואפס מטרה",
+    body:"החלק הכי טוב ביום. קפה על המזח, רגליים במים אם בא לכם, וזמן להתאושש מהארוחה לפני החצי השני.",
+    addr:"Perast waterfront", maps:"Perast Montenegro"},
+   {id:"s308", img:"v_kotor_gate", time:"16:30", dur:"105 דק׳", node:"kotor", leg:{km:"12 ק״מ", min:"20 דק׳", mode:"נסיעה"},
+    title:"קוטור — הסיבוב האמיתי",
+    kicker:"אוניות הקרוז עוזבות ב־17:00 וב־18:00. העיר משתנה",
+    body:"מ־17:00 הרחובות מתרוקנים ואור אחר הצהריים נופל על האבן. זה החלון לצילום, לחנויות, ולקפה בכיכר בלי להילחם על שולחן.",
+    addr:"Stari Grad Kotor, 85330", maps:"Kotor Old Town",
+    move:"החניה מהבוקר עדיין תקפה — בדקו את שעת הכרטיס",
+    alt:"גשם? המוזיאון הימי ב־Grgurina Palace, 45 דקות טובות."},
+   {id:"s309", img:"v_porto", time:"19:00", dur:"75 דק׳", node:"tivat", leg:{km:"20 ק״מ", min:"25–30 דק׳", mode:"מנהרת Vrmac"},
+    title:"Porto Montenegro בשקיעה",
+    kicker:"מרינה ליאכטות־על שנבנתה על בסיס צוללות אוסטרו־הונגרי",
+    body:"טיילת של 12 דקות מקצה לקצה, חנויות, ובר על המים. השקיעה ב־26.9 בסביבות 18:50 — תגיעו ישר לתוך האור הטוב. קוקטייל 12–18 €.",
+    addr:"Šetalište kroz Porto Montenegro, Tivat 85320", maps:"Porto Montenegro Tivat",
+    move:"חניון Porto Montenegro, כ־2 € לשעה",
+    alt:"רוצים פחות ראוותנות? העיר העתיקה של Tivat ו־Pine (הפארק) במרחק 10 דקות הליכה."},
+   {id:"s310", img:"v_bokka", time:"20:15", dur:"105 דק׳", node:"tivat", leg:{km:"500 מ׳", min:"7 דק׳", mode:"הליכה"},
+    title:"ארוחת ערב ב־Bokka Modern",
+    kicker:"השולחן המבוקש של טיווט, על הרציף מול היאכטות",
+    body:"מטבח ים־תיכוני מודרני בחלל מעוצב, ישירות על המים. 40–60 € לאדם. הזמינו מראש לשבת בערב — זה הערב הכי עמוס בשבוע.",
+    addr:"Residence Teuta, Šetalište kroz Porto Montenegro, Tivat", maps:"Bokka Modern Tivat",
+    move:"3 דק׳ הליכה מהטיילת",
+    alt:"מלא? One (בתחילת מזח 1) · Byblos · Al Posto Giusto — כולם באותה טיילת."},
+   {id:"s311", img:"v_porto", time:"22:00", dur:"פתוח", node:"rezevici", leg:{km:"300 מ׳", min:"4 דק׳", mode:"הליכה"},
+    title:"החצי השני נשאר פתוח",
+    kicker:"דרינק ופיזור, או שינוי מסלול לטובת אירוע",
+    body:"ברירת המחדל: עוד דרינק בפורטו וחזרה לווילה. אם Horizont, New Millennium או UMOYA מפרסמים אירוע לשבת 26.9 — במיוחד משהו בסגנון Afterglow — הוא מצדיק לשנות את כל הערב.",
+    addr:"Tivat / Kotor / Budva — לפי האירוע", maps:"Porto Montenegro Tivat"}
+  ]
+},
+{
+  id:"d4", anchors:{start:{place:"villa", lab:"הבוקר האחרון", title:"הבסיס — צ׳ק־אאוט", note:"אריזה וצ׳ק־אאוט עד 11:00. צלמו את הווילה ביציאה, והשאירו את המפתח לפי הוראות המארח."}, end:{place:"tiv", lab:"סוף הטיול", title:"טיסה מטיווט", note:"הרכב חוזר 15:00–15:30, צ׳ק־אין 15:30, המראה 18:00."}}, tab:"ראשון", date:"27 בספטמבר 2026",
+  title:"בוקר איטי, צהריים בטיווט, וטיסה",
+  blurb:"יום קצר עם מרווח ביטחון אמיתי. הכול לפני 15:00 ניתן לוויתור; כל מה שאחרי 15:00 קבוע. אם הלילה של שבת נמשך — מוותרים על החוף, לא על הצהריים.",
+  stats:[["מזג אוויר","24° / 18°","ים 24°"],["נהיגה","0:55 שעות","40 ק״מ · ללא אגרה"],["תקציב","60–95 €","לאדם, ללא לינה ורכב"]],
+  route:["rezevici","drobni","tivat","tiv"],
+  stops:[
+   {id:"s401", img:"v_rezevici", time:"10:00", dur:"60 דק׳", node:"rezevici",
+    title:"אריזה וצ׳ק־אאוט",
+    kicker:"בדיקת מגירות, מטענים, וארון המקרר",
+    body:"צלמו את הווילה ביציאה — זה חוסך ויכוחים על פיקדון. השאירו את המפתח לפי ההוראות של המארח.",
+    addr:"הווילה, Reževići", maps:"Villa Mare Rezevici Budva"},
+   {id:"s402", img:"v_drobni", time:"11:00", dur:"90 דק׳", node:"drobni", leg:{km:"4 ק״מ", min:"7 דק׳", mode:"נסיעה"},
+    title:"חוף אחרון — אופציונלי",
+    kicker:"הפיצוי על החוף שוויתרנו עליו בשבת בבוקר",
+    body:"Drobni Pijesak שוב, או Perazića Do אם בא לכם משהו חדש. שחייה קצרה, בלי מיטות, בלי להתמקם. הים 24° — נעים לגמרי.",
+    addr:"Drobni Pijesak / Perazića Do", maps:"Drobni Pijesak Beach Montenegro",
+    alt:"עייפים מדי או גשם? קפה במנזר Reževići וללכת ישר לטיווט — מרוויחים שעה של רוגע בשדה."},
+   {id:"s403", img:"v_alposto", time:"13:45", dur:"75 דק׳", node:"tivat", leg:{km:"36 ק״מ", min:"50 דק׳", mode:"נסיעה"},
+    title:"צהריים בטיווט",
+    kicker:"ארוחה אחרונה, 15 דקות מהשדה",
+    body:"Al Posto Giusto בפורטו מונטנגרו: פיצה בטאבון, פסטה ביתית, ישיבה על המים. 20–30 € לאדם ושירות מהיר מספיק לטיסה.",
+    addr:"Al Posto Giusto, Porto Montenegro, Tivat 85320", maps:"Al Posto Giusto Porto Montenegro",
+    alt:"רוצים משהו מונטנגרי אחרון? Konoba Ćatovića Mlini ב־Morinj מדהים אבל 25 דק׳ צפונה — רק אם ויתרתם על החוף."},
+   {id:"s404", img:"v_gas", time:"15:00", dur:"30 דק׳", node:"tiv", leg:{km:"6 ק״מ", min:"15 דק׳", mode:"נסיעה"},
+    title:"תדלוק והחזרת הרכב",
+    kicker:"מלא כמו שקיבלתם — אחרת מחייבים בתעריף כפול",
+    body:"תחנת Jugopetrol או NIS על Jadranski put לפני הכניסה לשדה. בנזין בסביבות 1.55–1.70 € לליטר. שמרו את הקבלה ואת צילומי הרכב עד שהפיקדון משוחרר.",
+    addr:"Jadranski put, Tivat (לפני שדה התעופה)", maps:"EKO Tivat",
+    alt:"התור בדלפק ההחזרה ארוך? חלקו כוחות — אחד מחזיר, השני מתחיל צ׳ק־אין."},
+   {id:"s405", img:"v_tivat_airport", time:"15:30", dur:"2.5 שע׳", node:"tiv", leg:{km:"3.1 ק״מ", min:"7 דק׳", mode:"נסיעה"},
+    title:"שדה התעופה טיווט",
+    kicker:"טרמינל אחד, שתי שעות לפני הן יותר ממספיק",
+    body:"Duty free מינימלי, שני בתי קפה. אל תסמכו על השדה לארוחה — בשביל זה הייתה הארוחה בטיווט. הטיסה ב־18:00.",
+    addr:"Tivat Airport (TIV), Tivat 85320", maps:"Tivat Airport Montenegro"}
+  ]
+}
+];
+
+/* ========================= state ========================= */
+const clone = o => JSON.parse(JSON.stringify(o));
+let days = clone(BASE);
+let active = 0;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const mapsUrl = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+const uid = () => "s" + Math.random().toString(36).slice(2, 9);
+
+/* ===================== persistence (this browser) ===================== */
+const STORE_KEY = "mne2026.plan.v1";
+
+// saved days predate later fields (anchors, route, stats): fill them from BASE
+function hydrate(loaded){
+  return loaded.map((d, i) => {
+    const base = BASE.find(x => x.id === d.id) || BASE[i] || {};
+    return Object.assign({}, base, d, { anchors: d.anchors || base.anchors });
+  });
+}
+function setStatus(text, live){
+  const t = $("#statusText"); if (!t) return;
+  t.textContent = text;
+  $("#statusPill").classList.toggle("live", !!live);
+}
+function loadLocal(){
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw){ setStatus("נשמר במכשיר הזה", true); return; }
+    const d = JSON.parse(raw);
+    if (d && Array.isArray(d.days) && d.days.length) days = hydrate(d.days);
+    setStatus("נשמר במכשיר הזה", true);
+  } catch (_) { setStatus("עריכה זמנית", false); }
+}
+let saveTimer = null;
+function scheduleSave(){
+  setStatus("שומר…", true);
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(flush, 350);
+}
+function flush(){
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify({days, updatedAt: new Date().toISOString()}));
+    setStatus("נשמר במכשיר הזה", true);
+  } catch (e) {
+    setStatus("אין מקום לשמירה — מחק תמונות שהעלית", false);
+  }
+}
+function clearLocal(){
+  try { localStorage.removeItem(STORE_KEY); } catch (_) {}
+  days = clone(BASE); editing = null; render(active);
+  setStatus("נשמר במכשיר הזה", true);
+}
+
+/* ========================= maps ========================= */
+function routePath(keys){
+  const pts = keys.map(k => NODES[k]).filter(Boolean);
+  if (pts.length < 2) return "";
+  let d = `M${pts[0].x},${pts[0].y}`;
+  for (let i = 1; i < pts.length; i++){
+    const a = pts[i-1], b = pts[i];
+    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+    const nx = -(b.y - a.y), ny = (b.x - a.x);
+    const len = Math.hypot(nx, ny) || 1;
+    const bow = Math.min(34, len * 0.16);
+    d += ` Q${mx + nx / len * bow},${my + ny / len * bow} ${b.x},${b.y}`;
+  }
+  return d;
+}
+function overviewMap(day){
+  const seen = [];
+  day.route.forEach(k => { if (!seen.includes(k)) seen.push(k); });
+  const dots = seen.map(k => {
+    const n = NODES[k];
+    const flipped = n.x > 600;
+    return `<g>
+      <circle cx="${n.x}" cy="${n.y}" r="7.5" fill="var(--surface)" stroke="var(--route)" stroke-width="3"/>
+      <text x="${n.x + (flipped ? -14 : 14)}" y="${n.y + 5}" text-anchor="${flipped ? "end" : "start"}"
+            font-family="Assistant, sans-serif" font-size="15" font-weight="600" fill="var(--text)">${esc(n.label)}</text>
+    </g>`;
+  }).join("");
+  return `<svg viewBox="${VIEWBOX}" role="img" aria-label="מפה סכמטית של מסלול היום">
+    <path d="${SEA_PATH}" fill="var(--water)"/>
+    <path d="${BAY_MAIN}" fill="none" stroke="var(--water)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${BAY_ARM}" fill="none" stroke="var(--water)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="routeline" d="${routePath(day.route)}" fill="none" stroke="var(--route)" stroke-width="3.2"
+          stroke-linecap="round" stroke-dasharray="9 8" opacity=".95"/>
+    ${dots}
+  </svg>`;
+}
+const NAV_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  <path d="M21.3 2.7 2.9 10.4c-1 .4-.9 1.8.1 2.1l7.2 2.3 2.3 7.2c.3 1 1.7 1.1 2.1.1L22.3 3.7c.3-.7-.3-1.3-1-1z"
+        fill="currentColor"/></svg>`;
+
+function placeOf(stop){
+  if (!stop) return "";
+  return stop.maps || stop.addr || stop.title || "";
+}
+function dirUrl(fromStop, toStop, leg){
+  const o = placeOf(fromStop), d = placeOf(toStop);
+  const walking = /הליכה|רגל/.test((leg && leg.mode) || "");
+  const base = "https://www.google.com/maps/dir/?api=1";
+  return base
+    + "&origin=" + encodeURIComponent(o)
+    + "&destination=" + encodeURIComponent(d)
+    + "&travelmode=" + (walking ? "walking" : "driving");
+}
+function modeOf(leg, stop){
+  const t = ((leg && leg.mode) || "") + " " + ((stop && stop.move) || "");
+  if (/שיט|סירה|מעבורת/.test(t)) return "boat";
+  if (/מונית|taxi/i.test(t)) return "taxi";
+  if (/הליכה|רגל|מדרגות/.test(t)) return "walk";
+  return "car";
+}
+const MODE_ICON = {
+  walk: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="13" cy="4" r="2" fill="currentColor" stroke="none"/>
+    <path d="M11 21l1.5-5.5L9.5 13V9l4-1.5 2.5 3 2.5 1"/><path d="M8.5 21l2-4"/></svg>`,
+  car: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4 16v2M20 16v2M3 16h18v-3.2a2 2 0 0 0-.4-1.2l-1.9-2.6A2 2 0 0 0 17.1 8H6.9a2 2 0 0 0-1.6.8l-1.9 2.6A2 2 0 0 0 3 12.8Z"/>
+    <circle cx="7" cy="16" r="1.3" fill="currentColor" stroke="none"/>
+    <circle cx="17" cy="16" r="1.3" fill="currentColor" stroke="none"/></svg>`,
+  taxi: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M9 5h6v3H9z"/>
+    <path d="M4 17v2M20 17v2M3 17h18v-3.2a2 2 0 0 0-.4-1.2l-1.9-2.6A2 2 0 0 0 17.1 9H6.9a2 2 0 0 0-1.6.8l-1.9 2.6A2 2 0 0 0 3 13.8Z"/>
+    <circle cx="7" cy="17" r="1.3" fill="currentColor" stroke="none"/>
+    <circle cx="17" cy="17" r="1.3" fill="currentColor" stroke="none"/></svg>`,
+  boat: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4 14h16l-2.2 4.2a2 2 0 0 1-1.8 1.1H8a2 2 0 0 1-1.8-1.1Z"/>
+    <path d="M12 14V4l6 7"/><path d="M12 6 7 11"/></svg>`
+};
+const MODE_LABEL = {walk:"הליכה", car:"נסיעה", taxi:"מונית", boat:"שיט"};
+
+function legMap(leg, prev, stop){
+  if (!prev) return "";
+  const from = placeOf(prev), to = placeOf(stop);
+  if (!from || !to || from === to) return "";
+  const url = dirUrl(prev, stop, leg);
+  const m = modeOf(leg, stop);
+  const km = (leg && leg.km) || "—";
+  const min = (leg && leg.min) || "—";
+  const mode = (leg && leg.mode) || MODE_LABEL[m];
+  const facts = `<b>${esc(km)}</b><span class="sep">·</span><b>${esc(min)}</b>` +
+                `<span class="mode">${esc(mode)}</span>`;
+  return `<div class="leg">
+    <div class="legrail" aria-hidden="true"></div>
+    <div class="leginfo">
+      <span class="modeicon" title="${esc(MODE_LABEL[m])}">${MODE_ICON[m]}</span>
+      <span class="legfacts">${facts}</span>
+      <a class="navlink" href="${esc(url)}" target="_blank" rel="noopener"
+         title="${esc(to)} ← ${esc(from)}">${NAV_ICON}ניווט במפה</a>
+    </div>
+  </div>`;
+}
+
+/* ========================= render ========================= */
+function renderRail(){
+  const rail = $("#rail");
+  rail.innerHTML = days.map((d, i) => `
+    <button class="tab" role="tab" type="button" data-i="${i}" aria-selected="${i === active}">
+      <span class="n">0${i + 1}</span><span class="t">${esc(d.tab)}</span>
+    </button>`).join("") + `<span class="rail-ink" id="railInk"></span>`;
+  rail.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => go(+b.dataset.i)));
+  moveInk();
+}
+function moveInk(){
+  const ink = $("#railInk"), tab = $(`.tab[data-i="${active}"]`);
+  if (!ink || !tab) return;
+  const parent = tab.parentElement.getBoundingClientRect(), r = tab.getBoundingClientRect();
+  const left = r.left - parent.left + tab.parentElement.scrollLeft;
+  if (window.gsap && !matchMedia("(prefers-reduced-motion: reduce)").matches){
+    gsap.to(ink, {left, width: r.width, duration: .38, ease: "power3.out"});
+  } else { ink.style.left = left + "px"; ink.style.width = r.width + "px"; }
+}
+
+function anchorStop(a){
+  const pl = PLACES[a.place];
+  return {maps: pl.maps, addr: pl.addr, title: pl.name, move: ""};
+}
+function anchorCard(a, side){
+  const pl = PLACES[a.place];
+  const url = pl.link || mapsUrl(pl.maps);
+  return `<article class="stop anchor">
+    <div class="when">
+      <span class="node"></span>
+      <div class="tag">${esc(a.lab)}</div>
+    </div>
+    <div class="anchor-card">
+      <div>
+        <div class="lab">${side === "start" ? "נקודת הפתיחה" : "נקודת הסיום"}</div>
+        <h3>${esc(a.title)}</h3>
+        <p class="note">${esc(a.note)}</p>
+        <div class="rows">
+          <a href="${esc(url)}" target="_blank" rel="noopener">${esc(pl.name)} · ${esc(pl.addr)}</a>
+        </div>
+      </div>
+      <div class="shotwrap">
+        <a href="${esc(url)}" target="_blank" rel="noopener" aria-label="${esc(pl.name)} ב־Google Maps">
+          <img src="${esc(pl.img)}" alt="${esc(pl.name)}" width="440" height="330" loading="lazy" decoding="async">
+        </a>
+      </div>
+    </div>
+  </article>`;
+}
+
+function stopView(s, i, n, prev, special){
+  const legHtml = legMap(s.leg || null, prev, s);
+  const ph = PHOTOS[s.img];
+  const src = s.photoUrl || (ph ? ph.f : "");
+  const caption = s.photoUrl ? (s.title || "") : (ph ? ph.l : "");
+  const venueUrl = mapsUrl(s.maps || s.addr || s.title);
+  return `${legHtml}
+  <article class="stop${special ? " special" : ""}" data-i="${i}">
+    <div class="when">
+      <span class="node"></span>
+      <div class="hhmm">${esc(s.time)}</div>
+      <div class="dur">${esc(s.dur || "")}</div>
+    </div>
+    <div class="card${special ? " special" : ""}" data-card="${i}">
+      <div class="card-grid">
+        <div>
+          ${special ? `<span class="speclab">${esc(special.lab)}</span>` : ""}
+          <h3>${esc(s.title)}</h3>
+          ${s.kicker ? `<p class="kick">${esc(s.kicker)}</p>` : ""}
+          ${s.body ? `<p class="body">${esc(s.body)}</p>` : ""}
+          <div class="meta">
+            ${s.addr ? `<div class="meta-row"><span class="k">מיקום</span>
+               <a href="${esc(mapsUrl(s.maps || s.addr))}" target="_blank" rel="noopener">${esc(s.addr)}</a></div>` : ""}
+            ${s.move ? `<div class="meta-row"><span class="k">מעבר</span><span class="v">${esc(s.move)}</span></div>` : ""}
+          </div>
+          ${s.alt ? `<div class="alt"><span class="k">חלופה</span>${esc(s.alt)}</div>` : ""}
+          ${special && special.note ? `<div class="specnote">${esc(special.note)}</div>` : ""}
+        </div>
+        <figure class="shot">
+          ${src ? `<a class="frame" href="${esc(venueUrl)}" target="_blank" rel="noopener" aria-label="עמוד המקום ב־Google Maps">
+              <img src="${esc(src)}" alt="${esc(caption)}" width="440" height="330" loading="lazy" decoding="async">
+              ${s.photoUrl ? `<span class="badge">התמונה שלך</span>` : (ph && ph.v ? `<span class="badge">תמונת המקום</span>` : "")}
+            </a>`
+           : `<a class="noshot" href="${esc(venueUrl)}" target="_blank" rel="noopener">
+              תמונות המקום ב־Google Maps
+              <span>אפשר להעלות תמונה משלך דרך "ערוך"</span>
+            </a>`}
+          <figcaption>
+            ${src ? esc(caption) : ""}
+            <span class="links">
+              <a class="venue" href="${esc(venueUrl)}" target="_blank" rel="noopener">◄ תמונות המקום ב־Google Maps</a>
+              ${ph && !ph.v && !s.photoUrl ? `<a href="${esc(ph.g)}" target="_blank" rel="noopener">גלריית האזור ‹</a>` : ""}
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="actions">
+        <button class="btn" data-act="edit" data-i="${i}">ערוך</button>
+        <button class="btn icon" data-act="up" data-i="${i}" ${i === 0 ? "disabled" : ""} aria-label="הזז למעלה">↑</button>
+        <button class="btn icon" data-act="down" data-i="${i}" ${i === n - 1 ? "disabled" : ""} aria-label="הזז למטה">↓</button>
+        <span class="spacer"></span>
+        <button class="btn danger" data-act="del" data-i="${i}">מחק</button>
+      </div>
+    </div>
+  </article>
+  <div class="insert"><button type="button" data-act="add" data-i="${i}">+ הוסף תחנה כאן</button></div>`;
+}
+
+function stopEdit(s, i){
+  const cur = s.photoUrl || (PHOTOS[s.img] ? PHOTOS[s.img].f : "");
+  const uploadLabel = s.photoUrl ? "החלף תמונה" : "העלה תמונה";
+  const f = (key, label, val, mono) => `
+    <div class="field${mono ? " mono" : ""}"><label for="f-${key}-${i}">${label}</label>
+      <input id="f-${key}-${i}" data-f="${key}" value="${esc(val || "")}"></div>`;
+  const t = (key, label, val) => `
+    <div class="field"><label for="f-${key}-${i}">${label}</label>
+      <textarea id="f-${key}-${i}" data-f="${key}" rows="3">${esc(val || "")}</textarea></div>`;
+  return `
+  <article class="stop" data-i="${i}">
+    <div class="when">
+      <span class="node"></span>
+      <div class="hhmm">${esc(s.time)}</div>
+      <div class="dur">עריכה</div>
+    </div>
+    <div class="card" data-edit="${i}">
+      <div class="editor">
+        <div class="grid2">${f("time", "שעה", s.time, true)}${f("dur", "משך", s.dur, true)}</div>
+        ${f("title", "שם התחנה", s.title)}
+        ${f("kicker", "משפט פתיחה", s.kicker)}
+        ${t("body", "תיאור", s.body)}
+        <div class="grid2">${f("addr", "כתובת", s.addr)}${f("maps", "חיפוש במפות", s.maps)}</div>
+        <div class="field">
+          <label>תמונת המקום</label>
+          <div class="photobox">
+            ${cur ? `<img src="${esc(cur)}" alt="">` : `<div class="empty">אין תמונה</div>`}
+            <div class="ctrl">
+              <p class="note">התמונה הכי מדויקת היא צילום מסך מעמוד המקום ב־Google&nbsp;Maps. שמור אותו והעלה לכאן — הוא נשמר בתחנה לתמיד.</p>
+              <div class="row">
+                <span class="upwrap">
+                  <button type="button" class="btn primary">${uploadLabel}</button>
+                  <input type="file" accept="image/*" data-act="upload" data-i="${i}" aria-label="העלה תמונה">
+                </span>
+                <a class="btn" href="${esc(mapsUrl(s.maps || s.addr || s.title))}" target="_blank" rel="noopener">פתח ב־Maps</a>
+                ${s.photoUrl ? `<button type="button" class="btn danger" data-act="unphoto" data-i="${i}">הסר תמונה</button>` : ""}
+              </div>
+              <div class="field">
+                <label for="f-img-${i}">או תמונה אחרת מהמאגר</label>
+                <select id="f-img-${i}" data-f="img">
+                  <option value=""${s.img ? "" : " selected"}>ללא תמונה</option>
+                  ${Object.entries(PHOTOS).map(([k, v]) =>
+                    `<option value="${k}"${s.img === k ? " selected" : ""}>${esc(v.l)}</option>`).join("")}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        ${f("move", "מעבר / הליכה", s.move)}
+        ${t("alt", "חלופה", s.alt)}
+      </div>
+      <div class="actions">
+        <button class="btn primary" data-act="save" data-i="${i}">שמור שינויים</button>
+        <button class="btn" data-act="cancel" data-i="${i}">ביטול</button>
+      </div>
+    </div>
+  </article>
+  <div class="insert"><button type="button" data-act="add" data-i="${i}">+ הוסף תחנה כאן</button></div>`;
+}
+
+let editing = null;
+
+function render(i, animate = true){
+  active = i;
+  const d = days[i];
+  const A = d.anchors || {};
+  const nStops = d.stops.length;
+  const startStop = A.start ? anchorStop(A.start) : null;
+  const endStop = A.end ? anchorStop(A.end) : null;
+  const first = d.stops[0], last = d.stops[nStops - 1];
+  // when an anchor names the same place as the adjacent stop, style that stop
+  // as the day's opening / closing card instead of adding a second card
+  const mergeStart = !!(startStop && first && placeOf(startStop) === placeOf(first));
+  const mergeEnd = !!(endStop && last && placeOf(endStop) === placeOf(last));
+  const stopsHtml = d.stops.map((s, k) => {
+    const prev = k === 0 ? (mergeStart ? null : startStop) : d.stops[k - 1];
+    if (k === 0 && !mergeStart && A.start && A.start.leg) s.leg = A.start.leg;
+    const special = (k === 0 && mergeStart) ? {lab: A.start.lab, note: A.start.note}
+                  : (k === nStops - 1 && mergeEnd) ? {lab: A.end.lab, note: A.end.note}
+                  : null;
+    return editing === s.id ? stopEdit(s, k) : stopView(s, k, nStops, prev, special);
+  }).join("");
+  const headHtml = (A.start && !mergeStart) ? anchorCard(A.start, "start") : "";
+  const tailHtml = (A.end && !mergeEnd) ? (legMap(A.end.leg || null, last, endStop) + anchorCard(A.end, "end")) : "";
+  $("#day").innerHTML = `
+    <section class="dayhead">
+      <div class="kicker">יום ${i + 1} · ${esc(d.tab)} · ${esc(d.date)}</div>
+      <h2>${esc(d.title)}</h2>
+      <p class="blurb">${esc(d.blurb)}</p>
+      <div class="stats">
+        ${d.stats.map(([lab, val, note]) => `
+          <div class="stat"><div class="lab">${esc(lab)}</div>
+          <div class="val">${esc(val)}</div><div class="note">${esc(note)}</div></div>`).join("")}
+      </div>
+      <div class="mapcard">
+        <header>
+          <h3>מסלול היום</h3>
+          <span class="legend">${d.route.map(k => esc(NODES[k]?.label || k)).join(" ← ")}</span>
+        </header>
+        ${overviewMap(d)}
+      </div>
+    </section>
+    <section class="timeline">
+      ${headHtml}
+      <div class="insert first"><button type="button" data-act="add" data-i="-1">+ הוסף תחנה בתחילת היום</button></div>
+      ${stopsHtml}
+      ${tailHtml}
+    </section>
+    <section class="dayfoot">
+      <p class="hint">כל שינוי נשמר בדפדפן הזה ונשאר גם אחרי רענון, כולל תמונות שהעלית. שחזור יום מחזיר אותו למסלול המקורי ומוחק את התמונות שהעלית בו.</p>
+      <button class="btn" data-act="reset">שחזר את היום למקור</button>
+    </section>`;
+  bind();
+  renderRail();
+  if (animate) animateIn();
+  else drawRoute(0);
+}
+
+function animateIn(){
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!window.gsap || reduce){ drawRoute(0); return; }
+  gsap.fromTo("#day .dayhead", {opacity:0, y:14}, {opacity:1, y:0, duration:.45, ease:"power2.out"});
+  gsap.fromTo("#day .timeline > *", {opacity:0, y:16}, {opacity:1, y:0, duration:.4, stagger:.035, ease:"power2.out", delay:.08});
+  drawRoute(.25);
+}
+function drawRoute(delay){
+  const p = document.querySelector("#day .routeline");
+  if (!p) return;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!window.gsap || reduce) return;
+  const len = p.getTotalLength();
+  gsap.set(p, {strokeDasharray: len, strokeDashoffset: len, opacity: 1});
+  gsap.to(p, {strokeDashoffset: 0, duration: 1.15, ease: "power2.inOut", delay,
+    onComplete: () => { p.style.strokeDasharray = "9 8"; p.style.strokeDashoffset = "0"; }});
+}
+function go(i){
+  if (i === active) return;
+  editing = null;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!window.gsap || reduce){ render(i, false); renderRail(); return; }
+  gsap.to("#day", {opacity:0, y:-10, duration:.2, ease:"power1.in", onComplete(){
+    render(i);
+    gsap.set("#day", {opacity:1, y:0});
+  }});
+}
+
+/* ========================= interactions ========================= */
+function shrink(file, maxW, maxH){
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onerror = reject;
+    fr.onload = () => {
+      const im = new Image();
+      im.onerror = reject;
+      im.onload = () => {
+        const r = Math.min(maxW / im.width, maxH / im.height, 1);
+        const w = Math.round(im.width * r), h = Math.round(im.height * r);
+        const cv = document.createElement("canvas");
+        cv.width = w; cv.height = h;
+        cv.getContext("2d").drawImage(im, 0, 0, w, h);
+        resolve(cv.toDataURL("image/jpeg", 0.78));
+      };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+function blank(){
+  return {id: uid(), time:"12:00", dur:"60 דק׳", node: days[active].route[0],
+          title:"תחנה חדשה", kicker:"", body:"", addr:"", maps:"", move:"", alt:"", img:""};
+}
+function bind(){
+  $("#day").querySelectorAll('input[type=file][data-act="upload"]').forEach(inp => {
+    inp.addEventListener("change", async () => {
+      const file = inp.files && inp.files[0];
+      if (!file) return;
+      const i = +inp.dataset.i, stop = days[active].stops[i];
+      setStatus("מעבד תמונה…", true);
+      try {
+        stop.photoUrl = await shrink(file, 560, 420);
+        delete stop.photoId;
+        render(active, false); scheduleSave(); scrollToCard(i);
+      } catch (e){
+        setStatus("לא הצלחתי לקרוא את התמונה", false);
+      }
+    });
+  });
+  $("#day").querySelectorAll("button[data-act], a[data-act]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const act = btn.dataset.act, i = +btn.dataset.i;
+      const stops = days[active].stops;
+      if (act === "edit"){ editing = stops[i].id; render(active, false); scrollToCard(i); }
+      else if (act === "cancel"){ editing = null; render(active, false); }
+      else if (act === "save"){
+        const card = $(`[data-edit="${i}"]`);
+        card.querySelectorAll("[data-f]").forEach(el => { stops[i][el.dataset.f] = el.value.trim(); });
+        editing = null; render(active, false); scheduleSave();
+      }
+      else if (act === "del"){
+        if (!btn.classList.contains("armed")){
+          btn.classList.add("armed"); btn.textContent = "לאשר מחיקה";
+          setTimeout(() => { btn.classList.remove("armed"); btn.textContent = "מחק"; }, 3500);
+          return;
+        }
+        stops.splice(i, 1); render(active, false); scheduleSave();
+      }
+      else if (act === "up" && i > 0){ [stops[i-1], stops[i]] = [stops[i], stops[i-1]]; render(active, false); scheduleSave(); }
+      else if (act === "down" && i < stops.length - 1){ [stops[i+1], stops[i]] = [stops[i], stops[i+1]]; render(active, false); scheduleSave(); }
+      else if (act === "add"){
+        const s = blank();
+        stops.splice(i + 1, 0, s);
+        editing = s.id; render(active, false); scheduleSave(); scrollToCard(i + 1);
+      }
+      else if (act === "unphoto"){
+        delete stops[i].photoUrl; delete stops[i].photoId;
+        render(active, false); scheduleSave();
+      }
+      else if (act === "reset"){
+        days[active] = clone(BASE[active]);
+        editing = null; render(active); scheduleSave();
+      }
+    });
+  });
+}
+function scrollToCard(i){
+  requestAnimationFrame(() => {
+    const el = $("#day").querySelectorAll(".stop")[i];
+    if (!el) return;
+    el.scrollIntoView({behavior:"smooth", block:"center"});
+    const input = el.querySelector("input, textarea");
+    if (input) input.focus({preventScroll:true});
+  });
+}
+
+/* ========================= share ========================= */
+const shareBtn = $("#shareBtn");
+shareBtn.addEventListener("click", async () => {
+  const data = {title: "ארבעה ימים במונטנגרו",
+                text: "מסלול מונטנגרו · 24–27.9.2026", url: location.href};
+  try {
+    if (navigator.share){ await navigator.share(data); return; }
+    await navigator.clipboard.writeText(location.href);
+    shareBtn.textContent = "הקישור הועתק";
+    setTimeout(() => { shareBtn.textContent = "שיתוף"; }, 1800);
+  } catch (_) {}
+});
+
+/* ========================= theme ========================= */
+const themeBtn = $("#themeBtn");
+function currentDark(){
+  const explicit = document.documentElement.getAttribute("data-theme");
+  if (explicit) return explicit === "dark";
+  return matchMedia("(prefers-color-scheme: dark)").matches;
+}
+function syncThemeBtn(){ themeBtn.textContent = currentDark() ? "מצב בהיר" : "מצב כהה"; }
+themeBtn.addEventListener("click", () => {
+  document.documentElement.setAttribute("data-theme", currentDark() ? "light" : "dark");
+  syncThemeBtn();
+});
+
+/* ========================= boot ========================= */
+syncThemeBtn();
+loadLocal();
+render(0);
+window.addEventListener("resize", moveInk);
+$("#resetAll").addEventListener("click", () => {
+  if (confirm("למחוק את כל השינויים שלך ולחזור למסלול המקורי?")) clearLocal();
+});
+</script>
+
+</body>
+</html>
