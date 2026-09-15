@@ -412,13 +412,14 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   .shot{order:-1; max-width:320px}
 }
 @media (max-width:560px){
-  .stop{grid-template-columns:70px minmax(0,1fr)}
-  .stop .when{padding:16px 8px 16px 24px}
-  .stop .when::before{left:11px}
-  .stop .node{left:12px}
+  .stop{grid-template-columns:76px minmax(0,1fr)}
+  .stop .when{padding:16px 4px 16px 30px}
+  .stop .when::before{left:10px}
+  .stop .node{left:10px}
+  .stop.anchor .node, .stop.special .node{left:10px}
   .stop .hhmm{font-size:15px}
-  .leg{grid-template-columns:70px minmax(0,1fr)}
-  .legrail::before{left:11px}
+  .leg{grid-template-columns:76px minmax(0,1fr)}
+  .legrail::before{left:10px}
   .legrail{min-height:74px}
 }
 @media (prefers-reduced-motion: reduce){
