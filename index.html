@@ -962,6 +962,39 @@ function legMap(leg, prev, stop){
 }
 
 /* ========================= render ========================= */
+/* Latin/number runs inside Hebrew text need their own direction, or Word-style
+   reversals show up ("125-170 EUR" rendering as "EUR 170-125"). Wrapping each
+   run in <bdi> isolates it without touching any attribute. */
+const LTR_RUN = /\+?[A-Za-z0-9À-ɏ](?:[A-Za-z0-9À-ɏ ._:,\-–/+%°€&'’]*[A-Za-z0-9À-ɏ%°€])?/g;
+function isolate(root){
+  if (!root) return;
+  const skip = "bdi,script,style,input,textarea,select,option";
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()){
+    const n = walker.currentNode;
+    if (!n.nodeValue.trim()) continue;
+    if (n.parentElement && n.parentElement.closest(skip)) continue;
+    LTR_RUN.lastIndex = 0;
+    if (LTR_RUN.test(n.nodeValue)) nodes.push(n);
+  }
+  for (const n of nodes){
+    const text = n.nodeValue, frag = document.createDocumentFragment();
+    let last = 0, m;
+    LTR_RUN.lastIndex = 0;
+    while ((m = LTR_RUN.exec(text))){
+      if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      const b = document.createElement("bdi");
+      b.textContent = m[0];
+      frag.appendChild(b);
+      last = m.index + m[0].length;
+    }
+    if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    n.parentNode.replaceChild(frag, n);
+  }
+}
+
+
 function renderRail(){
   const rail = $("#rail");
   rail.innerHTML = days.map((d, i) => `
@@ -1181,6 +1214,7 @@ function render(i, animate = true){
       <p class="hint">כל שינוי נשמר בדפדפן הזה ונשאר גם אחרי רענון, כולל תמונות שהעלית. שחזור יום מחזיר אותו למסלול המקורי ומוחק את התמונות שהעלית בו.</p>
       <button class="btn" data-act="reset">שחזר את היום למקור</button>
     </section>`;
+  isolate($("#day"));
   bind();
   renderRail();
   if (animate) animateIn();
@@ -1326,7 +1360,8 @@ function currentDark(){
 function syncThemeBtn(){ themeBtn.textContent = currentDark() ? "מצב בהיר" : "מצב כהה"; }
 themeBtn.addEventListener("click", () => {
   document.documentElement.setAttribute("data-theme", currentDark() ? "light" : "dark");
-  syncThemeBtn();
+  isolate(document.querySelector(".masthead"));
+syncThemeBtn();
 });
 
 /* ========================= boot ========================= */
