@@ -13,11 +13,19 @@ transitions; everything else ships with the page.
 - A schematic SVG map per day, drawing the route as the day opens.
 - Full editing — add, delete, reorder and rewrite any stop, or upload your own photo.
 
-## Storage
+## Shared state
 
-Edits live in the visitor's own browser (`localStorage`, key `mne2026.plan.v1`).
-Nothing is sent anywhere and edits are not shared between devices or people.
-Uploaded photos are downscaled in the browser before being stored.
+Every visitor reads and writes the same plan through `/api/plan`, a Vercel
+function backed by a single JSON blob in Vercel Blob:
+
+- `GET /api/plan` returns `{ days, rev, updatedAt }`.
+- `PUT /api/plan` takes `{ days, rev }`; a stale `rev` gets `409` with the
+  current state instead of clobbering someone else's edit.
+
+The page polls every 7 seconds while it is visible, so an edit made on one
+phone shows up on everyone else's within a few seconds. `localStorage`
+(`mne2026.plan.v1`) is only an offline cache. Uploaded photos are downscaled in
+the browser to keep the shared document small.
 
 ## Files
 
@@ -25,15 +33,27 @@ Uploaded photos are downscaled in the browser before being stored.
 |---|---|
 | `index.html` | The whole application — markup, styles, data and logic |
 | `img/` | Place photos (440×330), social preview, app icons |
+| `api/plan.js` | Shared-state endpoint (Vercel function) |
 | `manifest.webmanifest` | Add-to-home-screen metadata |
 
 ## Local preview
 
 ```bash
-python -m http.server 8000
+npm install
+vercel dev
 ```
 
-Then open <http://localhost:8000>.
+Static-only preview (no shared state) also works with
+`python -m http.server 8000`.
+
+## Deploy
+
+```bash
+vercel deploy --prod
+```
+
+`BLOB_READ_WRITE_TOKEN` is provided by the linked Vercel Blob store and is not
+kept in the repository.
 
 ## Credits
 

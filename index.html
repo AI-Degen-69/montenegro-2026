@@ -10,7 +10,7 @@
 <meta property="og:locale" content="he_IL">
 <meta property="og:title" content="ארבעה ימים במונטנגרו">
 <meta property="og:description" content="24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו">
-<meta property="og:image" content="https://ai-degen-69.github.io/montenegro-2026/img/og.jpg">
+<meta property="og:image" content="https://montenegro-2026-tan.vercel.app/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -813,8 +813,15 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
 const mapsUrl = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
 const uid = () => "s" + Math.random().toString(36).slice(2, 9);
 
-/* ===================== persistence (this browser) ===================== */
+/* ============== shared state: /api/plan, with a local cache ============== */
 const STORE_KEY = "mne2026.plan.v1";
+const API = "api/plan";
+const POLL_MS = 7000;
+
+let rev = 0;              // revision this browser last agreed with
+let dirty = false;        // local edits not yet accepted by the server
+let online = false;
+let saveTimer = null, pollTimer = null, saving = false, pendingSave = false;
 
 // saved days predate later fields (anchors, route, stats): fill them from BASE
 function hydrate(loaded){
@@ -828,33 +835,103 @@ function setStatus(text, live){
   t.textContent = text;
   $("#statusPill").classList.toggle("live", !!live);
 }
+function cacheLocal(){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({days, rev})); } catch (_) {}
+}
 function loadLocal(){
   try {
     const raw = localStorage.getItem(STORE_KEY);
-    if (!raw){ setStatus("נשמר במכשיר הזה", true); return; }
+    if (!raw) return;
     const d = JSON.parse(raw);
-    if (d && Array.isArray(d.days) && d.days.length) days = hydrate(d.days);
-    setStatus("נשמר במכשיר הזה", true);
-  } catch (_) { setStatus("עריכה זמנית", false); }
+    if (d && Array.isArray(d.days) && d.days.length){
+      days = hydrate(d.days);
+      rev = Number(d.rev) || 0;
+    }
+  } catch (_) {}
 }
-let saveTimer = null;
-function scheduleSave(){
-  setStatus("שומר…", true);
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(flush, 350);
+
+function usable(d){
+  return d && Array.isArray(d.days) && d.days.length === BASE.length;
 }
-function flush(){
+function adopt(payload, note){
+  if (!usable(payload)) return;
+  days = hydrate(payload.days);
+  rev = Number(payload.rev) || 0;
+  dirty = false;
+  cacheLocal();
+  editing = null;
+  render(active, false);
+  setStatus(note || "מסונכרן · כולם רואים", true);
+}
+
+async function pull(){
+  if (dirty || saving) return;
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify({days, updatedAt: new Date().toISOString()}));
-    setStatus("נשמר במכשיר הזה", true);
-  } catch (e) {
-    setStatus("אין מקום לשמירה — מחק תמונות שהעלית", false);
+    const r = await fetch(API + "?t=" + Date.now(), {cache: "no-store"});
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    online = true;
+    if (usable(d) && Number(d.rev) > rev){
+      adopt(d, "עודכן על ידי מישהו אחר");
+      setTimeout(() => { if (!dirty) setStatus("מסונכרן · כולם רואים", true); }, 2500);
+    } else {
+      setStatus("מסונכרן · כולם רואים", true);
+    }
+  } catch (_) {
+    online = false;
+    setStatus("לא מחובר — נשמר מקומית", false);
   }
 }
+
+function scheduleSave(){
+  dirty = true;
+  cacheLocal();
+  setStatus("שומר…", true);
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(flush, 500);
+}
+
+async function flush(){
+  if (saving){ pendingSave = true; return; }
+  saving = true;
+  try {
+    const r = await fetch(API, {
+      method: "PUT",
+      headers: {"content-type": "application/json"},
+      body: JSON.stringify({days, rev})
+    });
+    if (r.status === 409){
+      const d = await r.json();
+      adopt(d, "מישהו אחר ערך — נטענה הגרסה שלו");
+      return;
+    }
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    rev = Number(d.rev) || rev;
+    dirty = false;
+    online = true;
+    cacheLocal();
+    setStatus("נשמר · כולם רואים", true);
+  } catch (_) {
+    online = false;
+    setStatus("לא מחובר — נשמר מקומית", false);
+  } finally {
+    saving = false;
+    if (pendingSave){ pendingSave = false; flush(); }
+  }
+}
+
 function clearLocal(){
-  try { localStorage.removeItem(STORE_KEY); } catch (_) {}
   days = clone(BASE); editing = null; render(active);
-  setStatus("נשמר במכשיר הזה", true);
+  scheduleSave();
+}
+
+function startSync(){
+  pull();
+  clearInterval(pollTimer);
+  pollTimer = setInterval(() => { if (!document.hidden) pull(); }, POLL_MS);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) pull(); });
+  window.addEventListener("online", pull);
 }
 
 /* ========================= maps ========================= */
@@ -1212,7 +1289,7 @@ function render(i, animate = true){
       ${tailHtml}
     </section>
     <section class="dayfoot">
-      <p class="hint">כל שינוי נשמר בדפדפן הזה ונשאר גם אחרי רענון, כולל תמונות שהעלית. שחזור יום מחזיר אותו למסלול המקורי ומוחק את התמונות שהעלית בו.</p>
+      <p class="hint">כל שינוי נשמר לכולם ומופיע אצל כל מי שפתח את הקישור. שחזור יום מחזיר אותו למסלול המקורי — גם אצל השאר.</p>
       <button class="btn" data-act="reset">שחזר את היום למקור</button>
     </section>`;
   isolate($("#day"));
@@ -1371,8 +1448,9 @@ loadLocal();
 render(0);
 window.addEventListener("resize", moveInk);
 $("#resetAll").addEventListener("click", () => {
-  if (confirm("למחוק את כל השינויים שלך ולחזור למסלול המקורי?")) clearLocal();
+  if (confirm("לאפס את המסלול למקור? זה משנה את מה שכולם רואים.")) clearLocal();
 });
+startSync();
 </script>
 
 </body>
