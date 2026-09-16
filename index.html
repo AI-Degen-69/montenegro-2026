@@ -438,15 +438,11 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   <header class="masthead">
     <div class="masthead-row">
       <div>
-        <div class="eyebrow">מסלול פרטי · ניתן לעריכה</div>
         <h1>ארבעה ימים במונטנגרו</h1>
         <p class="sub">24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו</p>
       </div>
       <div class="tools">
-        <span class="pill" id="statusPill"><span class="dot"></span><span id="statusText">טוען…</span></span>
-        <button class="ghost" id="shareBtn" type="button">שיתוף</button>
-        <button class="ghost" id="resetAll" type="button">איפוס</button>
-        <button class="ghost" id="themeBtn" type="button">מצב כהה</button>
+        <span id="lastUpdated">עודכן לאחרונה: --</span>
         <button class="ghost villa-nav-button" id="navVillaBtn" type="button">🏠 נווט לוילה</button>
       </div>
     </div>
@@ -836,10 +832,14 @@ function hydrate(loaded){
     return Object.assign({}, base, d, { anchors: d.anchors || base.anchors });
   });
 }
-function setStatus(text, live){
-  const t = $("#statusText"); if (!t) return;
-  t.textContent = text;
-  $("#statusPill").classList.toggle("live", !!live);
+function updateLastUpdated(){
+  const t = $("#lastUpdated"); if (!t) return;
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = now.toLocaleString('he-IL', { month: 'short' });
+  const hour = String(now.getHours()).padStart(2, '0');
+  const minute = String(now.getMinutes()).padStart(2, '0');
+  t.textContent = `עודכן לאחרונה: ${day} ${month}, ${hour}:${minute}`;
 }
 function cacheLocal(){
   try { localStorage.setItem(STORE_KEY, JSON.stringify({days, rev})); } catch (_) {}
@@ -879,20 +879,19 @@ async function pull(){
     online = true;
     if (usable(d) && Number(d.rev) > rev){
       adopt(d, "עודכן על ידי מישהו אחר");
-      setTimeout(() => { if (!dirty) setStatus("מסונכרן · כולם רואים", true); }, 2500);
+      updateLastUpdated();
     } else {
-      setStatus("מסונכרן · כולם רואים", true);
+      // revision not greater, no update
     }
   } catch (_) {
     online = false;
-    setStatus("לא מחובר — נשמר מקומית", false);
+    // offline, do not update last updated time
   }
 }
 
 function scheduleSave(){
   dirty = true;
   cacheLocal();
-  setStatus("שומר…", true);
   clearTimeout(saveTimer);
   saveTimer = setTimeout(flush, 500);
 }
@@ -917,10 +916,10 @@ async function flush(){
     dirty = false;
     online = true;
     cacheLocal();
-    setStatus("נשמר · כולם רואים", true);
+    updateLastUpdated();
   } catch (_) {
     online = false;
-    setStatus("לא מחובר — נשמר מקומית", false);
+    // offline, do not update last updated time
   } finally {
     saving = false;
     if (pendingSave){ pendingSave = false; flush(); }
@@ -929,6 +928,7 @@ async function flush(){
 
 function clearLocal(){
   days = clone(BASE); editing = null; render(active);
+  updateLastUpdated();
   scheduleSave();
 }
 
@@ -1460,6 +1460,7 @@ navVillaBtn.addEventListener("click", () => {
 /* ========================= boot ========================= */
 syncThemeBtn();
 loadLocal();
+updateLastUpdated();
 render(0);
 window.addEventListener("resize", moveInk);
 $("#resetAll").addEventListener("click", () => {
