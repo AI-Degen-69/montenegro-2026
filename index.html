@@ -15,6 +15,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="מונטנגרו">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
@@ -277,7 +278,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease}
 .shot a:hover{transform:translateY(-2px); border-color:var(--sea); box-shadow:var(--shadow)}
 .shot img{width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; display:block; max-width:100%}
-.shot figcaption{font-size:11.5px; color:var(--faint); line-height:1.4}
+
 .shot .links{display:flex; flex-direction:column; gap:2px; margin-top:2px}
 .shot .venue{
   display:flex; align-items:center; gap:5px; font-size:11.5px; font-weight:700;
@@ -315,8 +316,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .upwrap{position:relative; overflow:hidden; display:inline-flex}
 .upwrap input[type=file]{position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; font-size:0}
 @media (max-width:480px){ .photobox{grid-template-columns:minmax(0,1fr)} }
-.shot figcaption a{display:inline; border:0; color:var(--sea); text-decoration:none; line-height:1.35}
-.shot figcaption a:hover{text-decoration:underline; transform:none; box-shadow:none}
+
 .card h3{font-size:19px; line-height:1.25}
 .card .kick{color:var(--sea); font-size:13.5px; margin-top:5px; font-style:italic}
 .card .body{margin-top:10px; color:var(--text); font-size:15px; max-width:62ch}
@@ -361,20 +361,29 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .btn.danger:hover{background:var(--red); border-color:var(--red); color:#fff}
 .btn.danger.armed{background:var(--red); border-color:var(--red); color:#fff}
 .btn.icon{padding:6px 9px; font-family:"IBM Plex Mono",monospace}
+.btn.wa-share{padding:6px 9px; color:#128C4B}
+.btn.wa-share svg{width:20px; height:20px; display:block; fill:currentColor}
+.btn.wa-share:hover{color:#0E7040; border-color:currentColor}
 .btn[disabled]{opacity:.35; cursor:not-allowed}
 .spacer{flex:1}
+.shot-btns{display:flex; gap:7px; margin-top:2px}
+.btn.photo-link{padding:6px 9px; color:var(--sea)}
+.btn.photo-link svg{width:20px; height:20px; display:block; stroke:none}
+.btn.photo-link:hover{border-color:currentColor}
+.actions .action-menu{position:relative; left:auto; bottom:auto; flex:none; margin-inline-start:auto}
+.actions .alt{flex:1 1 auto; margin-top:0; min-width:0}
 
 /* ---------- editor ---------- */
 .editor{display:grid; gap:11px}
 .field{display:grid; gap:4px}
 .field label{font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); font-weight:700}
 .field select{
-  font-family:inherit; font-size:14.5px; color:var(--text); background:var(--raise);
+  font-family:inherit; font-size:16px; color:var(--text); background:var(--raise);
   border:1px solid var(--line); border-radius:9px; padding:9px 11px; width:100%;
 }
 .field select:focus{outline:none; border-color:var(--sea); background:var(--surface)}
 .field input, .field textarea{
-  font-family:inherit; font-size:14.5px; color:var(--text); background:var(--raise);
+  font-family:inherit; font-size:16px; color:var(--text); background:var(--raise);
   border:1px solid var(--line); border-radius:9px; padding:9px 11px; width:100%;
   transition:border-color .16s ease, background .16s ease;
 }
@@ -454,12 +463,6 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .insert.first button:hover,
 .insert.first button:focus-visible{transform:scale(1.04)}
 
-.dayfoot{
-  margin-top:26px; border-top:1px solid var(--line); padding-top:18px;
-  display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; align-items:center;
-}
-.dayfoot .hint{font-size:12.5px; color:var(--faint); max-width:54ch}
-
 .pagefoot{border-top:1px solid var(--line); padding-block:22px 40px; color:var(--faint); font-size:12.5px}
 
 @media (max-width:720px){
@@ -475,15 +478,22 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   .card-grid{grid-template-columns:minmax(0,1fr)}
   .shot{order:-1; max-width:320px}
 }
+.card-time{display:none}
+/* scroll reveal: stops fade + drift in as they enter the screen */
+#day .timeline .stop{transition:opacity .4s ease, transform .4s ease}
+#day .timeline .stop.pre-reveal{opacity:0; transform:translateY(14px)}
+#day .timeline .stop.pre-reveal.in{opacity:1; transform:none}
 @media (max-width:560px){
-  .stop{grid-template-columns:76px minmax(0,1fr)}
-  .stop .when{padding:16px 4px 16px 30px}
-  .stop .when::before{left:10px}
-  .stop .node{left:10px}
-  .stop.anchor .node, .stop.special .node{left:10px}
-  .stop .hhmm{font-size:15px}
-  .leg{grid-template-columns:76px minmax(0,1fr)}
-  .legrail::before{left:10px}
+  /* slim rail: time moves inside the card, cards go full width */
+  .stop{grid-template-columns:26px minmax(0,1fr)}
+  .stop .when{padding:18px 0}
+  .stop .when::before{left:8px}
+  .stop .node{left:8px}
+  .stop.anchor .node, .stop.special .node{left:8px}
+  .stop .hhmm, .stop .dur{display:none}
+  .card-time{display:block; font-size:12px; color:var(--gold); font-weight:700; letter-spacing:.04em; margin-bottom:4px}
+  .leg{grid-template-columns:26px minmax(0,1fr)}
+  .legrail::before{left:8px}
   .legrail{min-height:74px}
 }
 @media (prefers-reduced-motion: reduce){
@@ -493,6 +503,53 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   background:var(--gold-soft);
   color:var(--gold);
   border-color:var(--gold);
+}
+/* ---------- phone fixes ---------- */
+.rail{
+  padding-top:env(safe-area-inset-top, 0px);
+}
+.pagefoot{
+  padding-bottom:calc(40px + env(safe-area-inset-bottom, 0px));
+}
+.countdown{margin:6px 0 0; font-size:13px; color:var(--sea); font-weight:700}
+.countdown:empty{display:none}
+.emg strong{font-size:14px}
+.emg-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+.emg-num{
+  display:inline-flex; align-items:center; gap:8px; min-height:44px;
+  padding:10px 14px; border-radius:12px; text-decoration:none;
+  background:var(--surface); border:1px solid var(--line);
+  color:var(--text); font-size:14px; font-weight:700;
+}
+.emg-num svg{width:20px; height:20px; display:block; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.emg-num .n{font-family:"IBM Plex Mono",monospace; font-weight:500}
+.emg-num.police svg{color:var(--blue)}
+.emg-num.amb svg{color:var(--red)}
+.emg-num.fire svg{color:var(--gold)}
+.emg-num.road svg{color:var(--sea)}
+.pagefoot .hint{font-size:12px; color:var(--faint); margin-top:10px}
+@media (max-width:720px){
+  /* 1. finger-size tap targets */
+  .btn{min-height:44px; padding:10px 16px; font-size:13.5px}
+  .menu-toggle{width:44px; height:44px}
+  .ghost{min-height:44px; padding:10px 18px}
+  .navlink{min-height:44px; padding:10px 16px}
+  .tab{min-height:48px; padding:14px 18px 12px}
+  /* 4. day bar: start-align so first day is never cut in RTL scroll */
+  .rail-inner{justify-content:flex-start; scroll-padding-inline:16px}
+  /* 7. save battery: no blur, no endless map motion */
+  .rail{backdrop-filter:none; background:var(--paper)}
+  .mapcard .routeline.is-drawn{animation:none}
+  .legrail::before{animation:none}
+  .route-traveler{display:none}
+}
+@media (hover:none){
+  /* 2. touch has no hover: always show the full add pill */
+  .insert button{
+    width:118px; gap:7px; padding-inline:12px; border-radius:999px;
+    background:var(--blue); color:#fff; border-color:var(--blue);
+  }
+  .insert-label{max-width:86px; opacity:1}
 }
 </style>
 
@@ -504,6 +561,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
       <div>
         <h1>ארבעה ימים במונטנגרו</h1>
         <p class="sub">24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו</p>
+        <p class="countdown" id="tripCount"></p>
       </div>
       <div class="tools">
         <span class="pill" id="statusPill"><span class="dot"></span><span id="statusText">טוען…</span></span>
@@ -523,8 +581,16 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 
 <div class="wrap">
   <footer class="pagefoot">
-    המפות סכמטיות — מיועדות להבין את סדר התחנות ואת יחסי המרחק, לא לניווט. לניווט בפועל: הקישור בכל תחנה נפתח ב־Google&nbsp;Maps.<br>
-    התמונות בכל תחנה הן צילומי המקום עצמו מעמוד העסק ב־Google&nbsp;Maps, לשימוש אישי בלבד. לצידן שמורות תמונות אזור מ־Wikimedia&nbsp;Commons. אפשר להחליף תמונה לכל תחנה — או להעלות תמונה משלך — דרך "ערוך".
+    <div class="emg">
+      <strong>חירום במונטנגרו</strong>
+      <div class="emg-row">
+        <a class="emg-num police" href="tel:122"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z"/><path d="M12 8.5l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3 1-2z"/></svg>משטרה <span class="n">122</span></a>
+        <a class="emg-num amb" href="tel:124"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg>אמבולנס <span class="n">124</span></a>
+        <a class="emg-num fire" href="tel:123"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c4.4 0 7.5-3 7.5-7 0-3.5-2.5-6-4.5-8-.3 1.5-1 2.5-2 3.5C12.5 7 12 4.8 12 3c-3 2.5-7 6-7 11 0 4 3.1 7 7 7z"/></svg>מכבי אש <span class="n">123</span></a>
+        <a class="emg-num road" href="tel:19807"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3.5v5M12 15.5v5M3.5 12h5M15.5 12h5"/></svg>עזרה בדרכים <span class="n">19807</span></a>
+      </div>
+      <p class="hint">קישורי הניווט צריכים אינטרנט. שמרו את מספר המארח של הווילה בטלפון.</p>
+    </div>
   </footer>
 </div>
 
@@ -1023,6 +1089,7 @@ const WEATHER_REFRESH_MS = 30 * 60 * 1000;
 const weatherIcon = kind => {
   if (kind === "moon") return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 15.5A8 8 0 0 1 8.5 5 8.5 8.5 0 1 0 19 15.5Z"/></svg>`;
   if (kind === "sea") return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8c2.2-2 4.4 2 6.7 0s4.5-2 6.7 0 4.5 2 6.6 0M3 14c2.2-2 4.4 2 6.7 0s4.5-2 6.7 0 4.5 2 6.6 0M3 20c2.2-2 4.4 2 6.7 0s4.5-2 6.7 0 4.5 2 6.6 0"/></svg>`;
+  if (kind === "sunset") return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="14" r="4"/><path d="M12 6v2M4.9 8.9l1.4 1.4M19.1 8.9l-1.4 1.4M2 18h20M6 21h12"/></svg>`;
   return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>`;
 };
 const statIcon = lab => {
@@ -1055,17 +1122,20 @@ function liveWeatherFor(day){
   if (index < 0) return null;
   const dailySea = seaIndex >= 0 ? Number(marine.daily.sea_surface_temperature_mean[seaIndex]) : NaN;
   const currentSea = Number(marine.current?.sea_surface_temperature);
+  const rawSunset = forecast.daily.sunset?.[index] || "";
+  const sunsetMatch = String(rawSunset).match(/T(\d{2}:\d{2})/);
   return {
     high: Math.round(forecast.daily.temperature_2m_max[index]),
     low: Math.round(forecast.daily.temperature_2m_min[index]),
     code: forecast.daily.weather_code[index],
     sea: Number.isFinite(dailySea) && dailySea > 0 ? Math.round(dailySea)
-      : Number.isFinite(currentSea) ? Math.round(currentSea) : null
+      : Number.isFinite(currentSea) ? Math.round(currentSea) : null,
+    sunset: sunsetMatch ? sunsetMatch[1] : null
   };
 }
 async function loadWeather(){
   const dayIndex = active;
-  const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=${WEATHER_TZ}&forecast_days=16`;
+  const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}&daily=temperature_2m_max,temperature_2m_min,weather_code,sunset&timezone=${WEATHER_TZ}&forecast_days=16`;
   const marineUrl = `https://marine-api.open-meteo.com/v1/marine?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}&current=sea_surface_temperature&daily=sea_surface_temperature_mean&timezone=${WEATHER_TZ}&forecast_days=16`;
   try {
     const [forecast, marine] = await Promise.all([fetch(forecastUrl), fetch(marineUrl)]);
@@ -1082,6 +1152,8 @@ async function loadWeather(){
 function updateWeatherDisplay(){
   const container = $("#day .live-weather");
   if (container) container.outerHTML = weatherMarkup(days[active]);
+  const sunsetEl = document.querySelector("#day [data-sunset]");
+  if (sunsetEl) sunsetEl.textContent = liveWeatherFor(days[active])?.sunset || "—";
 }
 function weatherMarkup(day){
   const weather = liveWeatherFor(day);
@@ -1092,6 +1164,7 @@ function weatherMarkup(day){
     <div class="weather-item"><div class="weather-label"><span class="weather-icon">${weatherIcon("sun")}</span>יום:</div><div class="weather-value">${weather.high}°C</div></div>
     <div class="weather-item"><div class="weather-label"><span class="weather-icon moon">${weatherIcon("moon")}</span>ערב:</div><div class="weather-value">${weather.low}°C</div></div>
     <div class="weather-item"><div class="weather-label"><span class="weather-icon sea">${weatherIcon("sea")}</span>ים:</div><div class="weather-value">${weather.sea == null ? "—" : `${weather.sea}°C`}</div></div>
+    <div class="weather-status">${weatherDescription(weather.code)}</div>
   </div>`;
 }
 
@@ -1332,6 +1405,8 @@ function stopView(s, i, n, prev, special){
   const src = s.photoUrl || (ph ? ph.f : "");
   const caption = s.photoUrl ? (s.title || "") : (ph ? ph.l : "");
   const venueUrl = mapsUrl(s.maps || s.addr || s.title);
+  const shareText = `${s.time || ""} · ${s.title || ""}\n${s.addr || ""}\n${venueUrl}`;
+  const shareUrl = "https://wa.me/?text=" + encodeURIComponent(shareText);
   return `${legHtml}
   <article class="stop${special ? " special" : ""}${villaStop ? " villa-stop" : ""}" data-i="${i}">
     <div class="when">
@@ -1342,6 +1417,7 @@ function stopView(s, i, n, prev, special){
     <div class="card${special ? " special" : ""}${villaStop ? " villa-stop" : ""}" data-card="${i}">
       <div class="card-grid">
         <div>
+          <div class="card-time mono">${esc(s.time)}${s.dur ? ` · ${esc(s.dur)}` : ""}</div>
           ${special ? `<span class="speclab">${esc(special.lab)}</span>` : ""}
           <h3>${esc(s.title)}</h3>
           ${s.kicker ? `<p class="kick">${esc(s.kicker)}</p>` : ""}
@@ -1351,7 +1427,6 @@ function stopView(s, i, n, prev, special){
                <a href="${esc(mapsUrl(s.maps || s.addr))}" target="_blank" rel="noopener">${esc(s.addr)}</a></div>` : ""}
             ${s.move ? `<div class="meta-row"><span class="k">מעבר</span><span class="v">${esc(s.move)}</span></div>` : ""}
           </div>
-          ${s.alt ? `<div class="alt"><span class="k">חלופה</span>${esc(s.alt)}</div>` : ""}
           ${special && special.note ? `<div class="specnote">${esc(special.note)}</div>` : ""}
         </div>
         <figure class="shot">
@@ -1363,16 +1438,14 @@ function stopView(s, i, n, prev, special){
               תמונות המקום ב־Google Maps
               <span>אפשר להעלות תמונה משלך דרך "ערוך"</span>
             </a>`}
-          <figcaption>
-            ${src ? esc(caption) : ""}
-            <span class="links">
-              <a class="venue" href="${esc(venueUrl)}" target="_blank" rel="noopener">◄ תמונות המקום ב־Google Maps</a>
-              ${ph && !ph.v && !s.photoUrl ? `<a href="${esc(ph.g)}" target="_blank" rel="noopener">גלריית האזור ‹</a>` : ""}
-            </span>
-          </figcaption>
+          <span class="shot-btns">
+            <a class="btn wa-share" href="${esc(shareUrl)}" target="_blank" rel="noopener" aria-label="שתף ב-WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+            <a class="btn photo-link" href="${esc(venueUrl)}" target="_blank" rel="noopener" aria-label="תמונות המקום ב-Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#EA4335" d="M12 2a7 7 0 00-7 7c0 2 .8 3.8 2.1 5.1L12 20l4.9-5.9A7.2 7.2 0 0019 9a7 7 0 00-7-7z"/><path fill="#FBBC04" d="M7.1 14.1L12 22.5 9.6 18.9C8.5 17.4 7.5 15.8 7.1 14.1z"/><path fill="#34A853" d="M16.9 14.1L12 22.5l2.4-3.6c1.1-1.5 2.1-3.1 2.5-4.8z"/><circle cx="12" cy="9" r="2.6" fill="var(--surface)"/></svg></a>
+          </span>
         </figure>
       </div>
       <div class="actions">
+        ${s.alt ? `<div class="alt"><span class="k">חלופה</span>${esc(s.alt)}</div>` : ""}
         <div class="action-menu">
           <button class="btn menu-toggle" type="button" aria-label="אפשרויות עריכה" aria-expanded="false">⋮</button>
           <div class="action-menu-panel" role="menu">
@@ -1480,9 +1553,13 @@ function render(i, animate = true){
         <p class="blurb">${esc(d.blurb)}</p>
         ${weatherMarkup(d)}
         <div class="stats">
-          ${d.stats.map(([lab, val, note]) => `
-            <div class="stat${lab === "לבוש" ? " outfit-stat" : ""}"><div class="lab"><span class="stat-icon" aria-hidden="true">${statIcon(lab)}</span>${esc(lab)}</div>
-            ${lab === "לבוש" ? `<div class="outfit-line"><span class="outfit-icon">☀</span>${esc(d.outfit?.day || val)}</div><div class="outfit-line"><span class="outfit-icon">☾</span>${esc(d.outfit?.evening || note)}</div>` : `<div class="val">${esc(val)}</div><div class="note">${esc(note)}</div>`}</div>`).join("")}
+          ${d.stats.map(([lab, val, note]) => {
+            if (lab === "לבוש") {
+              const sunset = liveWeatherFor(d)?.sunset;
+              return `<div class="stat sunset-stat"><div class="lab"><span class="stat-icon" aria-hidden="true">${weatherIcon("sunset")}</span>שקיעה</div><div class="val" data-sunset>${sunset ? esc(sunset) : "…"}</div><div class="note">שעת שקיעה מקומית</div></div>`;
+            }
+            return `<div class="stat"><div class="lab"><span class="stat-icon" aria-hidden="true">${statIcon(lab)}</span>${esc(lab)}</div><div class="val">${esc(val)}</div><div class="note">${esc(note)}</div></div>`;
+          }).join("")}
         </div>
       </div>
       <div class="mapcard">
@@ -1499,10 +1576,7 @@ function render(i, animate = true){
       ${stopsHtml}
       ${tailHtml}
     </section>
-    <section class="dayfoot">
-      <p class="hint">כל שינוי נשמר לכולם ומופיע אצל כל מי שפתח את הקישור. שחזור יום מחזיר אותו למסלול המקורי — גם אצל השאר.</p>
-      <button class="btn" data-act="reset">שחזר את היום למקור</button>
-    </section>`;
+`;
   isolate($("#day"));
   bind();
   renderRail();
@@ -1514,7 +1588,6 @@ function animateIn(){
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!window.gsap || reduce){ drawRoute(0); return; }
   gsap.fromTo("#day .dayhead", {opacity:0, y:14}, {opacity:1, y:0, duration:.45, ease:"power2.out"});
-  gsap.fromTo("#day .timeline > *", {opacity:0, y:16}, {opacity:1, y:0, duration:.4, stagger:.035, ease:"power2.out", delay:.08});
   drawRoute(.25);
 }
 function drawRoute(delay){
@@ -1566,6 +1639,20 @@ function shrink(file, maxW, maxH){
 function blank(){
   return {id: uid(), time:"12:00", dur:"60 דק׳", node: days[active].route[0],
           title:"תחנה חדשה", kicker:"", body:"", addr:"", maps:"", move:"", alt:"", img:""};
+}
+let stopObserver = null;
+function observeStops(){
+  const stops = document.querySelectorAll("#day .timeline .stop");
+  if (stopObserver) stopObserver.disconnect();
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  stopObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => e.target.classList.toggle("in", e.isIntersecting));
+  }, {threshold: 0.08});
+  stops.forEach(el => {
+    el.classList.add("pre-reveal");
+    el.classList.remove("in");
+    stopObserver.observe(el);
+  });
 }
 function bind(){
   if (!document.body.dataset.actionMenusBound){
@@ -1642,6 +1729,7 @@ function bind(){
       }
     });
   });
+  observeStops();
 }
 function closeActionMenus(){
   document.querySelectorAll(".action-menu.open").forEach(menu => {
@@ -1670,8 +1758,36 @@ navVillaBtn.addEventListener("click", () => {
 });
 
 /* ========================= boot ========================= */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
+}
+function tripDayIndex(){
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const dates = days.map(d => {
+    const m = String(d.date || "").match(/(\d{1,2}) בספטמבר 2026/);
+    return m ? new Date(2026, 8, Number(m[1])) : null;
+  });
+  for (let i = 0; i < dates.length; i++){
+    if (dates[i] && today.getTime() === dates[i].getTime()) return {index: i, mode: "today"};
+  }
+  if (dates[0] && today < dates[0]){
+    return {index: 0, mode: "before", left: Math.round((dates[0] - today) / 86400000)};
+  }
+  return {index: dates.length - 1, mode: "after"};
+}
+function renderCountdown(t){
+  const el = $("#tripCount");
+  if (!el) return;
+  if (t.mode === "today") el.textContent = `היום מטיילים — יום ${t.index + 1} מתוך ${days.length}`;
+  else if (t.mode === "before") el.textContent = t.left === 1 ? "הטיול מתחיל מחר" : t.left === 2 ? "הטיול מתחיל בעוד יומיים" : `הטיול מתחיל בעוד ${t.left} ימים`;
+  else el.textContent = "הטיול הסתיים — נשארו הזיכרונות";
+}
 loadLocal();
-render(0);
+const tripStart = tripDayIndex();
+render(tripStart.index);
+renderCountdown(tripStart);
 loadWeather();
 setInterval(loadWeather, WEATHER_REFRESH_MS);
 window.addEventListener("resize", moveInk);
