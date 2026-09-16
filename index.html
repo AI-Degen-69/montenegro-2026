@@ -33,6 +33,7 @@
   --text:#14232E; --muted:#5D7078; --faint:#8A9BA1;
   --sea:#13707F; --sea-ink:#0C4C57; --sea-soft:#DDECEE;
   --gold:#A87A25; --gold-soft:#F3E9D6;
+  --start:#39B878; --end:#E25555;
   --blue:#1F6FEB; --blue-soft:#E4EDFD;
   --red:#C93A36; --red-soft:#FBE7E6;
   --land:#E7E4DA; --water:#CBE1E4; --route:#13707F;
@@ -47,6 +48,7 @@
     --text:#E6EEF0; --muted:#93A9B0; --faint:#6E878F;
     --sea:#4FB6C6; --sea-ink:#8FD6E2; --sea-soft:#10333B;
     --gold:#D6A44A; --gold-soft:#2B2416;
+    --start:#55D891; --end:#F07878;
     --blue:#5A95FF; --blue-soft:#12243D;
     --red:#F0756C; --red-soft:#33191A;
     --land:#13232A; --water:#0B2A33; --route:#4FB6C6;
@@ -60,6 +62,7 @@
   --text:#E6EEF0; --muted:#93A9B0; --faint:#6E878F;
   --sea:#4FB6C6; --sea-ink:#8FD6E2; --sea-soft:#10333B;
   --gold:#D6A44A; --gold-soft:#2B2416;
+  --start:#55D891; --end:#F07878;
   --blue:#5A95FF; --blue-soft:#12243D;
   --red:#F0756C; --red-soft:#33191A;
   --land:#13232A; --water:#0B2A33; --route:#4FB6C6;
@@ -127,23 +130,39 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .rail-ink{position:absolute; bottom:0; height:2px; background:var(--sea); border-radius:2px 2px 0 0; pointer-events:none}
 
 /* ---------- day head ---------- */
-.dayhead{padding-block:clamp(26px,4.5vw,44px) 4px}
+.dayhead{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  column-gap:24px; padding-block:clamp(26px,4.5vw,44px) 4px;
+}
+.day-summary{grid-column:1; min-width:0}
 .dayhead .kicker{font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); font-weight:700}
 .dayhead h2{font-size:clamp(24px,4.6vw,38px); margin-top:8px; line-height:1.14}
 .dayhead .blurb{color:var(--muted); max-width:62ch; margin-top:12px; font-size:clamp(14.5px,2.2vw,16.5px)}
+.live-weather{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin-top:16px}
+.weather-item{min-width:0; display:flex; align-items:center; justify-content:center; gap:5px; padding:8px 7px; border:1px solid var(--line-soft); border-radius:10px; background:color-mix(in srgb,var(--surface) 72%,transparent); white-space:nowrap}
+.weather-item .weather-label{display:flex; align-items:center; gap:4px; color:var(--faint); font-size:13px; font-weight:700}
+.weather-icon{display:inline-grid; place-items:center; width:18px; height:18px; color:currentColor; line-height:1}
+.weather-icon svg{width:16px; height:16px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+.weather-item .weather-value{font-family:"Frank Ruhl Libre",serif; font-size:17px; white-space:nowrap}
+.weather-status{grid-column:1/-1; color:var(--faint); font-size:10px; text-align:center}
+.outfit-stat{display:grid; gap:3px}
+.outfit-line{display:flex; align-items:flex-start; gap:5px; color:var(--text); font-size:12px; line-height:1.35}
+.outfit-line .outfit-icon{flex:none; color:var(--gold); font-size:13px}
 
-.stats{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px}
+.stats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:18px}
 .stat{
-  flex:1 1 150px; background:var(--surface); border:1px solid var(--line-soft);
-  border-radius:var(--radius); padding:13px 15px;
+  min-width:0; background:var(--surface); border:1px solid var(--line-soft);
+  border-radius:var(--radius); padding:10px 11px;
 }
-.stat .lab{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); font-weight:700}
-.stat .val{font-family:"Frank Ruhl Libre",serif; font-size:21px; font-weight:500; margin-top:3px; letter-spacing:-.01em}
-.stat .note{font-size:12.5px; color:var(--muted); margin-top:1px}
+.stat .lab{display:flex; align-items:center; gap:5px; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-weight:700}
+.stat-icon{display:inline-grid; place-items:center; width:17px; height:17px; color:var(--muted); line-height:1; letter-spacing:0}
+.stat-icon svg{width:16px; height:16px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+.stat .val{font-family:"Frank Ruhl Libre",serif; font-size:18px; font-weight:500; margin-top:2px; letter-spacing:-.01em; white-space:nowrap}
+.stat .note{font-size:11px; color:var(--muted); margin-top:1px; white-space:nowrap}
 
 /* ---------- overview map ---------- */
 .mapcard{
-  margin-top:20px; border:1px solid var(--line-soft); border-radius:var(--radius);
+  grid-column:2; grid-row:1; align-self:start; margin-top:0; border:1px solid var(--line-soft); border-radius:var(--radius);
   background:var(--surface); overflow:hidden;
 }
 .mapcard header{
@@ -153,6 +172,9 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .mapcard h3{font-size:14.5px; font-weight:700}
 .mapcard .legend{font-size:11.5px; color:var(--faint)}
 .mapcard svg{display:block; width:100%; height:auto; max-width:100%; background:var(--land)}
+.mapcard .routeline.is-drawn{animation:routeFlow 1.35s linear infinite}
+.mapcard .route-traveler{pointer-events:none}
+@keyframes routeFlow{to{stroke-dashoffset:-17}}
 
 /* ---------- timeline ---------- */
 .timeline{margin-top:30px; padding-bottom:70px}
@@ -209,6 +231,16 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   color:var(--muted); background:var(--gold-soft);
   border-inline-start:3px solid color-mix(in srgb, var(--gold) 60%, transparent);
 }
+.card.villa-stop{
+  background:linear-gradient(135deg, color-mix(in srgb,var(--gold-soft) 78%,var(--surface)), var(--surface));
+  border-color:color-mix(in srgb,var(--gold) 58%,var(--line));
+  border-inline-start:5px solid var(--gold);
+  box-shadow:0 1px 2px rgba(11,27,43,.12), 0 12px 28px -16px color-mix(in srgb,var(--gold) 55%,transparent);
+}
+.card.villa-stop h3{color:var(--gold); font-size:21px}
+.card.villa-stop .kick{color:var(--sea-ink); font-weight:700}
+.card.villa-stop .shot a{border-color:color-mix(in srgb,var(--gold) 55%,var(--line))}
+.card.villa-stop::before{content:"הבסיס שלכם"; display:block; color:var(--gold); font-size:10px; font-weight:700; letter-spacing:.14em; margin-bottom:7px}
 .anchor-card{
   margin:12px 0; padding:15px 18px; border-radius:var(--radius);
   background:var(--gold-soft);
@@ -303,7 +335,20 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 }
 .alt .k{font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--red); font-weight:700; margin-inline-end:7px}
 
-.actions{display:flex; gap:7px; margin-top:14px; flex-wrap:wrap; align-items:center}
+.actions{display:flex; gap:7px; margin-top:14px; min-height:31px; align-items:center; position:relative}
+.action-menu{position:absolute; left:0; bottom:0; z-index:8}
+.menu-toggle{width:31px; height:31px; padding:0; justify-content:center; font-size:19px; line-height:1; letter-spacing:.08em}
+.action-menu-panel{
+  position:absolute; left:0; bottom:calc(100% + 8px); display:grid; gap:3px; min-width:142px;
+  padding:6px; border:1px solid var(--line); border-radius:10px; background:var(--surface);
+  box-shadow:var(--shadow); opacity:0; transform:translateY(6px) scale(.96); transform-origin:bottom left;
+  pointer-events:none; visibility:hidden; transition:opacity .18s ease, transform .18s ease, visibility .18s ease;
+}
+.action-menu.open .action-menu-panel{opacity:1; transform:translateY(0) scale(1); pointer-events:auto; visibility:visible}
+.action-menu-panel .btn{width:100%; justify-content:flex-start; border:0; background:transparent; border-radius:7px}
+.action-menu-panel .btn:hover{background:var(--surface-2)}
+.action-menu-panel .btn.danger:hover{background:var(--red); color:#fff}
+.action-menu.below .action-menu-panel{bottom:auto; top:calc(100% + 8px); transform-origin:top left}
 .btn{
   border:1px solid var(--line); background:var(--surface); color:var(--muted);
   padding:6px 12px; border-radius:8px; font-size:12.5px; font-weight:600;
@@ -385,19 +430,29 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .insert button{
   border:1px solid color-mix(in srgb, var(--blue) 45%, var(--line));
   background:var(--blue-soft); color:var(--blue);
+  display:inline-flex; align-items:center; justify-content:center; gap:0;
+  width:32px; height:32px; overflow:hidden; white-space:nowrap;
   font-size:12px; font-weight:700; letter-spacing:.01em;
-  padding:6px 17px; border-radius:999px; line-height:1.3;
+  padding:0; border-radius:50%; line-height:1.3;
   margin-top:-14px; transform:translateY(-50%);
   box-shadow:0 0 0 5px var(--paper);
-  transition:background .16s ease, color .16s ease, border-color .16s ease, transform .16s ease;
+  transition:width .24s ease, gap .24s ease, padding .24s ease, border-radius .24s ease,
+    background .16s ease, color .16s ease, border-color .16s ease, transform .16s ease;
 }
-.insert button:hover{
+.insert-plus{flex:none; font-size:18px; line-height:1}
+.insert-label{max-width:0; opacity:0; overflow:hidden; transition:max-width .24s ease, opacity .16s ease}
+.insert button:hover,
+.insert button:focus-visible{
   background:var(--blue); color:#fff; border-color:var(--blue);
+  width:118px; gap:7px; padding-inline:12px; border-radius:999px;
   transform:translateY(-50%) scale(1.04);
 }
+.insert button:hover .insert-label,
+.insert button:focus-visible .insert-label{max-width:86px; opacity:1}
 .insert.first{height:auto; align-items:center; margin-bottom:10px}
 .insert.first button{margin-top:0; transform:none; box-shadow:none}
-.insert.first button:hover{transform:scale(1.04)}
+.insert.first button:hover,
+.insert.first button:focus-visible{transform:scale(1.04)}
 
 .dayfoot{
   margin-top:26px; border-top:1px solid var(--line); padding-top:18px;
@@ -408,6 +463,15 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .pagefoot{border-top:1px solid var(--line); padding-block:22px 40px; color:var(--faint); font-size:12.5px}
 
 @media (max-width:720px){
+  .dayhead{display:block}
+  .day-summary{display:block}
+  .stats{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px}
+  .stat{flex:1 1 150px; padding:13px 15px}
+  .stat .lab{font-size:11.5px; letter-spacing:.14em}
+  .stat .val{font-size:21px; margin-top:3px; white-space:normal}
+  .stat .note{font-size:12.5px; white-space:normal}
+  .live-weather{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .mapcard{margin-top:20px}
   .card-grid{grid-template-columns:minmax(0,1fr)}
   .shot{order:-1; max-width:320px}
 }
@@ -470,28 +534,29 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
    x = (lon - 18.45) * 1000 ,  y = (42.55 - lat) * 1345
    ========================================================= */
 const NODES = {
-  tiv:      {x:273, y:196, label:"שדה תעופה טיווט"},
-  tivat:    {x:246, y:153, label:"טיווט / פורטו"},
+  tiv:      {x:273, y:196, label:"שדה תעופה טיווט", labelDx:-58, labelDy:24},
+  tivat:    {x:246, y:153, label:"טיווט / פורטו", labelDx:0, labelDy:-15},
   kotor:    {x:321, y:169, label:"קוטור"},
   perast:   {x:252, y:84,  label:"פרסט"},
   budva:    {x:391, y:356, label:"בודווה"},
   sveti:    {x:441, y:395, label:"סבטי סטפן"},
-  drobni:   {x:463, y:429, label:"דרובני פייסק"},
-  rezevici: {x:479, y:446, label:"רז׳ביצ׳י"},
+  drobni:   {x:463, y:429, label:"דרובני פייסק", labelDx:-53, labelDy:1},
+  rezevici: {x:479, y:446, label:"רז׳ביצ׳י", labelDx:36, labelDy:4},
   podgorica:{x:813, y:147, label:"פודגוריצה"}
 };
 const SEA_PATH = "M0,120 L55,152 L110,205 L160,232 L215,250 L300,300 L392,358 L452,406 L497,468 L560,532 L652,614 L720,760 L-40,760 Z";
 const BAY_MAIN = "M46,150 L130,146 L200,152 L238,114 L252,70 L300,124 L326,172";
 const BAY_ARM  = "M200,152 L208,188 L248,178";
-const VIEWBOX  = "0 52 878 452";
+const MAP_ASPECT = 878 / 452;
+const VILLA_LINK = "https://maps.app.goo.gl/8DeAXyLx8XTjKcYj9";
 
 const PLACES = {
   villa:{
     name:"Villa Mare Reževići",
     addr:"Reževići, katun bb, Budva 85300",
     maps:"Villa Mare Rezevici Budva",
-    link:"https://maps.app.goo.gl/8DbYkCTZ2sV72Z1N7",
-    img:"img/v_villa.jpg"
+    link:VILLA_LINK,
+    img:"img/v_villa.jpg?v=2"
   },
   tiv:{
     name:"שדה התעופה טיווט (TIV)",
@@ -503,6 +568,7 @@ const PLACES = {
 };
 
 const PHOTOS = {
+  v_villa:{f:"img/v_villa.jpg?v=2", l:"Villa Mare Reževići", g:VILLA_LINK, v:1},
   v_tivat_airport:{f:"img/v_tivat_airport.jpg", l:"שדה התעופה טיווט", g:"https://www.google.com/maps/search/?api=1&query=Tivat%20Airport%20Montenegro", v:1},
   v_mlin:{f:"img/v_mlin.jpg", l:"Restoran Mlin", g:"https://www.google.com/maps/search/?api=1&query=Restoran%20Mlin%20Budva", v:1},
   v_budva_oldtown:{f:"img/v_budva_oldtown.jpg", l:"העיר העתיקה של בודווה", g:"https://www.google.com/maps/search/?api=1&query=Budva%20Old%20Town", v:1},
@@ -564,7 +630,8 @@ const BASE = [
   id:"d1", anchors:{start:{place:"tiv", lab:"תחילת הטיול", title:"נחיתה בטיווט", link:false, note:""}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"58.1 ק״מ", min:"66 דק׳", mode:"נסיעה"}, note:"70 ק״מ מפודגוריצה דרך מנהרת Sozina, כ־1:10 בלילה. נהג תורן — סף האלכוהול 0.03%."}}, tab:"חמישי", date:"24 בספטמבר 2026",
   title:"נחיתה, בודווה, ולילה בפודגוריצה",
   blurb:"יום שמתחיל בשדה תעופה קטן ונגמר במועדון טכנו. ההיגיון שלו הוא ניצול אור היום בחוף ושמירת האנרגיה של הערב לבירה — עם עצירת מנוחה של שעתיים באמצע, שהיא מה שמאפשר את הלילה.",
-  stats:[["מזג אוויר","25° / 18°","ים 24° · יבש"],["נהיגה","3:10 שעות","165 ק״מ · אגרה 5 €"],["תקציב","125–170 €","לאדם, ללא לינה ורכב"]],
+  outfit:{day:"טי־שירט נושם, מכנס קל ונעלי הליכה", evening:"חולצת אוברשירט, מכנס ארוך ונעליים סגורות"},
+  stats:[["לבוש","צהריים · ערב",""],["נהיגה","3:10 שעות","165 ק״מ · אגרה 5 €"],["תקציב","125–170 €","לאדם, ללא לינה ורכב"]],
   route:["tiv","budva","rezevici","podgorica","rezevici"],
   stops:[
    {id:"s101", img:"v_tivat_airport", time:"10:00", dur:"60 דק׳", node:"tiv",
@@ -594,7 +661,7 @@ const BASE = [
     addr:"Voli / HDL Market, Jadranski put, Budva", maps:"Voli supermarket Budva",
     move:"על הדרך מבודווה לווילה — בלי סטייה",
     alt:"סגור או עמוס? Mercator ב־Bečići, או Franca ב־Petrovac שפתוח עד 22:00."},
-   {id:"s105", img:"v_rezevici", time:"15:30", dur:"2.5 שע׳", node:"rezevici", leg:{km:"18 ק״מ", min:"25 דק׳", mode:"נסיעה"},
+  {id:"s105", img:"v_villa", time:"15:30", dur:"2.5 שע׳", node:"rezevici", leg:{km:"18 ק״מ", min:"25 דק׳", mode:"נסיעה"},
     title:"צ׳ק־אין בווילה, Reževići",
     kicker:"הבסיס לשלושת הלילות — כפר שקט מעל הכביש האדריאטי",
     body:"Reževići הוא יישוב קטן בין Petrovac ל־Sveti Stefan, ארבעה קילומטרים מ־Drobni Pijesak ו־18 מבודווה. מנזר Reževići מ־1226 נמצא במרחק הליכה. זו שעת המנוחה היחידה ביום — נצלו אותה, הלילה ארוך.",
@@ -626,10 +693,11 @@ const BASE = [
   id:"d2", anchors:{start:{place:"villa", lab:"תחילת היום", title:"יציאה מהבסיס", note:"הבוקר האיטי היחיד. החוף 4 ק״מ מכאן, 7 דקות נסיעה."}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"15.8 ק״מ", min:"25 דק׳", mode:"נסיעה"}, note:"מבודווה 18 ק״מ, כ־25 דקות. אם שתיתם — מונית 20–30 € והרכב נשאר בחניון."}}, tab:"שישי", date:"25 בספטמבר 2026",
   title:"יום החוף, ואז בודווה עד מאוחר",
   blurb:"היום הפשוט ביותר בטיול, ובכוונה. מפרץ אחד עד אחר הצהריים, מקלחת, ובודווה מהשעה הטובה של האור ועד הסוף. אין נהיגה ארוכה ואין לוח זמנים שצריך לרדוף אחריו.",
-  stats:[["מזג אוויר","25° / 19°","ים 24° · UV גבוה"],["נהיגה","0:55 שעות","45 ק״מ · ללא אגרה"],["תקציב","140–190 €","לאדם, ללא לינה ורכב"]],
+  outfit:{day:"בגד ים, חולצת פשתן וסנדלים", evening:"חולצה מכופתרת, מכנס קל ונעליים נקיות"},
+  stats:[["לבוש","צהריים · ערב",""],["נהיגה","0:55 שעות","45 ק״מ · ללא אגרה"],["תקציב","140–190 €","לאדם, ללא לינה ורכב"]],
   route:["rezevici","drobni","rezevici","sveti","budva","rezevici"],
   stops:[
-   {id:"s201", img:"v_rezevici", time:"09:30", dur:"60 דק׳", node:"rezevici",
+  {id:"s201", img:"v_villa", time:"09:30", dur:"60 דק׳", node:"rezevici",
     title:"ארוחת בוקר בווילה",
     kicker:"הבוקר היחיד בטיול בלי שעון",
     body:"מה שקניתם אתמול. קפה על המרפסת, ואז ישר לחוף — לפני 11:00 החניות למטה עוד פתוחות.",
@@ -692,7 +760,8 @@ const BASE = [
   id:"d3", anchors:{start:{place:"villa", lab:"תחילת היום", title:"יציאה מהבסיס", note:"היום היחיד שדורש להקדים. צאו ב־08:00 בדיוק — 42 ק״מ לקוטור דרך פיתולי Trojica."}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"38.3 ק״מ", min:"55 דק׳", mode:"נסיעה"}, note:"מטיווט 38 ק״מ, כ־55 דקות. נהג תורן אם הערב התגלגל."}}, tab:"שבת", date:"26 בספטמבר 2026",
   title:"בוקה קוטורסקה — שוק, פרסט, קוטור ופורטו",
   blurb:"היום הצפוף והיפה בטיול, והיחיד שדורש להקדים. שוק שבת בקוטור קורה רק הבוקר הזה, ושתי אוניות קרוז אמורות לרוקן מעל 3,300 נוסעים לתוך העיר העתיקה במהלך היום — והן עוזבות ב־17:00 וב־18:00.",
-  stats:[["מזג אוויר","24° / 17°","סיכוי לממטר קצר"],["נהיגה","2:20 שעות","135 ק״מ · ללא אגרה"],["תקציב","150–210 €","לאדם, ללא לינה ורכב"]],
+  outfit:{day:"חולצת טי, מכנס ארוך קל ונעלי הליכה", evening:"חולצה מכופתרת, מכנס מחויט קל וז׳קט דק"},
+  stats:[["לבוש","צהריים · ערב",""],["נהיגה","2:20 שעות","135 ק״מ · ללא אגרה"],["תקציב","150–210 €","לאדם, ללא לינה ורכב"]],
   route:["rezevici","kotor","perast","kotor","tivat","rezevici"],
   stops:[
    {id:"s301", img:"v_kotor_gate", time:"08:00", dur:"75 דק׳", node:"kotor", leg:{km:"42 ק״מ", min:"60–70 דק׳", mode:"נסיעה"},
@@ -771,7 +840,8 @@ const BASE = [
   id:"d4", anchors:{start:{place:"villa", lab:"הבוקר האחרון", title:"הבסיס — צ׳ק־אאוט", note:"אריזה וצ׳ק־אאוט עד 11:00. צלמו את הווילה ביציאה, והשאירו את המפתח לפי הוראות המארח."}, end:{place:"tiv", lab:"סוף הטיול", title:"טיסה מטיווט", note:"הרכב חוזר 15:00–15:30, צ׳ק־אין 15:30, המראה 18:00."}}, tab:"ראשון", date:"27 בספטמבר 2026",
   title:"בוקר איטי, צהריים בטיווט, וטיסה",
   blurb:"יום קצר עם מרווח ביטחון אמיתי. הכול לפני 15:00 ניתן לוויתור; כל מה שאחרי 15:00 קבוע. אם הלילה של שבת נמשך — מוותרים על החוף, לא על הצהריים.",
-  stats:[["מזג אוויר","24° / 18°","ים 24°"],["נהיגה","0:55 שעות","40 ק״מ · ללא אגרה"],["תקציב","60–95 €","לאדם, ללא לינה ורכב"]],
+  outfit:{day:"פולו, מכנס נוח ונעלי נסיעה", evening:"חולצה קלה, מכנס ארוך ושכבה דקה לטיסה"},
+  stats:[["לבוש","צהריים · ערב",""],["נהיגה","0:55 שעות","40 ק״מ · ללא אגרה"],["תקציב","60–95 €","לאדם, ללא לינה ורכב"]],
   route:["rezevici","drobni","tivat","tiv"],
   stops:[
    {id:"s401", img:"v_rezevici", time:"10:00", dur:"60 דק׳", node:"rezevici",
@@ -812,7 +882,9 @@ let days = clone(BASE);
 let active = 0;
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const mapsUrl = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+const mapsUrl = q => q === "Villa Mare Rezevici Budva"
+  ? VILLA_LINK
+  : "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
 const uid = () => "s" + Math.random().toString(36).slice(2, 9);
 
 /* ============== shared state: /api/plan, with a local cache ============== */
@@ -824,12 +896,19 @@ let rev = 0;              // revision this browser last agreed with
 let dirty = false;        // local edits not yet accepted by the server
 let online = false;
 let saveTimer = null, pollTimer = null, saving = false, pendingSave = false;
+const liveWeather = {forecast:null, marine:null, updatedAt:null, error:false};
 
 // saved days predate later fields (anchors, route, stats): fill them from BASE
 function hydrate(loaded){
   return loaded.map((d, i) => {
     const base = BASE.find(x => x.id === d.id) || BASE[i] || {};
-    return Object.assign({}, base, d, { anchors: d.anchors || base.anchors });
+    const stops = (d.stops || base.stops || []).map(s => {
+      const isVillaStop = s.node === "rezevici" &&
+        (s.time === "15:30" || s.time === "09:30") &&
+        (s.title?.includes("צ׳ק־אין") || s.title?.includes("צ'ק־אין") || s.title?.includes("ארוחת בוקר"));
+      return isVillaStop ? Object.assign({}, s, {img:"v_villa"}) : s;
+    });
+    return Object.assign({}, base, d, { anchors: d.anchors || base.anchors, stops });
   });
 }
 function setStatus(text, live){
@@ -936,39 +1015,161 @@ function startSync(){
   window.addEventListener("online", pull);
 }
 
+/* ========================= live weather ========================= */
+const WEATHER_LAT = 42.2179;
+const WEATHER_LON = 18.9219;
+const WEATHER_TZ = "Europe%2FPodgorica";
+const WEATHER_REFRESH_MS = 30 * 60 * 1000;
+const weatherIcon = kind => {
+  if (kind === "moon") return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 15.5A8 8 0 0 1 8.5 5 8.5 8.5 0 1 0 19 15.5Z"/></svg>`;
+  if (kind === "sea") return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8c2.2-2 4.4 2 6.7 0s4.5-2 6.7 0 4.5 2 6.6 0M3 14c2.2-2 4.4 2 6.7 0s4.5-2 6.7 0 4.5 2 6.6 0M3 20c2.2-2 4.4 2 6.7 0s4.5-2 6.7 0 4.5 2 6.6 0"/></svg>`;
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>`;
+};
+const statIcon = lab => {
+  if (lab === "לבוש") return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 4 4-2 4 2 4 4-3 2v11H7V10L4 8l4-4Z"/><path d="M9 4c.5 2 1.5 3 3 3s2.5-1 3-3"/></svg>`;
+  if (lab === "נהיגה") return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2"/><path d="m12 3.5 0 6.5M4.6 16.2 10.3 13M19.4 16.2 13.7 13"/></svg>`;
+  if (lab === "תקציב") return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 6.5c-1-.9-2.2-1.4-3.6-1.4-2.7 0-4.6 2.1-4.6 5s1.9 5 4.6 5c1.4 0 2.6-.5 3.6-1.4M7 8.5h6M7 11.5h6"/></svg>`;
+  return "";
+};
+function weatherDescription(code){
+  if (code === 0) return "בהיר";
+  if ([1,2].includes(code)) return "מעונן חלקית";
+  if (code === 3) return "מעונן";
+  if ([45,48].includes(code)) return "ערפל";
+  if ([51,53,55,56,57].includes(code)) return "טפטוף";
+  if ([61,63,65,66,67,80,81,82].includes(code)) return "גשם";
+  if ([71,73,75,77,85,86].includes(code)) return "שלג";
+  if ([95,96,99].includes(code)) return "סופות";
+  return "מזג אוויר משתנה";
+}
+function weatherDate(day){
+  const match = String(day.date || "").match(/(\d{1,2}) בספטמבר 2026/);
+  return match ? `2026-09-${String(match[1]).padStart(2, "0")}` : "";
+}
+function liveWeatherFor(day){
+  const date = weatherDate(day);
+  const forecast = liveWeather.forecast;
+  const marine = liveWeather.marine;
+  const index = forecast?.daily?.time?.indexOf(date) ?? -1;
+  const seaIndex = marine?.daily?.time?.indexOf(date) ?? -1;
+  if (index < 0) return null;
+  const dailySea = seaIndex >= 0 ? Number(marine.daily.sea_surface_temperature_mean[seaIndex]) : NaN;
+  const currentSea = Number(marine.current?.sea_surface_temperature);
+  return {
+    high: Math.round(forecast.daily.temperature_2m_max[index]),
+    low: Math.round(forecast.daily.temperature_2m_min[index]),
+    code: forecast.daily.weather_code[index],
+    sea: Number.isFinite(dailySea) && dailySea > 0 ? Math.round(dailySea)
+      : Number.isFinite(currentSea) ? Math.round(currentSea) : null
+  };
+}
+async function loadWeather(){
+  const dayIndex = active;
+  const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=${WEATHER_TZ}&forecast_days=16`;
+  const marineUrl = `https://marine-api.open-meteo.com/v1/marine?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}&current=sea_surface_temperature&daily=sea_surface_temperature_mean&timezone=${WEATHER_TZ}&forecast_days=16`;
+  try {
+    const [forecast, marine] = await Promise.all([fetch(forecastUrl), fetch(marineUrl)]);
+    if (!forecast.ok || !marine.ok) throw new Error("weather request failed");
+    liveWeather.forecast = await forecast.json();
+    liveWeather.marine = await marine.json();
+    liveWeather.updatedAt = new Date();
+    liveWeather.error = false;
+  } catch (_) {
+    liveWeather.error = true;
+  }
+  if (dayIndex === active) updateWeatherDisplay();
+}
+function updateWeatherDisplay(){
+  const container = $("#day .live-weather");
+  if (container) container.outerHTML = weatherMarkup(days[active]);
+}
+function weatherMarkup(day){
+  const weather = liveWeatherFor(day);
+  if (!weather){
+    return `<div class="live-weather"><div class="weather-status">${liveWeather.error ? "נתוני מזג האוויר אינם זמינים כרגע" : "טוען נתוני מזג אוויר חיים…"}</div></div>`;
+  }
+  return `<div class="live-weather" aria-label="מזג אוויר חי">
+    <div class="weather-item"><div class="weather-label"><span class="weather-icon">${weatherIcon("sun")}</span>יום:</div><div class="weather-value">${weather.high}°C</div></div>
+    <div class="weather-item"><div class="weather-label"><span class="weather-icon moon">${weatherIcon("moon")}</span>ערב:</div><div class="weather-value">${weather.low}°C</div></div>
+    <div class="weather-item"><div class="weather-label"><span class="weather-icon sea">${weatherIcon("sea")}</span>ים:</div><div class="weather-value">${weather.sea == null ? "—" : `${weather.sea}°C`}</div></div>
+  </div>`;
+}
+
 /* ========================= maps ========================= */
 function routePath(keys){
+  return routeSegments(keys).map(routeSegmentPath).join(" ");
+}
+function routeSegments(keys){
   const pts = keys.map(k => NODES[k]).filter(Boolean);
-  if (pts.length < 2) return "";
-  let d = `M${pts[0].x},${pts[0].y}`;
+  if (pts.length < 2) return [];
+  const segments = [];
   for (let i = 1; i < pts.length; i++){
     const a = pts[i-1], b = pts[i];
     const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
     const nx = -(b.y - a.y), ny = (b.x - a.x);
     const len = Math.hypot(nx, ny) || 1;
     const bow = Math.min(34, len * 0.16);
-    d += ` Q${mx + nx / len * bow},${my + ny / len * bow} ${b.x},${b.y}`;
+    segments.push({a, c:{x:mx + nx / len * bow, y:my + ny / len * bow}, b});
   }
-  return d;
+  return segments;
+}
+function routeSegmentPath({a, c, b}){
+  return `M${a.x},${a.y} Q${c.x},${c.y} ${b.x},${b.y}`;
+}
+function mapViewBox(keys){
+  const segments = routeSegments(keys);
+  const points = segments.flatMap(({a, c, b}) => [a, c, b]);
+  if (!points.length) return `0 52 878 452`;
+
+  let minX = Math.min(...points.map(p => p.x)) - 72;
+  let maxX = Math.max(...points.map(p => p.x)) + 72;
+  let minY = Math.min(...points.map(p => p.y)) - 38;
+  let maxY = Math.max(...points.map(p => p.y)) + 38;
+  let width = maxX - minX;
+  let height = maxY - minY;
+
+  if (width / height < MAP_ASPECT) {
+    const expanded = height * MAP_ASPECT - width;
+    minX -= expanded / 2; maxX += expanded / 2;
+  } else {
+    const expanded = width / MAP_ASPECT - height;
+    minY -= expanded / 2; maxY += expanded / 2;
+  }
+  width = maxX - minX; height = maxY - minY;
+  return `${minX.toFixed(2)} ${minY.toFixed(2)} ${width.toFixed(2)} ${height.toFixed(2)}`;
+}
+function routeTravelers(keys){
+  return routeSegments(keys).map((segment, i) => `
+    <path class="route-traveler" d="M14 0 L-11 -8 L-7 0 L-11 8 Z" fill="var(--route)" aria-hidden="true">
+      <animateMotion dur="2.4s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#route-segment-${i}"/>
+      </animateMotion>
+    </path>`).join("");
 }
 function overviewMap(day){
   const seen = [];
   day.route.forEach(k => { if (!seen.includes(k)) seen.push(k); });
   const dots = seen.map(k => {
     const n = NODES[k];
-    const flipped = n.x > 600;
+    const labelX = n.x + (n.labelDx ?? 0);
+    const labelY = n.y + (n.labelDy ?? -15);
     return `<g>
       <circle cx="${n.x}" cy="${n.y}" r="7.5" fill="var(--surface)" stroke="var(--route)" stroke-width="3"/>
-      <text x="${n.x + (flipped ? -14 : 14)}" y="${n.y + 5}" text-anchor="${flipped ? "end" : "start"}"
+      <text x="${labelX}" y="${labelY}" text-anchor="middle" direction="rtl"
             font-family="Assistant, sans-serif" font-size="15" font-weight="600" fill="var(--text)">${esc(n.label)}</text>
     </g>`;
   }).join("");
-  return `<svg viewBox="${VIEWBOX}" role="img" aria-label="מפה סכמטית של מסלול היום">
+  const segments = routeSegments(day.route);
+  return `<svg viewBox="${mapViewBox(day.route)}" role="img" aria-label="מפה סכמטית של מסלול היום">
+    <defs>
+      ${segments.map((segment, i) => `<path id="route-segment-${i}" d="${routeSegmentPath(segment)}" fill="none"/>`).join("")}
+    </defs>
     <path d="${SEA_PATH}" fill="var(--water)"/>
     <path d="${BAY_MAIN}" fill="none" stroke="var(--water)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="${BAY_ARM}" fill="none" stroke="var(--water)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
     <path class="routeline" d="${routePath(day.route)}" fill="none" stroke="var(--route)" stroke-width="3.2"
           stroke-linecap="round" stroke-dasharray="9 8" opacity=".95"/>
+    <g class="route-travelers" aria-hidden="true">${routeTravelers(day.route)}</g>
     ${dots}
   </svg>`;
 }
@@ -1126,18 +1327,19 @@ function anchorCard(a, side){
 
 function stopView(s, i, n, prev, special){
   const legHtml = legMap(s.leg || null, prev, s);
+  const villaStop = s.id === "s105";
   const ph = PHOTOS[s.img];
   const src = s.photoUrl || (ph ? ph.f : "");
   const caption = s.photoUrl ? (s.title || "") : (ph ? ph.l : "");
   const venueUrl = mapsUrl(s.maps || s.addr || s.title);
   return `${legHtml}
-  <article class="stop${special ? " special" : ""}" data-i="${i}">
+  <article class="stop${special ? " special" : ""}${villaStop ? " villa-stop" : ""}" data-i="${i}">
     <div class="when">
       <span class="node"></span>
       <div class="hhmm">${esc(s.time)}</div>
       <div class="dur">${esc(s.dur || "")}</div>
     </div>
-    <div class="card${special ? " special" : ""}" data-card="${i}">
+    <div class="card${special ? " special" : ""}${villaStop ? " villa-stop" : ""}" data-card="${i}">
       <div class="card-grid">
         <div>
           ${special ? `<span class="speclab">${esc(special.lab)}</span>` : ""}
@@ -1171,15 +1373,19 @@ function stopView(s, i, n, prev, special){
         </figure>
       </div>
       <div class="actions">
-        <button class="btn" data-act="edit" data-i="${i}">ערוך</button>
-        <button class="btn icon" data-act="up" data-i="${i}" ${i === 0 ? "disabled" : ""} aria-label="הזז למעלה">↑</button>
-        <button class="btn icon" data-act="down" data-i="${i}" ${i === n - 1 ? "disabled" : ""} aria-label="הזז למטה">↓</button>
-        <span class="spacer"></span>
-        <button class="btn danger" data-act="del" data-i="${i}">מחק</button>
+        <div class="action-menu">
+          <button class="btn menu-toggle" type="button" aria-label="אפשרויות עריכה" aria-expanded="false">⋮</button>
+          <div class="action-menu-panel" role="menu">
+            <button class="btn" type="button" role="menuitem" data-act="edit" data-i="${i}">ערוך</button>
+            <button class="btn" type="button" role="menuitem" data-act="up" data-i="${i}" ${i === 0 ? "disabled" : ""}>הזז למעלה ↑</button>
+            <button class="btn" type="button" role="menuitem" data-act="down" data-i="${i}" ${i === n - 1 ? "disabled" : ""}>הזז למטה ↓</button>
+            <button class="btn danger" type="button" role="menuitem" data-act="del" data-i="${i}">מחק</button>
+          </div>
+        </div>
       </div>
     </div>
   </article>
-  <div class="insert"><button type="button" data-act="add" data-i="${i}">+ הוסף תחנה כאן</button></div>`;
+  <div class="insert"><button type="button" aria-label="הוסף תחנה" data-act="add" data-i="${i}"><span class="insert-plus" aria-hidden="true">+</span><span class="insert-label">הוסף תחנה</span></button></div>`;
 }
 
 function stopEdit(s, i){
@@ -1239,7 +1445,7 @@ function stopEdit(s, i){
       </div>
     </div>
   </article>
-  <div class="insert"><button type="button" data-act="add" data-i="${i}">+ הוסף תחנה כאן</button></div>`;
+  <div class="insert"><button type="button" aria-label="הוסף תחנה" data-act="add" data-i="${i}"><span class="insert-plus" aria-hidden="true">+</span><span class="insert-label">הוסף תחנה</span></button></div>`;
 }
 
 let editing = null;
@@ -1268,13 +1474,16 @@ function render(i, animate = true){
   const tailHtml = (A.end && !mergeEnd) ? (legMap(A.end.leg || null, last, endStop) + anchorCard(A.end, "end")) : "";
   $("#day").innerHTML = `
     <section class="dayhead">
-      <div class="kicker">יום ${i + 1} · ${esc(d.tab)} · ${esc(d.date)}</div>
-      <h2>${esc(d.title)}</h2>
-      <p class="blurb">${esc(d.blurb)}</p>
-      <div class="stats">
-        ${d.stats.map(([lab, val, note]) => `
-          <div class="stat"><div class="lab">${esc(lab)}</div>
-          <div class="val">${esc(val)}</div><div class="note">${esc(note)}</div></div>`).join("")}
+      <div class="day-summary">
+        <div class="kicker">יום ${i + 1} · ${esc(d.tab)} · ${esc(d.date)}</div>
+        <h2>${esc(d.title)}</h2>
+        <p class="blurb">${esc(d.blurb)}</p>
+        ${weatherMarkup(d)}
+        <div class="stats">
+          ${d.stats.map(([lab, val, note]) => `
+            <div class="stat${lab === "לבוש" ? " outfit-stat" : ""}"><div class="lab"><span class="stat-icon" aria-hidden="true">${statIcon(lab)}</span>${esc(lab)}</div>
+            ${lab === "לבוש" ? `<div class="outfit-line"><span class="outfit-icon">☀</span>${esc(d.outfit?.day || val)}</div><div class="outfit-line"><span class="outfit-icon">☾</span>${esc(d.outfit?.evening || note)}</div>` : `<div class="val">${esc(val)}</div><div class="note">${esc(note)}</div>`}</div>`).join("")}
+        </div>
       </div>
       <div class="mapcard">
         <header>
@@ -1286,7 +1495,7 @@ function render(i, animate = true){
     </section>
     <section class="timeline">
       ${headHtml}
-      <div class="insert first"><button type="button" data-act="add" data-i="-1">+ הוסף תחנה בתחילת היום</button></div>
+      <div class="insert first"><button type="button" aria-label="הוסף תחנה" data-act="add" data-i="-1"><span class="insert-plus" aria-hidden="true">+</span><span class="insert-label">הוסף תחנה</span></button></div>
       ${stopsHtml}
       ${tailHtml}
     </section>
@@ -1316,7 +1525,11 @@ function drawRoute(delay){
   const len = p.getTotalLength();
   gsap.set(p, {strokeDasharray: len, strokeDashoffset: len, opacity: 1});
   gsap.to(p, {strokeDashoffset: 0, duration: 1.15, ease: "power2.inOut", delay,
-    onComplete: () => { p.style.strokeDasharray = "9 8"; p.style.strokeDashoffset = "0"; }});
+    onComplete: () => {
+      p.style.strokeDasharray = "9 8";
+      p.style.strokeDashoffset = "0";
+      p.classList.add("is-drawn");
+    }});
 }
 function go(i){
   if (i === active) return;
@@ -1355,6 +1568,29 @@ function blank(){
           title:"תחנה חדשה", kicker:"", body:"", addr:"", maps:"", move:"", alt:"", img:""};
 }
 function bind(){
+  if (!document.body.dataset.actionMenusBound){
+    document.addEventListener("click", () => closeActionMenus());
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeActionMenus(); });
+    document.body.dataset.actionMenusBound = "true";
+  }
+  $("#day").querySelectorAll(".menu-toggle").forEach(toggle => {
+    toggle.addEventListener("click", e => {
+      e.stopPropagation();
+      const menu = toggle.closest(".action-menu");
+      const open = menu.classList.contains("open");
+      closeActionMenus();
+      if (!open){
+        menu.classList.add("open");
+        toggle.setAttribute("aria-expanded", "true");
+        requestAnimationFrame(() => {
+          const panel = menu.querySelector(".action-menu-panel");
+          const rect = panel.getBoundingClientRect();
+          const belowFits = toggle.getBoundingClientRect().bottom + rect.height + 8 <= innerHeight - 8;
+          menu.classList.toggle("below", rect.top < 8 && belowFits);
+        });
+      }
+    });
+  });
   $("#day").querySelectorAll('input[type=file][data-act="upload"]').forEach(inp => {
     inp.addEventListener("change", async () => {
       const file = inp.files && inp.files[0];
@@ -1407,6 +1643,13 @@ function bind(){
     });
   });
 }
+function closeActionMenus(){
+  document.querySelectorAll(".action-menu.open").forEach(menu => {
+    menu.classList.remove("open");
+    menu.classList.remove("below");
+    menu.querySelector(".menu-toggle")?.setAttribute("aria-expanded", "false");
+  });
+}
 function scrollToCard(i){
   requestAnimationFrame(() => {
     const el = $("#day").querySelectorAll(".stop")[i];
@@ -1429,6 +1672,8 @@ navVillaBtn.addEventListener("click", () => {
 /* ========================= boot ========================= */
 loadLocal();
 render(0);
+loadWeather();
+setInterval(loadWeather, WEATHER_REFRESH_MS);
 window.addEventListener("resize", moveInk);
 startSync();
 </script>
