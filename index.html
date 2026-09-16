@@ -425,6 +425,11 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
 }
+.villa-nav-button{
+  background:var(--gold-soft);
+  color:var(--gold);
+  border-color:var(--gold);
+}
 </style>
 
 </head>
@@ -442,6 +447,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
         <button class="ghost" id="shareBtn" type="button">שיתוף</button>
         <button class="ghost" id="resetAll" type="button">איפוס</button>
         <button class="ghost" id="themeBtn" type="button">מצב כהה</button>
+        <button class="ghost villa-nav-button" id="navVillaBtn" type="button">🏠 נווט לוילה</button>
       </div>
     </div>
   </header>
@@ -1440,6 +1446,15 @@ themeBtn.addEventListener("click", () => {
   document.documentElement.setAttribute("data-theme", currentDark() ? "light" : "dark");
   isolate(document.querySelector(".masthead"));
 syncThemeBtn();
+});
+
+/* ========================= villa navigation ========================= */
+const navVillaBtn = $("#navVillaBtn");
+navVillaBtn.addEventListener("click", () => {
+  const villa = PLACES.villa;
+  if (villa && villa.link) {
+    window.open(villa.link, "_blank");
+  }
 });
 
 /* ========================= boot ========================= */
