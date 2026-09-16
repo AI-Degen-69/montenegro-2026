@@ -112,7 +112,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   position:sticky; top:0; z-index:40; background:color-mix(in srgb, var(--paper) 88%, transparent);
   backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
 }
-.rail-inner{display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; position:relative}
+.rail-inner{display:flex; justify-content:center; gap:4px; overflow-x:auto; scrollbar-width:none; position:relative}
 .rail-inner::-webkit-scrollbar{display:none}
 .tab{
   background:none; border:0; padding:15px 16px 13px; white-space:nowrap;
@@ -438,15 +438,11 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   <header class="masthead">
     <div class="masthead-row">
       <div>
-        <div class="eyebrow">מסלול פרטי · ניתן לעריכה</div>
         <h1>ארבעה ימים במונטנגרו</h1>
         <p class="sub">24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו</p>
       </div>
       <div class="tools">
         <span class="pill" id="statusPill"><span class="dot"></span><span id="statusText">טוען…</span></span>
-        <button class="ghost" id="shareBtn" type="button">שיתוף</button>
-        <button class="ghost" id="resetAll" type="button">איפוס</button>
-        <button class="ghost" id="themeBtn" type="button">מצב כהה</button>
         <button class="ghost villa-nav-button" id="navVillaBtn" type="button">🏠 נווט לוילה</button>
       </div>
     </div>
@@ -1421,33 +1417,6 @@ function scrollToCard(i){
   });
 }
 
-/* ========================= share ========================= */
-const shareBtn = $("#shareBtn");
-shareBtn.addEventListener("click", async () => {
-  const data = {title: "ארבעה ימים במונטנגרו",
-                text: "מסלול מונטנגרו · 24–27.9.2026", url: location.href};
-  try {
-    if (navigator.share){ await navigator.share(data); return; }
-    await navigator.clipboard.writeText(location.href);
-    shareBtn.textContent = "הקישור הועתק";
-    setTimeout(() => { shareBtn.textContent = "שיתוף"; }, 1800);
-  } catch (_) {}
-});
-
-/* ========================= theme ========================= */
-const themeBtn = $("#themeBtn");
-function currentDark(){
-  const explicit = document.documentElement.getAttribute("data-theme");
-  if (explicit) return explicit === "dark";
-  return matchMedia("(prefers-color-scheme: dark)").matches;
-}
-function syncThemeBtn(){ themeBtn.textContent = currentDark() ? "מצב בהיר" : "מצב כהה"; }
-themeBtn.addEventListener("click", () => {
-  document.documentElement.setAttribute("data-theme", currentDark() ? "light" : "dark");
-  isolate(document.querySelector(".masthead"));
-syncThemeBtn();
-});
-
 /* ========================= villa navigation ========================= */
 const navVillaBtn = $("#navVillaBtn");
 navVillaBtn.addEventListener("click", () => {
@@ -1458,13 +1427,9 @@ navVillaBtn.addEventListener("click", () => {
 });
 
 /* ========================= boot ========================= */
-syncThemeBtn();
 loadLocal();
 render(0);
 window.addEventListener("resize", moveInk);
-$("#resetAll").addEventListener("click", () => {
-  if (confirm("לאפס את המסלול למקור? זה משנה את מה שכולם רואים.")) clearLocal();
-});
 startSync();
 </script>
 
