@@ -204,6 +204,13 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .when-end{margin-top:auto; padding-top:18px; display:flex; flex-direction:column; align-items:flex-end}
 .when-end .hhmm{color:var(--text)}
 .when-end:empty{display:none}
+.stop .node-end{
+  position:absolute; left:16px; bottom:22px; width:11px; height:11px; border-radius:50%;
+  background:var(--surface); border:2.5px solid var(--red); transform:translateX(-50%);
+  z-index:2;
+}
+.stop.anchor .node-end{display:none}
+.stop.special .node-end{border-color:var(--gold)}
 
 .card{
   background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--radius);
@@ -213,8 +220,11 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .card:hover{border-color:var(--line)}
 .stop.anchor .when{padding-block:16px}
 .stop.anchor .node{
-  width:13px; height:13px; border-radius:3px; background:var(--gold);
-  border:0; top:24px; transform:translateX(-50%) rotate(45deg);
+  width:14px; height:14px; border-radius:0; background:#fff;
+  border:1px solid #111; top:22px; transform:translateX(-50%);
+  clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Crect width='4' height='4' fill='black'/%3E%3Crect x='4' y='4' width='4' height='4' fill='black'/%3E%3C/svg%3E");
+  background-size:8px 8px;
 }
 .stop.anchor .tag{
   font-size:10px; letter-spacing:.14em; font-weight:700; color:var(--gold);
@@ -521,7 +531,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   .stop .when::before{left:8px}
   .stop .node{left:8px}
   .stop.anchor .node, .stop.special .node{left:8px}
-  .stop .hhmm, .stop .dur, .when-end{display:none}
+  .stop .hhmm, .stop .dur, .when-end, .stop .node-end{display:none}
   .card-time{display:block; font-size:12px; color:var(--gold); font-weight:700; letter-spacing:.04em; margin-bottom:4px}
   .card-end{display:flex; align-items:center; gap:6px; margin-top:12px; padding-top:10px; border-top:1px dashed var(--line-soft); font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--faint); letter-spacing:.02em}
   .leg{grid-template-columns:26px minmax(0,1fr)}
@@ -591,7 +601,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   <header class="masthead">
     <div class="masthead-row">
       <div>
-        <h1>Monti 26' Bitches >< <span id="buildVer" style="font-size:12px;font-weight:400;opacity:.7;vertical-align:middle">v8 · שעת סיום בציר</span></h1>
+        <h1>Monti 26' Bitches >< <span id="buildVer" style="font-size:12px;font-weight:400;opacity:.7;vertical-align:middle">v9 · דגלים ונקודות אדומות</span></h1>
         <p class="sub">24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו</p>
         <p class="countdown" id="tripCount"></p>
       </div>
@@ -1468,7 +1478,7 @@ function stopView(s, i, n, prev, special, nextStop){
         <div class="hhmm">${esc(s.time)}</div>
         <div class="dur">${esc(s.dur || "")}</div>
       </div>
-      ${(() => { const et = calcEndTime(s.time, s.dur); if(!et) return ""; return `<div class="when-end"><div class="hhmm">${esc(et)}</div></div>`; })()}
+      ${(() => { const et = calcEndTime(s.time, s.dur); if(!et) return ""; return `<div class="when-end"><div class="hhmm">${esc(et)}</div></div><span class="node node-end"></span>`; })()}
     </div>
     <div class="card${special ? " special" : ""}${villaStop ? " villa-stop" : ""}" data-card="${i}">
       <div class="card-grid">
