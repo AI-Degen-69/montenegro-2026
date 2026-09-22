@@ -1,6 +1,6 @@
 /* Offline shell for the trip page. Images + app frame work offline.
    Live data (/api/plan, weather, Google Maps links) still needs internet. */
-const CACHE = "mne2026-v1";
+const CACHE = "mne2026-v19";
 const SHELL = [
   "./",
   "./index.html",

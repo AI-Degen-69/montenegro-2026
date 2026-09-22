@@ -194,9 +194,9 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 }
 .stop:first-child .when::before{top:30px}
 .stop .node{
-  position:absolute; left:16px; top:22px; width:11px; height:11px; border-radius:50%;
-  background:var(--surface); border:2.5px solid var(--start); transform:translateX(-50%);
-  z-index:2;
+  position:absolute; left:16px; top:22px; width:14px; height:14px; border-radius:50%;
+  background:var(--start) !important; border:2px solid #0F212B !important; box-shadow:0 0 0 2px var(--start) !important; transform:translateX(-50%);
+  z-index:3;
 }
 .stop .hhmm{font-family:"IBM Plex Mono",monospace; font-size:17px; font-weight:500; letter-spacing:-.02em}
 .stop .dur{font-size:11px; color:var(--gold); font-weight:700; margin-top:2px; letter-spacing:.04em}
@@ -205,9 +205,9 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .when-end .hhmm{color:var(--text)}
 .when-end:empty{display:none}
 .stop .node-end{
-  position:absolute; left:16px; bottom:22px; width:11px; height:11px; border-radius:50%;
-  background:var(--surface); border:2.5px solid var(--red); transform:translateX(-50%);
-  z-index:2;
+  position:absolute; left:16px; bottom:22px; width:14px; height:14px; border-radius:50%;
+  background:var(--end) !important; border:2px solid #0F212B !important; box-shadow:0 0 0 2px var(--end) !important; transform:translateX(-50%);
+  z-index:3;
 }
 .stop.anchor .node-end{display:none}
 .stop.special .node-end{border-color:var(--gold)}
@@ -593,6 +593,125 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   }
   .insert-label{max-width:86px; opacity:1}
 }
+.stop .when-top .hhmm{color:var(--start)}
+.stop .when-end .hhmm{color:var(--end)}
+        .card { position: relative; }
+.category-meal::before {
+  content: "TEST";
+  background: red;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  opacity: 0.05;
+  overflow: hidden;
+  z-index: -1;
+  transform: rotate(15deg);
+  white-space: nowrap;
+  letter-spacing: 20px;
+}
+.category-chore::before {
+  content: "🧹🧺🧽📦🔧🚗🧹🧺🧽📦🔧🚗";
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  opacity: 0.05;
+  overflow: hidden;
+  z-index: -1;
+  transform: rotate(15deg);
+  white-space: nowrap;
+  letter-spacing: 20px;
+}
+.category-tourism::before {
+  content: "🏛️🗺️🏰🏖️🏔️🚶‍♂️🏛️🗺️🏰🏖️🏔️🚶‍♂️";
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  opacity: 0.05;
+  overflow: hidden;
+  z-index: -1;
+  transform: rotate(15deg);
+  white-space: nowrap;
+  letter-spacing: 20px;
+}
+.category-beach::before {
+  content: "🏖️🌊🏄‍♂️🤿🐚☀️🏖️🌊🏄‍♂️🤿🐚☀️";
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  opacity: 0.05;
+  overflow: hidden;
+  z-index: -1;
+  transform: rotate(15deg);
+  white-space: nowrap;
+  letter-spacing: 20px;
+}
+.category-party-nightlife::before {
+  content: "🎉🥳🍸🎶💃🕺🎉🥳🍸🎶💃🕺";
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  opacity: 0.05;
+  overflow: hidden;
+  z-index: -1;
+  transform: rotate(15deg);
+  white-space: nowrap;
+  letter-spacing: 20px;
+}
+.category-drinks-quick-grab::before {
+  content: "🍷🍸🥂🍹🧃☕🍷🍸🥂🍹🧃☕";
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  opacity: 0.05;
+  overflow: hidden;
+  z-index: -1;
+  transform: rotate(15deg);
+  white-space: nowrap;
+  letter-spacing: 20px;
+}
+.card[class*="category-"] { outline: 5px solid lime !important; }
 </style>
 
 </head>
@@ -601,13 +720,12 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   <header class="masthead">
     <div class="masthead-row">
       <div>
-        <h1>Monti 26' Bitches >< <span id="buildVer" style="font-size:12px;font-weight:400;opacity:.7;vertical-align:middle">v9 · תיקון צבעים</span></h1>
+        <h1>Monti 26' Bitches >< <span id="buildVer" style="font-size:12px;font-weight:400;opacity:.7;vertical-align:middle">v14 · ירוק התחלה אדום סיום</span></h1>
         <p class="sub">24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו</p>
         <p class="countdown" id="tripCount"></p>
       </div>
       <div class="tools">
-        <span class="pill" id="statusPill"><span class="dot"></span><span id="statusText">טוען…</span></span>
-        <button class="ghost villa-nav-button" id="navVillaBtn" type="button">🏠 נווט לוילה</button>
+                <button class="ghost villa-nav-button" id="navVillaBtn" type="button">🏠 נווט לוילה</button>
       </div>
     </div>
   </header>
@@ -993,6 +1111,39 @@ function calcEndTime(time, dur) {
   return String(eh).padStart(2, "0") + ":" + String(em).padStart(2, "0");
 }
 
+function getCategory(stop) {
+  const map = {
+    s101b: 'Chore',
+    s102: 'Meal',
+    s103: 'Tourism',
+    s104: 'Chore',
+    s106: 'Meal',
+    s107: 'Drinks/Quick Grab',
+    s108: 'Party/Nightlife',
+    s201: 'Meal',
+    s203n: 'Beach',
+    s204n: 'Meal',
+    s206: 'Tourism',
+    s207: 'Meal',
+    s208: 'Drinks/Quick Grab',
+    s209: 'Party/Nightlife',
+    s302: 'Tourism',
+    s303: 'Tourism',
+    s304: 'Tourism',
+    s306: 'Meal',
+    s307: 'Tourism',
+    s308: 'Tourism',
+    s309: 'Drinks/Quick Grab',
+    s310: 'Meal',
+    s311: 'Drinks/Quick Grab',
+    s401b: 'Chore',
+    s402: 'Beach',
+    s403: 'Meal',
+    s404: 'Chore'
+  };
+  return map[stop.id] || '';
+}
+
 /* ========================= state ========================= */
 const clone = o => JSON.parse(JSON.stringify(o));
 let days = clone(BASE);
@@ -1031,9 +1182,7 @@ function hydrate(loaded){
   });
 }
 function setStatus(text, live){
-  const t = $("#statusText"); if (!t) return;
-  t.textContent = text;
-  $("#statusPill").classList.toggle("live", !!live);
+  // status pill removed, no-op
 }
 function cacheLocal(){
   try { localStorage.setItem(STORE_KEY, JSON.stringify({days, rev})); } catch (_) {}
@@ -1470,6 +1619,8 @@ function stopView(s, i, n, prev, special, nextStop){
   const venueUrl = mapsUrl(s.maps || s.addr || s.title);
   const shareText = `${s.time || ""} · ${s.title || ""}\n${s.addr || ""}\n${venueUrl}`;
   const shareUrl = "https://wa.me/?text=" + encodeURIComponent(shareText);
+  const cat = getCategory(s);
+  const catClass = cat ? `category-${cat.toLowerCase().replace(/\s+/g, '-')}` : '';
   return `${legHtml}
   <article class="stop${special ? " special" : ""}${villaStop ? " villa-stop" : ""}" data-i="${i}">
     <div class="when">
@@ -1480,10 +1631,11 @@ function stopView(s, i, n, prev, special, nextStop){
       </div>
       ${(() => { const et = calcEndTime(s.time, s.dur); if(!et) return ""; return `<div class="when-end"><div class="hhmm">${esc(et)}</div></div><span class="node node-end"></span>`; })()}
     </div>
-    <div class="card${special ? " special" : ""}${villaStop ? " villa-stop" : ""}" data-card="${i}">
+    <div class="card${special ? " special" : ""}${villaStop ? " villa-stop" : ""} ${catClass}" data-card="${i}">
       <div class="card-grid">
         <div class="card-main">
           <div class="card-time mono">${esc(s.time)}${s.dur ? ` · ${esc(s.dur)}` : ""}</div>
+          <div class="category-label">${getCategory(s)}</div>
           ${special ? `<span class="speclab">${esc(special.lab)}</span>` : ""}
           <h3>${esc(s.title)}</h3>
           ${(!s.body && s.kicker) ? `<p class="kick">${esc(s.kicker)}</p>` : ""}
@@ -1835,8 +1987,10 @@ navVillaBtn.addEventListener("click", () => {
 /* ========================= boot ========================= */
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
+    navigator.serviceWorker.register("./sw.js?v=12").catch(() => {});
+    if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage({type:"SKIP_WAITING"});
   });
+  navigator.serviceWorker.addEventListener("controllerchange", () => location.reload());
 }
 function tripDayIndex(){
   const today = new Date(); today.setHours(0, 0, 0, 0);
