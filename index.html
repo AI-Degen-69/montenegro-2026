@@ -181,12 +181,12 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .timeline{margin-top:30px; padding-bottom:70px}
 .stop{
   display:grid; grid-template-columns:96px minmax(0,1fr); gap:0;
-  position:relative;
+  position:relative; align-items:stretch;
 }
 .stop .when{
   position:relative; padding:14px 14px 14px 30px; text-align:right;
   display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end;
-  min-height:100%;
+  height:100%; min-height:100%; align-self:stretch;
 }
 .stop .when::before{
   content:""; position:absolute; top:0; bottom:0; left:15px;
@@ -601,7 +601,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   <header class="masthead">
     <div class="masthead-row">
       <div>
-        <h1>Monti 26' Bitches >< <span id="buildVer" style="font-size:12px;font-weight:400;opacity:.7;vertical-align:middle">v9 · דגלים ונקודות אדומות</span></h1>
+        <h1>Monti 26' Bitches >< <span id="buildVer" style="font-size:12px;font-weight:400;opacity:.7;vertical-align:middle">v9 · תיקון צבעים</span></h1>
         <p class="sub">24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו</p>
         <p class="countdown" id="tripCount"></p>
       </div>
