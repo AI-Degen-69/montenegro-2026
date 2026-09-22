@@ -585,7 +585,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   <header class="masthead">
     <div class="masthead-row">
       <div>
-        <h1>Monti 26' Bitches >< <span id="buildVer" style="font-size:12px;font-weight:400;opacity:.7;vertical-align:middle">v6 · שבת בלי כרטיס נסיעה</span></h1>
+        <h1>Monti 26' Bitches >< <span id="buildVer" style="font-size:12px;font-weight:400;opacity:.7;vertical-align:middle">v7 · פיצול נחיתה/איסוף</span></h1>
         <p class="sub">24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו</p>
         <p class="countdown" id="tripCount"></p>
       </div>
@@ -641,6 +641,7 @@ const BAY_MAIN = "M46,150 L130,146 L200,152 L238,114 L252,70 L300,124 L326,172";
 const BAY_ARM  = "M200,152 L208,188 L248,178";
 const MAP_ASPECT = 878 / 452;
 const VILLA_LINK = "https://maps.app.goo.gl/8DeAXyLx8XTjKcYj9";
+const RENTAL_LINK = "https://maps.app.goo.gl/guziuzQE3o1xDA4j8";
 
 const PLACES = {
   villa:{
@@ -684,6 +685,7 @@ const PHOTOS = {
   v_bokka:{f:"img/v_bokka.jpg", l:"Bokka Modern", g:"https://www.google.com/maps/search/?api=1&query=Bokka%20Modern%20Tivat", v:1},
   v_alposto:{f:"img/v_alposto.jpg", l:"Al Posto Giusto", g:"https://www.google.com/maps/search/?api=1&query=Al%20Posto%20Giusto%20Porto%20Montenegro", v:1},
   v_gas:{f:"img/v_gas.jpg", l:"תחנת הדלק לפני השדה", g:"https://www.google.com/maps/search/?api=1&query=EKO%20gas%20station%20Tivat", v:1},
+  v_rental:{f:"img/v_rental.jpg?v=2", l:"Abeona Rent A Car, Tivat", g:RENTAL_LINK, v:1},
   tivat_arrive:{f:"img/tivat_arrive.jpg", l:"טיווט ושדה התעופה", g:"https://commons.wikimedia.org/wiki/Category:Tivat"},
   budva_old:{f:"img/budva_old.jpg", l:"בודווה — העיר העתיקה", g:"https://commons.wikimedia.org/wiki/Category:Budva"},
   budva_citadel:{f:"img/budva_citadel.jpg", l:"הציטדלה של בודווה", g:"https://www.google.com/search?udm=2&q=Budva%20Citadela"},
@@ -719,20 +721,25 @@ const PHOTOS = {
    ========================================================= */
 const BASE = [
 {
-  id:"d1", anchors:{start:{place:"tiv", lab:"תחילת הטיול", title:"נחיתה בטיווט", link:false, note:""}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"58.1 ק״מ", min:"66 דק׳", mode:"נסיעה"}, note:"70 ק״מ מפודגוריצה דרך מנהרת Sozina, כ־1:10 בלילה. נהג תורן — סף האלכוהול 0.03%."}}, tab:"חמישי", date:"24 בספטמבר 2026",
+  id:"d1", anchors:{start:{place:"tiv", lab:"תחילת הטיול", title:"נחיתה בטיווט", link:false, note:""}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"58.1 ק״מ", min:"66 דק׳"}, note:"70 ק״מ מפודגוריצה דרך מנהרת Sozina, כ־1:10 בלילה. נהג תורן — סף האלכוהול 0.03%."}}, tab:"חמישי", date:"24 בספטמבר 2026",
   title:"נחיתה, בודווה, ולילה בפודגוריצה",
   blurb:"יום שמתחיל בשדה תעופה קטן ונגמר במועדון טכנו. ההיגיון שלו הוא ניצול אור היום בחוף ושמירת האנרגיה של הערב לבירה — עם עצירת מנוחה של שעתיים באמצע, שהיא מה שמאפשר את הלילה.",
   outfit:{day:"טי־שירט נושם, מכנס קל ונעלי הליכה", evening:"חולצת אוברשירט, מכנס ארוך ונעליים סגורות"},
   stats:[["לבוש","צהריים · ערב",""],["נהיגה","3:10 שעות","165 ק״מ · אגרה 5 €"],["תקציב","125–170 €","לאדם, ללא לינה ורכב"]],
   route:["tiv","budva","rezevici","podgorica","rezevici"],
   stops:[
-   {id:"s101", img:"v_tivat_airport", time:"10:00", dur:"60 דק׳", node:"tiv",
-    title:"נחיתה בטיווט (TIV) ואיסוף הרכב",
-    kicker:"שדה קטן, יציאה מהירה — דלפק ההשכרה הוא צוואר הבקבוק היחיד",
-    body:"תכננו 45–60 דקות מהרגע שהגלגלים נוגעים ועד שהרכב בחוץ. לפני היציאה: צילום וידאו סביב הרכב, בדיקת גלגל רזרבי ואפוד זוהר (חובה חוקית). מונטנגרו אינה דורשת מדבקת כביש — אל תקנו ויניטה.",
-    addr:"Tivat Airport (TIV), Tivat 85320", maps:"Tivat Airport Montenegro",
+   {id:"s101", img:"v_tivat_airport", time:"10:00", dur:"30 דק׳", node:"tiv",
+    title:"נחיתה בטיווט (TIV)",
+    kicker:"שדה קטן, יציאה מהירה",
+    body:"נחיתה ב־10:00. הדרכונים מהירים, המזוודות לפעמים פחות — תכננו חצי שעה עד היציאה מהטרמינל.",
+    addr:"Tivat Airport (TIV), Tivat 85320", maps:"Tivat Airport Montenegro"},
+   {id:"s101b", img:"v_rental", time:"10:30", dur:"30 דק׳", node:"tiv", leg:{km:"500 מ׳", min:"2 דק׳", mode:"הליכה"},
+    title:"איסוף הרכב — Abeona Rent A Car",
+    kicker:"דלפק ההשכרה הוא צוואר הבקבוק היחיד",
+    body:"צילום וידאו סביב הרכב, בדיקת גלגל רזרבי ואפוד זוהר (חובה חוקית). מונטנגרו אינה דורשת מדבקת כביש — אל תקנו ויניטה.",
+    addr:"Abeona Rent A Car Montenegro, Tivat", maps:RENTAL_LINK,
     alt:"אם הרכב מתעכב מעבר לשעה — שבו בבית הקפה בטרמינל ואל תזיזו את הצהריים. Mlin מחזיק שולחן כ־20 דקות בשיחת טלפון."},
-   {id:"s102", img:"v_mlin", time:"12:00", dur:"90 דק׳", node:"budva", leg:{km:"20 ק״מ", min:"30–35 דק׳", mode:"נסיעה"},
+   {id:"s102", img:"v_mlin", time:"12:00", dur:"90 דק׳", node:"budva", leg:{km:"20 ק״מ", min:"30–35 דק׳"},
     title:"צהריים ב־Restoran Mlin",
     kicker:"קונובה בלב העיר העתיקה, בנויה סביב בית בד בן 400 שנה",
     body:"הבעלים דג בעצמו, ולכן התפריט קצר וישיר: דגת היום על הגריל, תמנון, בוזרה. הפנים קומפקטי ומתמלא. 20–30 € לאדם עם יין בית.",
@@ -746,14 +753,14 @@ const BASE = [
     addr:"Stari Grad, Budva 85310", maps:"Budva Old Town",
     move:"הקפה מלאה של הרובע: 25 דק׳ · משער לשער: 8 דק׳",
     alt:"שמש כבדה מדי? החצרות הפנימיות מאחורי כנסיית Sveti Ivan בצל מלא כל אחר הצהריים."},
-   {id:"s104", img:"budva_view", time:"14:30", dur:"45 דק׳", node:"budva", leg:{km:"על הדרך", min:"ללא סטייה", mode:"נסיעה"},
+   {id:"s104", img:"budva_view", time:"14:30", dur:"45 דק׳", node:"budva", leg:{km:"על הדרך", min:"ללא סטייה"},
     title:"קניות לווילה — HDL / Voli",
     kicker:"הרגע הכי לא זוהר ביום, וגם הכי משתלם",
     body:"מים, קפה, פירות, לחם, גבינה, ויין מקומי — Vranac אדום או Krstač לבן, 6–12 € לבקבוק טובה. 30–50 € לכל הווילה יחסכו ארוחת בוקר בחוץ בכל אחד מהימים הבאים.",
     addr:"Voli / HDL Market, Jadranski put, Budva", maps:"Voli supermarket Budva",
     move:"על הדרך מבודווה לווילה — בלי סטייה",
     alt:"סגור או עמוס? Mercator ב־Bečići, או Franca ב־Petrovac שפתוח עד 22:00."},
-  {id:"s105", img:"v_villa", time:"15:30", dur:"2.5 שע׳", node:"rezevici", leg:{km:"18 ק״מ", min:"25 דק׳", mode:"נסיעה"},
+  {id:"s105", img:"v_villa", time:"15:30", dur:"2.5 שע׳", node:"rezevici", leg:{km:"18 ק״מ", min:"25 דק׳"},
     title:"צ׳ק־אין בווילה, Reževići",
     kicker:"הבסיס לשלושת הלילות — כפר שקט מעל הכביש האדריאטי",
     body:"Reževići הוא יישוב קטן בין Petrovac ל־Sveti Stefan, ארבעה קילומטרים מ־Drobni Pijesak ו־18 מבודווה. מנזר Reževići מ־1226 נמצא במרחק הליכה. זו שעת המנוחה היחידה ביום — נצלו אותה, הלילה ארוך.",
@@ -772,7 +779,7 @@ const BASE = [
     addr:"Bulevar Svetog Petra Cetinjskog 7, Podgorica 81000", maps:"Hilton Podgorica Sky Bar",
     move:"10 דק׳ הליכה מ־Pod Volat",
     alt:"סגור לאירוע פרטי? Culture Club Tarantino, או רחוב Bokeška — רחוב ברים שלם במרחק 5 דקות."},
-   {id:"s108", img:"v_biro", time:"22:30", dur:"פתוח", node:"podgorica", leg:{km:"1.1 ק״מ", min:"3 דק׳", mode:"נסיעה"},
+   {id:"s108", img:"v_biro", time:"22:30", dur:"פתוח", node:"podgorica", leg:{km:"1.1 ק״מ", min:"3 דק׳"},
     title:"BIRO — טכנו / האוס",
     kicker:"קונספט מחסן, פתוח 21:00–05:00, שבעה ימים בשבוע",
     body:"BIRO הוא הבית של הסצנה האלקטרונית בפודגוריצה, כולל גן קיץ גדול ואורחים בינלאומיים. הליינאפ מתפרסם מאוחר — בדקו את עמוד הפייסבוק שלהם בשבוע שלפני ובחרו לפי מי מנגן.",
@@ -782,25 +789,19 @@ const BASE = [
   ]
 },
 {
-     id:"d2", anchors:{start:{place:"villa", lab:"תחילת היום", title:"יציאה מהבסיס", note:"09:30 יציאה למרינה. 18 ק״מ מכאן, 25 דקות נסיעה."}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"15.8 ק״מ", min:"25 דק׳", mode:"נסיעה"}, note:"מבודווה 18 ק״מ, כ־25 דקות. אם שתיתם — מונית 20–30 € והרכב נשאר בחניון."}}, tab:"שישי", date:"25 בספטמבר 2026",
+     id:"d2", anchors:{start:{place:"villa", lab:"תחילת היום", title:"יציאה מהבסיס", note:"09:30 יציאה למרינה. 18 ק״מ מכאן, 25 דקות נסיעה."}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"15.8 ק״מ", min:"25 דק׳"}, note:"מבודווה 18 ק״מ, כ־25 דקות. אם שתיתם — מונית 20–30 € והרכב נשאר בחניון."}}, tab:"שישי", date:"25 בספטמבר 2026",
    title:"יום סירה, ואז בודווה עד מאוחר",
    blurb:"יום הים של הטיול. סירה פרטית מבודווה עד אחר הצהריים, מקלחת בווילה, ובודווה מהאור הטוב ועד המסיבה.",
   outfit:{day:"בגד ים, חולצת פשתן וסנדלים", evening:"חולצה מכופתרת, מכנס קל ונעליים נקיות"},
    stats:[["לבוש","צהריים · ערב",""],["נהיגה","1:15 שעות","54 ק״מ · ללא אגרה"],["תקציב","140–190 €","לאדם, ללא לינה ורכב + סירה 280 € ל-4"]],
    route:["rezevici","budva","rezevici","budva","rezevici"],
   stops:[
-   {id:"s201", img:"v_villa", time:"09:00", dur:"30 דק׳", node:"rezevici",
+   {id:"s201", img:"v_villa", time:"09:00", dur:"60 דק׳", node:"rezevici",
      title:"ארוחת בוקר בווילה",
      kicker:"הבוקר היחיד בטיול בלי שעון",
-     body:"מה שקניתם אתמול. קפה על המרפסת, ו-09:30 יציאה למרינה — הסירה לא מחכה.",
+     body:"מה שקניתם אתמול. קפה על המרפסת, להביא לסירה: בגד ים, מגבת, קרם הגנה. 09:30 יציאה — הסירה לא מחכה.",
      addr:"הווילה, Reževići", maps:"Villa Mare Rezevici Budva"},
-    {id:"s202n", img:"v_slovenska", time:"09:30", dur:"30 דק׳", node:"budva", leg:{km:"18 ק״מ", min:"25 דק׳", mode:"נסיעה"},
-     title:"יציאה ל-Marina Budva",
-     kicker:"יוצאים מהווילה ישר לסירה",
-     body:"09:30 יציאה מהווילה ב-Reževići, 10:00 עלייה לסירה במרינה. להביא: בגד ים, מגבת, קרם הגנה.",
-     addr:"Marina Budva, Budva", maps:"Marina Budva",
-     move:"חניה במרינה ליום שלם"},
-    {id:"s203n", img:"v_svetistefan", time:"10:00", dur:"4 שע׳", node:"budva", leg:{km:"ים", min:"עלייה לסירה", mode:"ים"},
+    {id:"s203n", img:"v_svetistefan", time:"10:00", dur:"4 שע׳", node:"budva", leg:{km:"18 ק״מ", min:"25 דק׳"},
      title:"סירה פרטית",
      kicker:"Blue Lagoon, Calypso, האי, Love Cave, Sveti Stefan",
      body:"מסלול: Blue Lagoon, Calypso Cave, St. Nicholas Island, Love Cave, חופים נסתרים, Sveti Stefan, King’s & Queen’s Beach. €280 לכל ארבעתכם, תשלום במזומן בסיום.",
@@ -818,12 +819,12 @@ const BASE = [
      addr:"Šetalište Slovenska obala, Budva", maps:"Slovenska obala Budva",
      move:"חניה: חניון Slovenska Obala, 1–1.5 € לשעה · 5 דק׳ לעיר העתיקה",
      alt:"גשם קצר? החצרות המקורות של Mediteranska מחזיקות את כל השורה."},
-    {id:"s204", img:"v_rezevici", time:"16:00", dur:"3 שע׳", node:"rezevici", leg:{km:"18 ק״מ", min:"25 דק׳", mode:"נסיעה"},
-     title:"חזרה לווילה, מקלחת ומנוחה",
+    {id:"s204", img:"v_rezevici", time:"16:30", dur:"2 שע׳", node:"rezevici", leg:{km:"18 ק״מ", min:"25 דק׳"},
+     title:"זמן חופשי בווילה",
      kicker:"החלון שמאפשר לערב להיות ארוך",
-     body:"מקלחת והתארגנות בווילה לפני ערב בודווה. לצאת ב-18:30 לערב.",
+     body:"מקלחת, מנוחה טובה והתכוננות לערב ארוך — לצאת ב-18:30 לערב בבודווה.",
      addr:"הווילה, Reževići", maps:"Villa Mare Rezevici Budva"},
-   {id:"s207", img:"v_dusanov", time:"19:00", dur:"2 שע׳", node:"budva", leg:{km:"1.2 ק״מ", min:"5 דק׳", mode:"נסיעה"},
+   {id:"s207", img:"v_dusanov", time:"19:00", dur:"2 שע׳", node:"budva", leg:{km:"1.2 ק״מ", min:"5 דק׳"},
     title:"ארוחת ערב ב־Konoba Dušanov Vrt",
     kicker:"קונובה של שף ברחוב מגורים, לא על חזית הים",
     body:"בישול קונובה מונטנגרי במשלב ים־תיכוני מודרני: דגת אדריאטי, נתחים על הגריל, סלטים ויין בית. 25–40 € לאדם. הזמינו — המקום קטן והמוניטין גדול.",
@@ -837,7 +838,7 @@ const BASE = [
     addr:"Stari Grad / Mediteranska, Budva", maps:"Mediteranska Budva",
     move:"הכול במרחק הליכה — השאירו את הרכב בחניון",
     alt:"Top Hill (המועדון הגדול מעל העיר) לרוב סוגר את העונה בסוף אוגוסט — אל תבנו עליו בלי אישור באתר שלו."},
-   {id:"s209", img:"v_tophill", time:"23:30", dur:"פתוח", node:"budva", leg:{km:"2.3 ק״מ", min:"7 דק׳", mode:"נסיעה"},
+   {id:"s209", img:"v_tophill", time:"23:30", dur:"פתוח", node:"budva", leg:{km:"2.3 ק״מ", min:"7 דק׳"},
     title:"המסיבה הטובה שנמצא",
     kicker:"שם המועדון נשאר פתוח בכוונה",
     body:"לוח Budva Noću מתעדכן עם מסיבות DJ כמעט מדי יום בעונה — Teatro, Palazzo, Omnia, Perla. אם מתפרסם אירוע open-air או משהו בסגנון UMOYA / New Millennium ליום שישי, הוא מנצח כל מועדון מסחרי.",
@@ -847,14 +848,14 @@ const BASE = [
   ]
 },
 {
-   id:"d3", anchors:{start:{place:"villa", lab:"תחילת היום", title:"08:00 — יציאה מהווילה", note:"היום היחיד שדורש להקדים. 42 ק״מ לקוטור דרך פיתולי Trojica, הגעה 09:15. ב־08:00 הכביש ריק; ב־09:00 כבר לא."}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"38.3 ק״מ", min:"55 דק׳", mode:"נסיעה"}, note:"מטיווט 38 ק״מ, כ־55 דקות. נהג תורן אם הערב התגלגל."}}, tab:"שבת", date:"26 בספטמבר 2026",
+   id:"d3", anchors:{start:{place:"villa", lab:"תחילת היום", title:"08:00 — יציאה מהווילה", note:"היום היחיד שדורש להקדים. 42 ק״מ לקוטור דרך פיתולי Trojica, הגעה 09:15. ב־08:00 הכביש ריק; ב־09:00 כבר לא."}, end:{place:"villa", lab:"סוף היום", title:"חזרה לבסיס", leg:{km:"38.3 ק״מ", min:"55 דק׳"}, note:"מטיווט 38 ק״מ, כ־55 דקות. נהג תורן אם הערב התגלגל."}}, tab:"שבת", date:"26 בספטמבר 2026",
   title:"בוקה קוטורסקה — שוק, פרסט, קוטור ופורטו",
   blurb:"היום הצפוף והיפה בטיול, והיחיד שדורש להקדים. שוק שבת בקוטור קורה רק הבוקר הזה, ושתי אוניות קרוז אמורות לרוקן מעל 3,300 נוסעים לתוך העיר העתיקה במהלך היום — והן עוזבות ב־17:00 וב־18:00.",
   outfit:{day:"חולצת טי, מכנס ארוך קל ונעלי הליכה", evening:"חולצה מכופתרת, מכנס מחויט קל וז׳קט דק"},
   stats:[["לבוש","צהריים · ערב",""],["נהיגה","2:20 שעות","135 ק״מ · ללא אגרה"],["תקציב","150–210 €","לאדם, ללא לינה ורכב"]],
   route:["rezevici","kotor","perast","kotor","tivat","rezevici"],
    stops:[
-    {id:"s302", img:"v_kotor_market", time:"09:15", dur:"60 דק׳", node:"kotor", leg:{km:"42 ק״מ", min:"60–70 דק׳", mode:"נסיעה"},
+    {id:"s302", img:"v_kotor_market", time:"09:15", dur:"60 דק׳", node:"kotor", leg:{km:"42 ק״מ", min:"60–70 דק׳"},
      title:"שוק האיכרים של קוטור",
      kicker:"מחוץ לשער הים, שבת היא יום השיא — 07:00 עד הצהריים",
      body:"גבינות Njeguši, pršut מעושן, זיתים, דבש, תאנים, מאפים וראקיה ביתית. חקלאים מכל מונטנגרו מגיעים דווקא בשבת. קחו מזומן — רוב הדוכנים לא מעבירים כרטיס.",
@@ -868,7 +869,7 @@ const BASE = [
     addr:"Stari Grad Kotor, 85330", maps:"Cathedral of Saint Tryphon Kotor",
     move:"הקפה מלאה של הרובע: 20 דק׳ הליכה",
     alt:"חומות העיר (15 € לאדם, 1,350 מדרגות, 1.5 שעות) לא נכנסות ללוח הזה — אם זו חובה, החליפו אותן בשוק ועלו ב־08:00."},
-   {id:"s304", img:"v_perast", time:"11:30", dur:"60 דק׳", node:"perast", leg:{km:"12 ק״מ", min:"20 דק׳", mode:"נסיעה"},
+   {id:"s304", img:"v_perast", time:"11:30", dur:"60 דק׳", node:"perast", leg:{km:"12 ק״מ", min:"20 דק׳"},
     title:"פרסט",
     kicker:"כפר ברוקי אחד, טיילת אחת, ושתי כנסיות על אי",
     body:"1.2 ק״מ של טיילת שטוחה מקצה לקצה, 15–18 דקות הליכה רגועה. מגדל Sveti Nikola, ארמונות ונציאניים, ואפס תנועה. הכפר סגור לתנועה — חונים בחניון בכניסה, 2–3 € לשעה.",
@@ -885,7 +886,7 @@ const BASE = [
     kicker:"קפה, מים, ואפס מטרה",
     body:"החלק הכי טוב ביום. קפה על המזח, רגליים במים אם בא לכם, וזמן להתאושש מהארוחה לפני החצי השני.",
     addr:"Perast waterfront", maps:"Perast Montenegro"},
-   {id:"s308", img:"v_kotor_gate", time:"16:30", dur:"105 דק׳", node:"kotor", leg:{km:"12 ק״מ", min:"20 דק׳", mode:"נסיעה"},
+   {id:"s308", img:"v_kotor_gate", time:"16:30", dur:"105 דק׳", node:"kotor", leg:{km:"12 ק״מ", min:"20 דק׳"},
     title:"קוטור — הסיבוב האמיתי",
     kicker:"אוניות הקרוז עוזבות ב־17:00 וב־18:00. העיר משתנה",
     body:"מ־17:00 הרחובות מתרוקנים ואור אחר הצהריים נופל על האבן. זה החלון לצילום, לחנויות, ולקפה בכיכר בלי להילחם על שולחן.",
@@ -931,25 +932,25 @@ const BASE = [
     kicker:"בדקו מגירות, מטענים, וארון המקרר",
     body:"צלמו את הווילה ביציאה — זה חוסך ויכוחים על פיקדון. השאירו את המפתח לפי ההוראות של המארח. צ׳ק־אאוט עד 11:00.",
     addr:"הווילה, Reževići", maps:"Villa Mare Rezevici Budva"},
-   {id:"s402", img:"v_drobni", time:"11:00", dur:"90 דק׳", node:"drobni", leg:{km:"4 ק״מ", min:"7 דק׳", mode:"נסיעה"},
+   {id:"s402", img:"v_drobni", time:"11:00", dur:"90 דק׳", node:"drobni", leg:{km:"4 ק״מ", min:"7 דק׳"},
     title:"חוף קצר / בוקר רגוע",
     kicker:"הפיצוי על החוף שוויתרנו עליו בשבת בבוקר",
     body:"Drobni Pijesak שוב, או Perazića Do אם בא לכם משהו חדש. שחייה קצרה, בלי מיטות, בלי להתמקם. הים 24° — נעים לגמרי.",
     addr:"Drobni Pijesak / Perazića Do", maps:"Drobni Pijesak Beach Montenegro",
     alt:"עייפים מדי או גשם? קפה במנזר Reževići וללכת ישר לטיווט — מרוויחים שעה של רוגע בשדה."},
-   {id:"s403", img:"v_alposto", time:"13:30", dur:"75 דק׳", node:"tivat", leg:{km:"36 ק״מ", min:"55 דק׳", mode:"נסיעה"},
+   {id:"s403", img:"v_alposto", time:"13:30", dur:"75 דק׳", node:"tivat", leg:{km:"36 ק״מ", min:"55 דק׳"},
     title:"ארוחת צהריים",
     kicker:"ארוחה אחרונה, 15 דקות מהשדה",
     body:"Al Posto Giusto בפורטו מונטנגרו: פיצה בטאבון, פסטה ביתית, ישיבה על המים. 20–30 € לאדם ושירות מהיר מספיק לטיסה.",
     addr:"Al Posto Giusto, Porto Montenegro, Tivat 85320", maps:"Al Posto Giusto Porto Montenegro",
     alt:"רוצים משהו מונטנגרי אחרון? Konoba Ćatovića Mlini ב־Morinj מדהים אבל 25 דק׳ צפונה — רק אם ויתרתם על החוף."},
-   {id:"s404", img:"v_gas", time:"15:00", dur:"30 דק׳", node:"tiv", leg:{km:"6 ק״מ", min:"15 דק׳", mode:"נסיעה"},
-    title:"תדלוק והחזרת הרכב",
+   {id:"s404", img:"v_rental", time:"15:00", dur:"30 דק׳", node:"tiv", leg:{km:"6 ק״מ", min:"15 דק׳"},
+    title:"תדלוק והחזרת הרכב — Abeona",
     kicker:"מלא כמו שקיבלתם — אחרת מחייבים בתעריף כפול",
-    body:"תחנת Jugopetrol או NIS על Jadranski put לפני הכניסה לשדה. בנזין בסביבות 1.55–1.70 € לליטר. שמרו את הקבלה ואת צילומי הרכב עד שהפיקדון משוחרר.",
-    addr:"Jadranski put, Tivat (לפני שדה התעופה)", maps:"EKO Tivat",
+    body:"תחנת Jugopetrol או NIS על Jadranski put לפני הכניסה לשדה. בנזין בסביבות 1.55–1.70 € לליטר. החזרה ל־Abeona, שמרו את הקבלה ואת צילומי הרכב עד שהפיקדון משוחרר.",
+    addr:"Abeona Rent A Car Montenegro, Tivat", maps:RENTAL_LINK,
     alt:"התור בדלפק ההחזרה ארוך? חלקו כוחות — אחד מחזיר, השני מתחיל צ׳ק־אין."},
-   {id:"s405", img:"v_tivat_airport", time:"15:30", dur:"30 דק׳", node:"tiv", leg:{km:"3.1 ק״מ", min:"7 דק׳", mode:"נסיעה"},
+   {id:"s405", img:"v_tivat_airport", time:"15:30", dur:"30 דק׳", node:"tiv", leg:{km:"3.1 ק״מ", min:"7 דק׳"},
     title:"שדה התעופה",
     kicker:"טרמינל אחד, שתי שעות לפני הן יותר ממספיק",
     body:"Duty free מינימלי, שני בתי קפה. אל תסמכו על השדה לארוחה — בשביל זה הייתה הארוחה בטיווט. הטיסה ב־18:00.",
@@ -982,13 +983,15 @@ let days = clone(BASE);
 let active = 0;
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const mapsUrl = q => q === "Villa Mare Rezevici Budva"
+const mapsUrl = q => (q || "").startsWith("http")
+  ? q
+  : q === "Villa Mare Rezevici Budva"
   ? VILLA_LINK
   : "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
 const uid = () => "s" + Math.random().toString(36).slice(2, 9);
 
 /* ============== shared state: /api/plan, with a local cache ============== */
-const STORE_KEY = "mne2026.plan.v2-boat";
+const STORE_KEY = "mne2026.plan.v3-pickup";
 const API = "api/plan";
 const POLL_MS = 7000;
 
@@ -1288,9 +1291,8 @@ function placeOf(stop){
   if (!stop) return "";
   return stop.maps || stop.addr || stop.title || "";
 }
-function dirUrl(fromStop, toStop, leg){
+function dirUrl(fromStop, toStop, leg, walking){
   const o = placeOf(fromStop), d = placeOf(toStop);
-  const walking = /הליכה|רגל/.test((leg && leg.mode) || "");
   const base = "https://www.google.com/maps/dir/?api=1";
   return base
     + "&origin=" + encodeURIComponent(o)
@@ -1298,10 +1300,18 @@ function dirUrl(fromStop, toStop, leg){
     + "&travelmode=" + (walking ? "walking" : "driving");
 }
 function modeOf(leg, stop){
-  const t = ((leg && leg.mode) || "") + " " + ((stop && stop.move) || "");
-  if (/שיט|סירה|מעבורת/.test(t)) return "boat";
-  if (/מונית|taxi/i.test(t)) return "taxi";
-  if (/הליכה|רגל|מדרגות/.test(t)) return "walk";
+  // explicit leg mode wins; anything named but unrecognised (toll tunnel…)
+  // is a drive. generic "last-mile walk" text in stop.move must NOT turn
+  // a 20 ק״מ transfer into a walking icon — every real walk leg carries
+  // an explicit mode:"הליכה".
+  const lm = ((leg && leg.mode) || "");
+  if (/שיט|סירה|מעבורת|ים/.test(lm)) return "boat";
+  if (/מונית|taxi/i.test(lm)) return "taxi";
+  if (/הליכה|רגל|מדרגות/.test(lm)) return "walk";
+  if (lm) return "car";
+  const sm = ((stop && stop.move) || "");
+  if (/שיט|סירה|מעבורת/.test(sm)) return "boat";
+  if (/מונית|taxi/i.test(sm)) return "taxi";
   return "car";
 }
 const MODE_ICON = {
@@ -1331,13 +1341,16 @@ function legMap(leg, prev, stop){
   if (!prev) return "";
   const from = placeOf(prev), to = placeOf(stop);
   if (!from || !to || from === to) return "";
-  const url = dirUrl(prev, stop, leg);
   const m = modeOf(leg, stop);
+  const url = dirUrl(prev, stop, leg, m === "walk");
   const km = (leg && leg.km) || "—";
   const min = (leg && leg.min) || "—";
-  const mode = (leg && leg.mode) || MODE_LABEL[m];
+  const rawMode = (leg && leg.mode) || "";
+  // generic drive/walk labels are redundant — the icon + km/min already say it.
+  // only special modes (toll tunnel, boat…) get a word.
+  const showMode = rawMode && !/^(נסיעה|הליכה)$/.test(rawMode);
   const facts = `<b>${esc(km)}</b><span class="sep">·</span><b>${esc(min)}</b>` +
-                `<span class="mode">${esc(mode)}</span>`;
+                (showMode ? `<span class="mode">${esc(rawMode)}</span>` : "");
   return `<div class="leg">
     <div class="legrail" aria-hidden="true"></div>
     <div class="leginfo">
