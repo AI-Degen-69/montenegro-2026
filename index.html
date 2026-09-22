@@ -503,6 +503,8 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   .card-main .alt{margin-top:12px}
 }
 .card-time{display:none}
+.card-end{display:flex;align-items:center;gap:6px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line-soft);font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--faint);letter-spacing:.02em}
+.card-end .end-icon{flex:none;font-size:13px;line-height:1}
 /* scroll reveal: stops fade + drift in as they enter the screen */
 #day .timeline .stop{transition:opacity .4s ease, transform .4s ease}
 #day .timeline .stop.pre-reveal{opacity:0; transform:translateY(14px)}
@@ -919,19 +921,24 @@ const BASE = [
   stats:[["לבוש","צהריים · ערב",""],["נהיגה","0:55 שעות","40 ק״מ · ללא אגרה"],["תקציב","60–95 €","לאדם, ללא לינה ורכב"]],
   route:["rezevici","drobni","tivat","tiv"],
   stops:[
-   {id:"s401", img:"v_rezevici", time:"10:00", dur:"60 דק׳", node:"rezevici",
+   {id:"s401", img:"v_rezevici", time:"09:30", dur:"30 דק׳", node:"rezevici",
+    title:"קימה",
+    kicker:"בוקר רגוע — הקפה הראשון על המרפסת",
+    body:"קימה ב־09:30, קפה, ובלי לחץ. ב־10:00 מתחילים לארוז.",
+    addr:"הווילה, Reževići", maps:"Villa Mare Rezevici Budva"},
+   {id:"s401b", img:"v_rezevici", time:"10:00", dur:"60 דק׳", node:"rezevici",
     title:"אריזה וצ׳ק־אאוט",
-    kicker:"בדיקת מגירות, מטענים, וארון המקרר",
-    body:"צלמו את הווילה ביציאה — זה חוסך ויכוחים על פיקדון. השאירו את המפתח לפי ההוראות של המארח.",
+    kicker:"בדקו מגירות, מטענים, וארון המקרר",
+    body:"צלמו את הווילה ביציאה — זה חוסך ויכוחים על פיקדון. השאירו את המפתח לפי ההוראות של המארח. צ׳ק־אאוט עד 11:00.",
     addr:"הווילה, Reževići", maps:"Villa Mare Rezevici Budva"},
    {id:"s402", img:"v_drobni", time:"11:00", dur:"90 דק׳", node:"drobni", leg:{km:"4 ק״מ", min:"7 דק׳", mode:"נסיעה"},
-    title:"חוף אחרון — אופציונלי",
+    title:"חוף קצר / בוקר רגוע",
     kicker:"הפיצוי על החוף שוויתרנו עליו בשבת בבוקר",
     body:"Drobni Pijesak שוב, או Perazića Do אם בא לכם משהו חדש. שחייה קצרה, בלי מיטות, בלי להתמקם. הים 24° — נעים לגמרי.",
     addr:"Drobni Pijesak / Perazića Do", maps:"Drobni Pijesak Beach Montenegro",
     alt:"עייפים מדי או גשם? קפה במנזר Reževići וללכת ישר לטיווט — מרוויחים שעה של רוגע בשדה."},
-   {id:"s403", img:"v_alposto", time:"13:45", dur:"75 דק׳", node:"tivat", leg:{km:"36 ק״מ", min:"50 דק׳", mode:"נסיעה"},
-    title:"צהריים בטיווט",
+   {id:"s403", img:"v_alposto", time:"13:30", dur:"75 דק׳", node:"tivat", leg:{km:"36 ק״מ", min:"55 דק׳", mode:"נסיעה"},
+    title:"ארוחת צהריים",
     kicker:"ארוחה אחרונה, 15 דקות מהשדה",
     body:"Al Posto Giusto בפורטו מונטנגרו: פיצה בטאבון, פסטה ביתית, ישיבה על המים. 20–30 € לאדם ושירות מהיר מספיק לטיסה.",
     addr:"Al Posto Giusto, Porto Montenegro, Tivat 85320", maps:"Al Posto Giusto Porto Montenegro",
@@ -942,14 +949,32 @@ const BASE = [
     body:"תחנת Jugopetrol או NIS על Jadranski put לפני הכניסה לשדה. בנזין בסביבות 1.55–1.70 € לליטר. שמרו את הקבלה ואת צילומי הרכב עד שהפיקדון משוחרר.",
     addr:"Jadranski put, Tivat (לפני שדה התעופה)", maps:"EKO Tivat",
     alt:"התור בדלפק ההחזרה ארוך? חלקו כוחות — אחד מחזיר, השני מתחיל צ׳ק־אין."},
-   {id:"s405", img:"v_tivat_airport", time:"15:30", dur:"2.5 שע׳", node:"tiv", leg:{km:"3.1 ק״מ", min:"7 דק׳", mode:"נסיעה"},
-    title:"שדה התעופה טיווט",
+   {id:"s405", img:"v_tivat_airport", time:"15:30", dur:"30 דק׳", node:"tiv", leg:{km:"3.1 ק״מ", min:"7 דק׳", mode:"נסיעה"},
+    title:"שדה התעופה",
     kicker:"טרמינל אחד, שתי שעות לפני הן יותר ממספיק",
     body:"Duty free מינימלי, שני בתי קפה. אל תסמכו על השדה לארוחה — בשביל זה הייתה הארוחה בטיווט. הטיסה ב־18:00.",
     addr:"Tivat Airport (TIV), Tivat 85320", maps:"Tivat Airport Montenegro"}
   ]
 }
 ];
+
+/* ========================= helpers ========================= */
+function calcEndTime(time, dur) {
+  if (!time || !dur) return null;
+  const open = /פתוח/.test(dur);
+  if (open) return null;
+  const [h, m] = time.split(":").map(Number);
+  let addMin = 0;
+  const hrs = dur.match(/([\d.]+)\s*שע/);
+  const mins = dur.match(/(\d+)\s*דק/);
+  if (hrs) addMin += parseFloat(hrs[1]) * 60;
+  if (mins) addMin += parseInt(mins[1], 10);
+  if (!addMin) return null;
+  const total = h * 60 + m + addMin;
+  const eh = Math.floor(total / 60) % 24;
+  const em = total % 60;
+  return String(eh).padStart(2, "0") + ":" + String(em).padStart(2, "0");
+}
 
 /* ========================= state ========================= */
 const clone = o => JSON.parse(JSON.stringify(o));
@@ -1407,7 +1432,7 @@ function anchorCard(a, side){
   </article>`;
 }
 
-function stopView(s, i, n, prev, special){
+function stopView(s, i, n, prev, special, nextStop){
   const legHtml = legMap(s.leg || null, prev, s);
   const villaStop = s.id === "s105";
   const ph = PHOTOS[s.img];
@@ -1438,6 +1463,7 @@ function stopView(s, i, n, prev, special){
           ${s.body ? `<details class="more"><summary>קרא עוד</summary><div class="more-body">${s.kicker ? `<p class="kick">${esc(s.kicker)}</p>` : ""}<p class="body">${esc(s.body)}</p></div></details>` : ""}
           ${s.alt ? `<div class="alt"><span class="k">חלופה</span>${esc(s.alt)}</div>` : ""}
           ${special && special.note ? `<div class="specnote">${esc(special.note)}</div>` : ""}
+          ${(() => { const et = calcEndTime(s.time, s.dur); const dest = nextStop ? nextStop.title : ""; if (!et || !dest) return ""; return `<div class="card-end"><span class="end-icon" aria-hidden="true">🕐</span>${esc(et)} · יציאה לכיוון ${esc(dest)}</div>`; })()}
         </div>
         <figure class="shot">
           ${src ? `<a class="frame" href="${esc(venueUrl)}" target="_blank" rel="noopener" aria-label="עמוד המקום ב־Google Maps">
@@ -1550,7 +1576,8 @@ function render(i, animate = true){
     const special = (k === 0 && mergeStart) ? {lab: A.start.lab, note: A.start.note}
                   : (k === nStops - 1 && mergeEnd) ? {lab: A.end.lab, note: A.end.note}
                   : null;
-    return editing === s.id ? stopEdit(s, k) : stopView(s, k, nStops, prev, special);
+    const nextS = k < nStops - 1 ? d.stops[k + 1] : null;
+    return editing === s.id ? stopEdit(s, k) : stopView(s, k, nStops, prev, special, nextS);
   }).join("");
   const headHtml = (A.start && !mergeStart) ? anchorCard(A.start, "start") : "";
   const tailHtml = (A.end && !mergeEnd) ? (legMap(A.end.leg || null, last, endStop) + anchorCard(A.end, "end")) : "";
