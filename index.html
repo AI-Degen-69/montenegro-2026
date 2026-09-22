@@ -1463,7 +1463,7 @@ function stopView(s, i, n, prev, special, nextStop){
           ${s.body ? `<details class="more"><summary>קרא עוד</summary><div class="more-body">${s.kicker ? `<p class="kick">${esc(s.kicker)}</p>` : ""}<p class="body">${esc(s.body)}</p></div></details>` : ""}
           ${s.alt ? `<div class="alt"><span class="k">חלופה</span>${esc(s.alt)}</div>` : ""}
           ${special && special.note ? `<div class="specnote">${esc(special.note)}</div>` : ""}
-          ${(() => { const et = calcEndTime(s.time, s.dur); if (!et) return ""; const dest = nextStop ? nextStop.title : ""; return `<div class="card-end"><span class="end-icon" aria-hidden="true">🕐</span>${esc(et)}${dest ? ` · יציאה לכיוון ${esc(dest)}` : ""}</div>`; })()}
+          ${(() => { const et = calcEndTime(s.time, s.dur); const dest = nextStop ? nextStop.title : ""; if (!et || !dest) return ""; return `<div class="card-end"><span class="end-icon" aria-hidden="true">🕐</span>${esc(et)} · יציאה לכיוון ${esc(dest)}</div>`; })()}
         </div>
         <figure class="shot">
           ${src ? `<a class="frame" href="${esc(venueUrl)}" target="_blank" rel="noopener" aria-label="עמוד המקום ב־Google Maps">
