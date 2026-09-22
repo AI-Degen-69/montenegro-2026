@@ -184,7 +184,9 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   position:relative;
 }
 .stop .when{
-  position:relative; padding:20px 14px 20px 30px; text-align:right;
+  position:relative; padding:14px 14px 14px 30px; text-align:right;
+  display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end;
+  min-height:100%;
 }
 .stop .when::before{
   content:""; position:absolute; top:0; bottom:0; left:15px;
@@ -192,12 +194,16 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 }
 .stop:first-child .when::before{top:30px}
 .stop .node{
-  position:absolute; left:16px; top:28px; width:11px; height:11px; border-radius:50%;
+  position:absolute; left:16px; top:22px; width:11px; height:11px; border-radius:50%;
   background:var(--surface); border:2.5px solid var(--sea); transform:translateX(-50%);
   z-index:2;
 }
 .stop .hhmm{font-family:"IBM Plex Mono",monospace; font-size:17px; font-weight:500; letter-spacing:-.02em}
 .stop .dur{font-size:11px; color:var(--gold); font-weight:700; margin-top:2px; letter-spacing:.04em}
+.when-top{display:flex; flex-direction:column; align-items:flex-end}
+.when-end{margin-top:auto; padding-top:18px; display:flex; flex-direction:column; align-items:flex-end}
+.when-end .hhmm{color:var(--text)}
+.when-end:empty{display:none}
 
 .card{
   background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--radius);
@@ -503,8 +509,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   .card-main .alt{margin-top:12px}
 }
 .card-time{display:none}
-.card-end{display:flex;align-items:center;gap:6px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line-soft);font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--faint);letter-spacing:.02em}
-.card-end .end-icon{flex:none;font-size:13px;line-height:1}
+.card-end{display:none}
 /* scroll reveal: stops fade + drift in as they enter the screen */
 #day .timeline .stop{transition:opacity .4s ease, transform .4s ease}
 #day .timeline .stop.pre-reveal{opacity:0; transform:translateY(14px)}
@@ -512,12 +517,13 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 @media (max-width:560px){
   /* slim rail: time moves inside the card, cards go full width */
   .stop{grid-template-columns:26px minmax(0,1fr)}
-  .stop .when{padding:18px 0}
+  .stop .when{padding:18px 0; min-height:0}
   .stop .when::before{left:8px}
   .stop .node{left:8px}
   .stop.anchor .node, .stop.special .node{left:8px}
-  .stop .hhmm, .stop .dur{display:none}
+  .stop .hhmm, .stop .dur, .when-end{display:none}
   .card-time{display:block; font-size:12px; color:var(--gold); font-weight:700; letter-spacing:.04em; margin-bottom:4px}
+  .card-end{display:flex; align-items:center; gap:6px; margin-top:12px; padding-top:10px; border-top:1px dashed var(--line-soft); font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--faint); letter-spacing:.02em}
   .leg{grid-template-columns:26px minmax(0,1fr)}
   .legrail::before{left:8px}
   .legrail{min-height:74px}
@@ -585,7 +591,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   <header class="masthead">
     <div class="masthead-row">
       <div>
-        <h1>Monti 26' Bitches >< <span id="buildVer" style="font-size:12px;font-weight:400;opacity:.7;vertical-align:middle">v7 · פיצול נחיתה/איסוף</span></h1>
+        <h1>Monti 26' Bitches >< <span id="buildVer" style="font-size:12px;font-weight:400;opacity:.7;vertical-align:middle">v8 · שעת סיום בציר</span></h1>
         <p class="sub">24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו</p>
         <p class="countdown" id="tripCount"></p>
       </div>
@@ -1458,8 +1464,11 @@ function stopView(s, i, n, prev, special, nextStop){
   <article class="stop${special ? " special" : ""}${villaStop ? " villa-stop" : ""}" data-i="${i}">
     <div class="when">
       <span class="node"></span>
-      <div class="hhmm">${esc(s.time)}</div>
-      <div class="dur">${esc(s.dur || "")}</div>
+      <div class="when-top">
+        <div class="hhmm">${esc(s.time)}</div>
+        <div class="dur">${esc(s.dur || "")}</div>
+      </div>
+      ${(() => { const et = calcEndTime(s.time, s.dur); if(!et) return ""; return `<div class="when-end"><div class="hhmm">${esc(et)}</div></div>`; })()}
     </div>
     <div class="card${special ? " special" : ""}${villaStop ? " villa-stop" : ""}" data-card="${i}">
       <div class="card-grid">
@@ -1476,7 +1485,7 @@ function stopView(s, i, n, prev, special, nextStop){
           ${s.body ? `<details class="more"><summary>קרא עוד</summary><div class="more-body">${s.kicker ? `<p class="kick">${esc(s.kicker)}</p>` : ""}<p class="body">${esc(s.body)}</p></div></details>` : ""}
           ${s.alt ? `<div class="alt"><span class="k">חלופה</span>${esc(s.alt)}</div>` : ""}
           ${special && special.note ? `<div class="specnote">${esc(special.note)}</div>` : ""}
-          ${(() => { const et = calcEndTime(s.time, s.dur); const dest = nextStop ? nextStop.title : ""; if (!et || !dest) return ""; return `<div class="card-end"><span class="end-icon" aria-hidden="true">🕐</span>${esc(et)} · יציאה לכיוון ${esc(dest)}</div>`; })()}
+          ${(() => { const et = calcEndTime(s.time, s.dur); if(!et) return ""; return `<div class="card-end">${esc(et)}</div>`; })()}
         </div>
         <figure class="shot">
           ${src ? `<a class="frame" href="${esc(venueUrl)}" target="_blank" rel="noopener" aria-label="עמוד המקום ב־Google Maps">
