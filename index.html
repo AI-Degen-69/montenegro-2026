@@ -199,7 +199,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .mapwrap{position:relative}
 .map-overlay{position:absolute; left:8px; right:8px; display:flex; gap:6px; z-index:2; pointer-events:none}
 .map-overlay.top{top:8px}
-.map-overlay.bottom{bottom:8px}
+.map-overlay.bottom{bottom:8px; left:auto; right:8px; width:48%; display:grid; grid-template-columns:1fr 1fr}
 .map-chip{flex:1 1 0; min-width:0; display:flex; align-items:center; justify-content:center; gap:5px; padding:6px 4px; border-radius:9px; border:1px solid var(--line-soft);
   background:color-mix(in srgb, var(--surface) 82%, transparent); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
   font-size:12px; font-weight:700; white-space:nowrap}
