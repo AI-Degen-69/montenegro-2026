@@ -38,3 +38,34 @@ describe('weatherDescription', () => {
     assert.equal(weatherDescription(999), 'מזג אוויר משתנה');
   });
 });
+
+describe('calcLedgerSummary', () => {
+  const { calcLedgerSummary, getKotorGoldenHour } = require('../utils.cjs');
+  it('returns zeroes for empty expenses', () => {
+    const res = calcLedgerSummary([]);
+    assert.equal(res.totalEur, 0);
+    assert.equal(res.balances.length, 0);
+  });
+  it('calculates total and balances correctly', () => {
+    const exps = [
+      { payer: 'אלון', amountEur: 200, title: 'מסעדה' },
+      { payer: 'דני', amountEur: 100, title: 'דלק' }
+    ];
+    const res = calcLedgerSummary(exps, 4.0);
+    assert.equal(res.totalEur, 300);
+    assert.equal(res.totalIls, 1200);
+    assert.equal(res.perPersonEur, 150);
+    assert.equal(res.balances.find(b => b.name === 'אלון').netEur, 50);
+    assert.equal(res.balances.find(b => b.name === 'דני').netEur, -50);
+  });
+});
+
+describe('getKotorGoldenHour', () => {
+  const { getKotorGoldenHour } = require('../utils.cjs');
+  it('returns valid golden hour data object', () => {
+    const res = getKotorGoldenHour();
+    assert.ok(res.goldenStart);
+    assert.ok(res.sunset);
+    assert.ok(res.seaTemp);
+  });
+});

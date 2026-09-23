@@ -51,11 +51,12 @@ export default async function handler(req, res) {
       const current = await readPlan();
       const sentRev = Number(body.rev) || 0;
       if (current.rev && sentRev !== current.rev) {
-        return res.status(409).json({ error: 'stale', rev: current.rev, days: current.days });
+        return res.status(409).json({ error: 'stale', rev: current.rev, days: current.days, expenses: current.expenses || [] });
       }
 
       const next = {
         days: body.days,
+        expenses: Array.isArray(body.expenses) ? body.expenses : (current.expenses || []),
         rev: (current.rev || 0) + 1,
         updatedAt: new Date().toISOString(),
         by: (body.by || '').toString().slice(0, 40)

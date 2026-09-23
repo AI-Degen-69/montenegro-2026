@@ -35,3 +35,33 @@ describe('validatePlanPayload', () => {
     assert.equal(validatePlanPayload(body([day(['nope'])])).ok, false);
   });
 });
+
+const expense = (over = {}) => ({ id: 'e1', title: 'ארוחה', amountEur: 120, payer: 'אלון', ...over });
+const withExpenses = (expenses) => ({ ...body(), expenses });
+
+describe('validatePlanPayload expenses', () => {
+  it('accepts a valid expenses array and an omitted one', () => {
+    assert.equal(validatePlanPayload(body()).ok, true);
+    assert.equal(validatePlanPayload(withExpenses([expense()])).ok, true);
+    assert.equal(validatePlanPayload(withExpenses([])).ok, true);
+  });
+  it('rejects null and non-object entries', () => {
+    assert.equal(validatePlanPayload(withExpenses([null])).ok, false);
+    assert.equal(validatePlanPayload(withExpenses(['nope'])).ok, false);
+  });
+  it('rejects a non-numeric, negative or non-finite amountEur', () => {
+    assert.equal(validatePlanPayload(withExpenses([expense({ amountEur: 'abc' })])).ok, false);
+    assert.equal(validatePlanPayload(withExpenses([expense({ amountEur: -5 })])).ok, false);
+    assert.equal(validatePlanPayload(withExpenses([expense({ amountEur: Infinity })])).ok, false);
+    assert.equal(validatePlanPayload(withExpenses([expense({ amountEur: undefined })])).ok, false);
+  });
+  it('rejects oversized expense strings and a non-array expenses field', () => {
+    assert.equal(validatePlanPayload(withExpenses([expense({ title: 'x'.repeat(201) })])).ok, false);
+    assert.equal(validatePlanPayload(withExpenses([expense({ payer: 7 })])).ok, false);
+    assert.equal(validatePlanPayload(withExpenses({})).ok, false);
+  });
+  it('rejects more than 500 entries', () => {
+    const many = Array.from({ length: 501 }, () => expense());
+    assert.equal(validatePlanPayload(withExpenses(many)).ok, false);
+  });
+});

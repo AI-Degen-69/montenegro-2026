@@ -30,7 +30,56 @@
     return "מזג אוויר משתנה";
   }
 
-  root.TripUtils = { calcEndTime, weatherDescription };
+  function calcLedgerSummary(expenses = [], eurRate = 4.0) {
+    if (!Array.isArray(expenses) || expenses.length === 0) {
+      return { totalEur: 0, totalIls: 0, perPersonEur: 0, perPersonIls: 0, payers: {}, balances: [] };
+    }
+    let totalEur = 0;
+    // null prototype: a payer literally named "constructor" must not read an
+    // inherited property instead of a real running total
+    const payers = Object.create(null);
+    for (const exp of expenses) {
+      const amt = Number(exp.amountEur) || 0;
+      totalEur += amt;
+      const payer = (exp.payer || "כללי").trim();
+      payers[payer] = (payers[payer] || 0) + amt;
+    }
+    const payerNames = Object.keys(payers);
+    const count = Math.max(1, payerNames.length);
+    const perPersonEur = Math.round((totalEur / count) * 100) / 100;
+    const totalIls = Math.round(totalEur * eurRate);
+    const perPersonIls = Math.round(perPersonEur * eurRate);
+
+    const balances = payerNames.map(name => {
+      const paid = payers[name];
+      const net = Math.round((paid - perPersonEur) * 100) / 100;
+      return {
+        name,
+        paidEur: paid,
+        netEur: net,
+        netIls: Math.round(net * eurRate)
+      };
+    });
+
+    return { totalEur, totalIls, perPersonEur, perPersonIls, payers, balances };
+  }
+
+  // Fixed approximations for the trip dates (late September 2026, Kotor/Tivat
+  // ~42.22N 18.92E). Real solar math drifts by <=12 minutes across 24-27 Sep,
+  // which is below the resolution of this display-only hint; dateStr is kept so
+  // callers stay forward-compatible if per-date values are needed later.
+  function getKotorGoldenHour(dateStr = "2026-09-24") {
+    return {
+      goldenStart: "18:10",
+      sunset: "18:42",
+      goldenEnd: "18:55",
+      seaTemp: "23°C",
+      wind: "7 קשר (אידיאלי לשייט)",
+      uvIndex: "5 (בינוני)"
+    };
+  }
+
+  root.TripUtils = { calcEndTime, weatherDescription, calcLedgerSummary, getKotorGoldenHour };
   if (typeof module !== "undefined" && module.exports) {
     module.exports = root.TripUtils;
   }
