@@ -181,6 +181,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .stat-icon{display:inline-grid; place-items:center; width:17px; height:17px; color:var(--muted); line-height:1; letter-spacing:0}
 .stat-icon svg{width:16px; height:16px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
 .stat .val{font-family:"Frank Ruhl Libre",serif; font-size:16px; font-weight:500; margin-top:2px; letter-spacing:-.01em; white-space:nowrap}
+.stat:only-child{grid-column:1 / -1}
 .stat .note{display:none}
 
 /* ---------- overview map ---------- */
@@ -195,6 +196,15 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .mapcard h3{font-size:14.5px; font-weight:700}
 .mapcard .legend{font-size:11.5px; color:var(--faint)}
 .mapcard svg{display:block; width:100%; height:auto; max-width:100%; background:var(--land)}
+.mapwrap{position:relative}
+.map-overlay{position:absolute; left:8px; right:8px; display:flex; gap:6px; z-index:2; pointer-events:none}
+.map-overlay.top{top:8px}
+.map-overlay.bottom{bottom:8px}
+.map-chip{flex:1 1 0; min-width:0; display:flex; align-items:center; justify-content:center; gap:5px; padding:6px 4px; border-radius:9px; border:1px solid var(--line-soft);
+  background:color-mix(in srgb, var(--surface) 82%, transparent); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  font-size:12px; font-weight:700; white-space:nowrap}
+.map-chip .k{color:var(--faint); font-size:11px}
+.map-chip .v{font-family:"Frank Ruhl Libre",serif; font-size:14px}
 .mapcard .routeline.is-drawn{animation:routeFlow 1.35s linear infinite}
 .mapcard .route-traveler{pointer-events:none}
 @keyframes routeFlow{to{stroke-dashoffset:-17}}
@@ -1439,12 +1449,6 @@ const WEATHER_LAT = 42.2179;
 const WEATHER_LON = 18.9219;
 const WEATHER_TZ = "Europe%2FPodgorica";
 const WEATHER_REFRESH_MS = 30 * 60 * 1000;
-const weatherIcon = kind => {
-  if (kind === "moon") return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 15.5A8 8 0 0 1 8.5 5 8.5 8.5 0 1 0 19 15.5Z"/></svg>`;
-  if (kind === "sea") return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8c2.2-2 4.4 2 6.7 0s4.5-2 6.7 0 4.5 2 6.6 0M3 14c2.2-2 4.4 2 6.7 0s4.5-2 6.7 0 4.5 2 6.6 0M3 20c2.2-2 4.4 2 6.7 0s4.5-2 6.7 0 4.5 2 6.6 0"/></svg>`;
-  if (kind === "sunset") return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="14" r="4"/><path d="M12 6v2M4.9 8.9l1.4 1.4M19.1 8.9l-1.4 1.4M2 18h20M6 21h12"/></svg>`;
-  return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>`;
-};
 const statIcon = lab => {
   if (lab === "לבוש") return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 4 4-2 4 2 4 4-3 2v11H7V10L4 8l4-4Z"/><path d="M9 4c.5 2 1.5 3 3 3s2.5-1 3-3"/></svg>`;
   if (lab === "נהיגה") return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2"/><path d="m12 3.5 0 6.5M4.6 16.2 10.3 13M19.4 16.2 13.7 13"/></svg>`;
@@ -1492,24 +1496,28 @@ async function loadWeather(){
   if (dayIndex === active) updateWeatherDisplay();
 }
 function updateWeatherDisplay(){
-  const container = $("#day .live-weather");
-  if (container) container.outerHTML = weatherMarkup(days[active]);
+  const wx = document.querySelector("#day [data-wx]");
+  if (wx) wx.innerHTML = wxChipsInner(days[active]);
   const sunsetEl = document.querySelector("#day [data-sunset]");
   if (sunsetEl) sunsetEl.textContent = liveWeatherFor(days[active])?.sunset || "—";
 }
-function weatherMarkup(day){
+function wxChipsInner(day){
   const weather = liveWeatherFor(day);
-  if (!weather){
-    return `<div class="live-weather"><div class="weather-status">${liveWeather.error ? "נתוני מזג האוויר אינם זמינים כרגע" : "טוען נתוני מזג אוויר חיים…"}</div></div>`;
-  }
-  return `<div class="live-weather" aria-label="מזג אוויר חי">
-    <div class="weather-item"><div class="weather-label"><span class="weather-icon sun">${weatherIcon("sun")}</span>יום:</div><div class="weather-value">${weather.high}°C</div></div>
-    <div class="weather-item"><div class="weather-label"><span class="weather-icon moon">${weatherIcon("moon")}</span>ערב:</div><div class="weather-value">${weather.low}°C</div></div>
-    <div class="weather-item"><div class="weather-label"><span class="weather-icon sea">${weatherIcon("sea")}</span>ים:</div><div class="weather-value">${weather.sea == null ? "—" : `${weather.sea}°C`}</div></div>
-    <div class="weather-status">${weatherDescription(weather.code)}</div>
-  </div>`;
+  if (!weather) return `<span class="map-chip">טוען…</span>`;
+  return `<span class="map-chip"><span class="k">יום</span><span class="v">${weather.high}°</span></span>
+    <span class="map-chip"><span class="k">ערב</span><span class="v">${weather.low}°</span></span>
+    <span class="map-chip"><span class="k">ים</span><span class="v">${weather.sea == null ? "—" : `${weather.sea}°`}</span></span>`;
 }
-
+function mapOverlays(day){
+  const weather = liveWeatherFor(day);
+  const drive = (day.stats.find(s => s[0] === "נהיגה") || [])[1] || "";
+  const sunset = weather?.sunset;
+  const bottom = (sunset || drive) ? `<div class="map-overlay bottom">
+      ${sunset ? `<span class="map-chip"><span class="k">שקיעה</span><span class="v" data-sunset>${esc(sunset)}</span></span>` : ""}
+      ${drive ? `<span class="map-chip"><span class="k">נהיגה</span><span class="v">${esc(drive)}</span></span>` : ""}
+    </div>` : "";
+  return `<div class="map-overlay top" data-wx title="${esc(weather ? weatherDescription(weather.code) : "")}">${wxChipsInner(day)}</div>${bottom}`;
+}
 /* ========================= maps ========================= */
 function routePath(keys){
   return routeSegments(keys).map(routeSegmentPath).join(" ");
@@ -1931,13 +1939,8 @@ function render(i, animate = true){
         <div class="kicker">יום ${i + 1} · ${esc(d.tab)} · ${esc(d.date)}</div>
         <h2>${esc(d.title)}</h2>
         <p class="blurb">${esc(d.blurb)}</p>
-        ${weatherMarkup(d)}
         <div class="stats">
-          ${d.stats.map(([lab, val]) => {
-            if (lab === "לבוש") {
-              const sunset = liveWeatherFor(d)?.sunset;
-              return `<div class="stat sunset-stat"><div class="lab"><span class="stat-icon" aria-hidden="true">${weatherIcon("sunset")}</span>שקיעה</div><div class="val" data-sunset>${sunset ? esc(sunset) : "…"}</div></div>`;
-            }
+          ${d.stats.filter(([lab]) => lab === "תקציב").map(([lab, val]) => {
             return `<div class="stat"><div class="lab"><span class="stat-icon" aria-hidden="true">${statIcon(lab)}</span>${esc(lab)}</div><div class="val">${esc(val)}</div></div>`;
           }).join("")}
         </div>
@@ -1947,7 +1950,10 @@ function render(i, animate = true){
           <h3>מסלול היום</h3>
           <span class="legend">${d.route.map(k => esc(NODES[k]?.label || k)).join(" ← ")}</span>
         </header>
-        ${overviewMap(d)}
+        <div class="mapwrap">
+          ${overviewMap(d)}
+          ${mapOverlays(d)}
+        </div>
       </div>
     </section>
     <section class="timeline">
