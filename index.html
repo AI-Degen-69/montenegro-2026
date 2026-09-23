@@ -1519,9 +1519,9 @@ function cornerChipsInner(day){
   if (!weather) return `<span class="map-chip">טוען…</span>`;
   const sunset = weather.sunset || "—";
   return `<span class="map-chip" aria-label="יום ${weather.high} מעלות">${mapIcon("sun")}<span class="v">${weather.high}°C</span></span>
-    <span class="map-chip" aria-label="שקיעה ${sunset}">${mapIcon("set")}<span class="v">${sunset}</span></span>
+    <span class="map-chip" aria-label="ים ${weather.sea == null ? "—" : `${weather.sea} מעלות`}">${mapIcon("sea")}<span class="v">${weather.sea == null ? "—" : `${weather.sea}°C`}</span></span>
     <span class="map-chip" aria-label="ערב ${weather.low} מעלות">${mapIcon("moon")}<span class="v">${weather.low}°C</span></span>
-    <span class="map-chip" aria-label="ים ${weather.sea == null ? "—" : `${weather.sea} מעלות`}">${mapIcon("sea")}<span class="v">${weather.sea == null ? "—" : `${weather.sea}°C`}</span></span>`;
+    <span class="map-chip" aria-label="שקיעה ${sunset}">${mapIcon("set")}<span class="v">${sunset}</span></span>`;
 }
 function mapOverlays(day){
   return `<div class="map-overlay corner" data-wx>${cornerChipsInner(day)}</div>`;
