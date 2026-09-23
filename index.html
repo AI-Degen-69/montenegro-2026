@@ -137,15 +137,14 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   position:sticky; top:0; z-index:40; background:color-mix(in srgb, var(--paper) 88%, transparent);
   backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
 }
-.rail-inner{display:flex; justify-content:center; gap:4px; overflow-x:auto; scrollbar-width:none; position:relative}
-.rail-inner::-webkit-scrollbar{display:none}
+.rail-inner{display:flex; justify-content:stretch; gap:0; overflow:hidden; position:relative}
 .tab{
-  background:none; border:0; padding:15px 16px 13px; white-space:nowrap;
-  color:var(--muted); display:flex; align-items:baseline; gap:9px;
+  flex:1 1 0; min-width:0; background:none; border:0; padding:15px 6px 13px; white-space:nowrap;
+  color:var(--muted); display:flex; align-items:center; justify-content:center;
   border-bottom:2px solid transparent; transition:color .2s ease;
 }
-.tab .n{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--faint); font-weight:500}
-.tab .t{font-weight:700; font-size:15px}
+.tab + .tab{border-inline-start:1px solid var(--line-soft)}
+.tab .t{font-weight:700; font-size:14px; overflow:hidden; text-overflow:ellipsis}
 .tab:hover{color:var(--text)}
 .tab[aria-selected="true"]{color:var(--text)}
 .tab[aria-selected="true"] .n{color:var(--gold)}
@@ -174,16 +173,16 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .outfit-line{display:flex; align-items:flex-start; gap:5px; color:var(--text); font-size:12px; line-height:1.35}
 .outfit-line .outfit-icon{flex:none; color:var(--gold); font-size:13px}
 
-.stats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:18px}
+.stats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin-top:12px}
 .stat{
   min-width:0; background:var(--surface); border:1px solid var(--line-soft);
-  border-radius:var(--radius); padding:10px 11px;
+  border-radius:var(--radius); padding:8px 10px; text-align:center;
 }
-.stat .lab{display:flex; align-items:center; gap:5px; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-weight:700}
+.stat .lab{display:flex; align-items:center; justify-content:center; gap:5px; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-weight:700}
 .stat-icon{display:inline-grid; place-items:center; width:17px; height:17px; color:var(--muted); line-height:1; letter-spacing:0}
 .stat-icon svg{width:16px; height:16px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
-.stat .val{font-family:"Frank Ruhl Libre",serif; font-size:18px; font-weight:500; margin-top:2px; letter-spacing:-.01em; white-space:nowrap}
-.stat .note{font-size:11px; color:var(--muted); margin-top:1px; white-space:nowrap}
+.stat .val{font-family:"Frank Ruhl Libre",serif; font-size:16px; font-weight:500; margin-top:2px; letter-spacing:-.01em; white-space:nowrap}
+.stat .note{display:none}
 
 /* ---------- overview map ---------- */
 .mapcard{
@@ -501,10 +500,10 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   border:1px solid color-mix(in srgb, var(--blue) 45%, var(--line));
   background:var(--blue-soft); color:var(--blue);
   display:inline-flex; align-items:center; justify-content:center; gap:0;
-  width:32px; height:32px; overflow:hidden; white-space:nowrap;
+  width:28px; height:28px; overflow:hidden; white-space:nowrap;
   font-size:12px; font-weight:700; letter-spacing:.01em;
-  padding:0; border-radius:50%; line-height:1.3;
-  margin-top:-14px; transform:translateY(-50%);
+  padding:0; border-radius:50%; line-height:1;
+  margin-top:-12px; transform:translateY(-50%);
   box-shadow:0 0 0 5px var(--paper);
   transition:width .24s ease, gap .24s ease, padding .24s ease, border-radius .24s ease,
     background .16s ease, color .16s ease, border-color .16s ease, transform .16s ease;
@@ -529,11 +528,11 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 @media (max-width:720px){
   .dayhead{display:block}
   .day-summary{display:block}
-  .stats{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px}
-  .stat{flex:1 1 150px; padding:13px 15px}
-  .stat .lab{font-size:11.5px; letter-spacing:.14em}
-  .stat .val{font-size:21px; margin-top:3px; white-space:normal}
-  .stat .note{font-size:12.5px; white-space:normal}
+  .stats{margin-top:12px; gap:6px}
+  .stat{padding:8px 6px; text-align:center}
+  .stat .lab{font-size:10px; letter-spacing:.1em; justify-content:center}
+  .stat .val{font-size:15px; margin-top:2px; white-space:nowrap}
+  .stat .note{display:none}
   .live-weather{grid-template-columns:repeat(3,minmax(0,1fr))}
   .mapcard{margin-top:20px}
   .card-grid{grid-template-columns:minmax(0,1fr)}
@@ -599,10 +598,8 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
   .btn{min-height:44px; padding:10px 16px; font-size:13.5px}
   .menu-toggle{width:44px; height:44px}
   .ghost{min-height:44px; padding:10px 18px}
-  .navlink{min-height:44px; padding:10px 16px}
-  .tab{min-height:48px; padding:14px 18px 12px}
-  /* 4. day bar: start-align so first day is never cut in RTL scroll */
-  .rail-inner{justify-content:flex-start; scroll-padding-inline:16px}
+  .navlink{min-height:36px; padding:6px 14px}
+  .tab{min-height:48px; padding:14px 4px 12px}
   /* 7. save battery: no blur, no endless map motion */
   .rail{backdrop-filter:none; background:var(--paper)}
   .mapcard .routeline.is-drawn{animation:none}
@@ -708,6 +705,77 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 
 /* keep card content above the watermark */
 .card .card-grid{position:relative; z-index:1}
+
+/* ---------- packing checklist ---------- */
+.pack-head{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); column-gap:24px; padding-block:clamp(26px,4.5vw,44px) 4px}
+.pack-progress{background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--radius); padding:12px 16px; margin-top:16px; box-shadow:var(--shadow)}
+.pack-progress .bar{height:8px; border-radius:99px; background:var(--surface-2); overflow:hidden; margin-top:8px}
+.pack-progress .bar i{display:block; height:100%; background:var(--sea); border-radius:99px; transition:width .3s ease}
+.pack-progress .txt{font-size:13px; color:var(--muted); font-weight:700}
+.pack-cat{background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--radius); padding:14px 16px; margin:12px 0; box-shadow:var(--shadow)}
+.pack-cat > header{display:flex; align-items:center; gap:10px; justify-content:space-between}
+.pack-cat h3{font-size:17px}
+.pack-cat .count{font-size:11.5px; color:var(--faint); font-weight:700; white-space:nowrap}
+.pack-list{list-style:none; margin:10px 0 0; padding:0; display:grid; gap:2px}
+.pack-item{display:flex; align-items:center; gap:10px; padding:9px 6px; border-radius:10px; min-height:44px}
+.pack-item:hover{background:var(--surface-2)}
+.pack-check{flex:none; width:26px; height:26px; border-radius:8px; border:1.5px solid var(--faint); background:var(--surface); display:grid; place-items:center; font-size:15px; color:transparent; padding:0}
+.pack-item.done .pack-check{background:var(--sea); border-color:var(--sea); color:#fff}
+.pack-item.done .pack-label{text-decoration:line-through; color:var(--faint)}
+.pack-label{flex:1; font-size:15px; cursor:pointer}
+.pack-edit-input{flex:1; font-family:inherit; font-size:15px; color:var(--text); background:var(--raise); border:1px solid var(--sea); border-radius:8px; padding:8px 10px; min-height:44px; width:100%}
+.pack-icon-btn{flex:none; border:0; background:transparent; color:var(--faint); font-size:15px; min-width:44px; min-height:44px; border-radius:8px; padding:0 8px}
+.pack-icon-btn:hover{color:var(--text); background:var(--surface-2)}
+.pack-icon-btn.danger:hover{color:#fff; background:var(--red)}
+.pack-add{display:flex; gap:8px; margin-top:10px}
+.pack-add input{flex:1; font-family:inherit; font-size:15px; color:var(--text); background:var(--raise); border:1px solid var(--line); border-radius:9px; padding:10px 12px; min-height:44px; min-width:0}
+.pack-add input:focus{outline:none; border-color:var(--sea); background:var(--surface)}
+.pack-foot{display:flex; justify-content:center; padding:18px 0 70px}
+
+/* ---------- side drawer ---------- */
+.rail-wrap{display:flex; align-items:center; gap:2px}
+.rail-wrap .rail-inner{flex:1; min-width:0}
+.menu-btn{flex:none; width:44px; min-height:48px; background:none; border:0; color:var(--text); font-size:21px; line-height:1; border-radius:10px}
+.menu-btn:hover{background:var(--surface-2)}
+.scrim{position:fixed; inset:0; background:rgba(0,0,0,.45); opacity:0; visibility:hidden; transition:opacity .22s ease, visibility .22s ease; z-index:90}
+.scrim.open{opacity:1; visibility:visible}
+.drawer{position:fixed; top:0; bottom:0; right:0; width:min(300px, 84vw); z-index:91;
+  background:var(--surface); border-inline-end:1px solid var(--line);
+  padding:calc(14px + env(safe-area-inset-top, 0px)) 16px calc(20px + env(safe-area-inset-bottom, 0px));
+  transform:translateX(100%); transition:transform .26s ease; overflow:hidden;
+  display:flex; flex-direction:column}
+.drawer.open{transform:none}
+.drawer-body{flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:10px; padding-bottom:12px}
+.drawer-foot{flex:none; display:flex; gap:6px; padding-top:10px; border-top:1px solid var(--line-soft)}
+.drawer-tel{flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center; gap:3px; padding:8px 2px; border-radius:10px; background:var(--raise); border:1px solid var(--line-soft); color:var(--text); text-decoration:none}
+.drawer-tel svg{width:18px; height:18px; display:block; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.drawer-tel .n{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500}
+.drawer-tel.police svg{color:var(--blue)}
+.drawer-tel.amb svg{color:var(--red)}
+.drawer-tel.fire svg{color:var(--gold)}
+.drawer-tel.road svg{color:var(--sea)}
+.drawer-head{display:flex; align-items:center; justify-content:space-between}
+.drawer-head strong{font-family:"Frank Ruhl Libre",serif; font-size:20px}
+.drawer-close{background:none; border:0; font-size:26px; line-height:1; color:var(--muted); min-width:44px; min-height:44px; border-radius:10px}
+.drawer-close:hover{background:var(--surface-2); color:var(--text)}
+.drawer-villa{display:flex; align-items:center; justify-content:center; gap:8px; min-height:52px;
+  border-radius:14px; border:1px solid var(--gold); background:var(--gold-soft); color:var(--gold);
+  font-size:16px; font-weight:700; width:100%}
+.drawer-link{display:flex; align-items:center; gap:10px; min-height:52px; width:100%;
+  border-radius:14px; border:1px solid var(--line); background:var(--raise); color:var(--text);
+  font-size:15px; font-weight:700; padding:10px 14px; text-align:right}
+.drawer-link:hover{background:var(--surface-2)}
+.drawer-link .n{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--gold)}
+.drawer-sep{border:0; border-top:1px solid var(--line-soft); margin:4px 0}
+.drawer-lab{font-size:11px; letter-spacing:.14em; color:var(--faint); font-weight:700}
+a.drawer-link{text-decoration:none}
+
+/* ---------- day prev/next ---------- */
+.daynav{display:flex; justify-content:space-between; gap:10px; padding:8px 0 70px}
+.daynav-btn{min-height:48px; font-size:14px}
+.villaaddr{margin-bottom:12px; font-size:13px; color:var(--muted)}
+.villaaddr strong{color:var(--text); font-size:14px}
+@media (max-width:720px){ .pack-head{display:block} }
 </style>
 
 </head>
@@ -720,15 +788,13 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
         <p class="sub">24–27 בספטמבר 2026 · טיווט, בודווה, פודגוריצה, קוטור, פרסט, פורטו מונטנגרו</p>
         <p class="countdown" id="tripCount"></p>
       </div>
-      <div class="tools">
-                <button class="ghost villa-nav-button" id="navVillaBtn" type="button">🏠 נווט לוילה</button>
-      </div>
     </div>
   </header>
 </div>
 
 <nav class="rail" aria-label="ימי הטיול">
-  <div class="wrap">
+  <div class="wrap rail-wrap">
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="פתח תפריט">☰</button>
     <div class="rail-inner" id="rail" role="tablist"></div>
   </div>
 </nav>
@@ -737,6 +803,10 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 
 <div class="wrap">
   <footer class="pagefoot">
+    <div class="villaaddr">
+      <strong>הווילה · Villa Mare Reževići</strong><br>
+      <span dir="ltr">Reževići, katun bb, Budva 85300</span>
+    </div>
     <div class="emg">
       <strong>חירום במונטנגרו</strong>
       <div class="emg-row">
@@ -749,6 +819,28 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
     </div>
   </footer>
 </div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="תפריט" aria-hidden="true">
+ <div class="drawer-body">
+  <div class="drawer-head">
+    <strong>תפריט</strong>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="סגור תפריט">×</button>
+  </div>
+  <button class="drawer-villa" id="drawerVilla" type="button">🏠 נווט לוילה</button>
+  <hr class="drawer-sep">
+  <button class="drawer-link" type="button" data-go="pack"><span class="n">🎒</span>רשימת אריזה</button>
+  <hr class="drawer-sep">
+  <div class="drawer-lab">ימי הטיול</div>
+  <div id="drawerDays" style="display:flex; flex-direction:column; gap:10px"></div>
+ </div>
+ <div class="drawer-foot" aria-label="טלפוני חירום">
+   <a class="drawer-tel police" href="tel:122" aria-label="משטרה 122"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z"/><path d="M12 8.5l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3 1-2z"/></svg><span class="n">122</span></a>
+   <a class="drawer-tel amb" href="tel:124" aria-label="אמבולנס 124"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg><span class="n">124</span></a>
+   <a class="drawer-tel fire" href="tel:123" aria-label="מכבי אש 123"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c4.4 0 7.5-3 7.5-7 0-3.5-2.5-6-4.5-8-.3 1.5-1 2.5-2 3.5C12.5 7 12 4.8 12 3c-3 2.5-7 6-7 11 0 4 3.1 7 7 7z"/></svg><span class="n">123</span></a>
+   <a class="drawer-tel road" href="tel:19807" aria-label="עזרה בדרכים 19807"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3.5v5M12 15.5v5M3.5 12h5M15.5 12h5"/></svg><span class="n">19807</span></a>
+ </div>
+</aside>
 
 <script>
 /* =========================================================
@@ -1089,7 +1181,80 @@ const BASE = [
 }
 ];
 
-/* ========================= helpers ========================= */
+/* ========================= packing checklist ========================= */
+const PACK_BASE = [
+  {id:"p-docs", title:"מסמכים וכסף", items:[
+    "דרכון + צילום בטלפון",
+    "רישיון ישראלי + בינלאומי",
+    "כרטיסי טיסה",
+    "ביטוח נסיעות",
+    "300–400 € מזומן (סירה 280 € במזומן, שוק, חניות)",
+    "אשראי לפיקדון הרכב",
+    "טלפון מארח הווילה שמור"]},
+  {id:"p-day", title:"בגדי יום", items:[
+    "4 חולצות טי נושמות",
+    "2 מכנסיים קצרים / קלים",
+    "מכנס ארוך קל (שבת בקוטור)",
+    "בגד ים",
+    "חולצת פשתן / חולצת חוף לסירה"]},
+  {id:"p-eve", title:"בגדי ערב", items:[
+    "3 חולצות מכופתרות / אוברשירט",
+    "2 מכנסיים ארוכים / מחויטים קלים",
+    "ז׳קט דק ל-18° בפודגוריצה",
+    "שכבה דקה לטיסה חזרה",
+    "פולו + מכנס נוח ליום ראשון"]},
+  {id:"p-shoes", title:"נעליים", items:[
+    "נעלי הליכה סגורות (אבן מחליקה + מדרגות)",
+    "סנדלים לים ולסירה",
+    "נעליים נקיות סגורות לערב"]},
+  {id:"p-sea", title:"ים וסירה (שישי 10:00)", items:[
+    "מגבת חוף קלה",
+    "קרם הגנה",
+    "כובע + משקפי שמש",
+    "תיק חוף מתקפל",
+    "שקית אטומה לטלפון"]},
+  {id:"p-villa", title:"וילה ולינה (3 לילות)", items:[
+    "מטען + מתאם אירופאי Type F + מפצל",
+    "סוללת גיבוי",
+    "תיק קניות מתקפל (HDL/Voli)",
+    "נשנוש לטיסה (Duty Free בטיווט מינימלי)"]},
+  {id:"p-health", title:"בריאות והגיינה", items:[
+    "תרופות קבועות",
+    "משככים + פלסטרים",
+    "אל-תוש / מגבונים",
+    "דאודורנט + מברשת שיניים"]}
+];
+const PACK_KEY = "mne2026.pack.v1";
+let pack = null;
+let packEdit = null;
+function packDefault(){
+  return PACK_BASE.map(c => ({id:c.id, title:c.title,
+    items:c.items.map(t => ({id:packUid(), text:t, done:false}))}));
+}
+function packLoad(){
+  try {
+    const raw = localStorage.getItem(PACK_KEY);
+    if (!raw){ pack = packDefault(); return; }
+    const d = JSON.parse(raw);
+    if (d && Array.isArray(d) && d.length){
+      pack = d;
+      // add any new base items missing locally
+      PACK_BASE.forEach((bc, ci) => {
+        if (!pack[ci] || pack[ci].id !== bc.id) return;
+        bc.items.forEach(t => {
+          if (!pack[ci].items.some(it => it.text === t))
+            pack[ci].items.push({id:packUid(), text:t, done:false});
+        });
+      });
+      return;
+    }
+  } catch (_) {}
+  pack = packDefault();
+}
+function packSave(){
+  try { localStorage.setItem(PACK_KEY, JSON.stringify(pack)); } catch (_) {}
+}
+const packUid = () => "p" + Math.random().toString(36).slice(2, 9);
 function calcEndTime(time, dur) {
   if (!time || !dur) return null;
   const open = /פתוח/.test(dur);
@@ -1575,14 +1740,24 @@ function renderRail(){
   const rail = $("#rail");
   rail.innerHTML = days.map((d, i) => `
     <button class="tab" role="tab" type="button" data-i="${i}" aria-selected="${i === active}">
-      <span class="n">0${i + 1}</span><span class="t">${esc(d.tab)}</span>
+      <span class="t">${esc(d.tab)}</span>
     </button>`).join("") + `<span class="rail-ink" id="railInk"></span>`;
   rail.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => go(+b.dataset.i)));
   moveInk();
+  const dd = $("#drawerDays");
+  if (dd){
+    dd.innerHTML = days.map((d, i) => `
+      <button class="drawer-link" type="button" data-go="${i}"><span class="n">0${i + 1}</span>${esc(d.tab)} · ${esc(d.date)}</button>`).join("");
+    dd.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => {
+      closeDrawer();
+      go(+b.dataset.go);
+    }));
+  }
 }
 function moveInk(){
   const ink = $("#railInk"), tab = $(`.tab[data-i="${active}"]`);
-  if (!ink || !tab) return;
+  if (!ink) return;
+  if (!tab){ ink.style.width = "0px"; return; }
   const parent = tab.parentElement.getBoundingClientRect(), r = tab.getBoundingClientRect();
   const left = r.left - parent.left + tab.parentElement.scrollLeft;
   if (window.gsap && !matchMedia("(prefers-reduced-motion: reduce)").matches){
@@ -1618,6 +1793,16 @@ function anchorCard(a, side){
       </div>
     </div>
   </article>`;
+}
+
+function dayNav(i){
+  const prev = i > 0
+    ? `<button class="ghost daynav-btn" type="button" data-daynav="prev">→ יום קודם</button>`
+    : `<span></span>`;
+  const next = i < days.length - 1
+    ? `<button class="ghost daynav-btn" type="button" data-daynav="next">יום הבא ←</button>`
+    : `<button class="ghost daynav-btn" type="button" data-daynav="pack">🎒 רשימת אריזה ←</button>`;
+  return `<div class="daynav">${prev}${next}</div>`;
 }
 
 function stopView(s, i, n, prev, special, nextStop){
@@ -1753,6 +1938,7 @@ let editing = null;
 
 function render(i, animate = true){
   active = i;
+  if (i === days.length){ renderPack(); if (animate) animateIn(); else drawRoute(0); return; }
   const d = days[i];
   const A = d.anchors || {};
   const nStops = d.stops.length;
@@ -1782,12 +1968,12 @@ function render(i, animate = true){
         <p class="blurb">${esc(d.blurb)}</p>
         ${weatherMarkup(d)}
         <div class="stats">
-          ${d.stats.map(([lab, val, note]) => {
+          ${d.stats.map(([lab, val]) => {
             if (lab === "לבוש") {
               const sunset = liveWeatherFor(d)?.sunset;
-              return `<div class="stat sunset-stat"><div class="lab"><span class="stat-icon" aria-hidden="true">${weatherIcon("sunset")}</span>שקיעה</div><div class="val" data-sunset>${sunset ? esc(sunset) : "…"}</div><div class="note">שעת שקיעה מקומית</div></div>`;
+              return `<div class="stat sunset-stat"><div class="lab"><span class="stat-icon" aria-hidden="true">${weatherIcon("sunset")}</span>שקיעה</div><div class="val" data-sunset>${sunset ? esc(sunset) : "…"}</div></div>`;
             }
-            return `<div class="stat"><div class="lab"><span class="stat-icon" aria-hidden="true">${statIcon(lab)}</span>${esc(lab)}</div><div class="val">${esc(val)}</div><div class="note">${esc(note)}</div></div>`;
+            return `<div class="stat"><div class="lab"><span class="stat-icon" aria-hidden="true">${statIcon(lab)}</span>${esc(lab)}</div><div class="val">${esc(val)}</div></div>`;
           }).join("")}
         </div>
       </div>
@@ -1804,6 +1990,7 @@ function render(i, animate = true){
       <div class="insert first"><button type="button" aria-label="הוסף תחנה" data-act="add" data-i="-1"><span class="insert-plus" aria-hidden="true">+</span><span class="insert-label">הוסף תחנה</span></button></div>
       ${stopsHtml}
       ${tailHtml}
+      ${dayNav(i)}
     </section>
 `;
   isolate($("#day"));
@@ -1811,6 +1998,129 @@ function render(i, animate = true){
   renderRail();
   if (animate) animateIn();
   else drawRoute(0);
+}
+
+function renderPack(){
+  if (!pack) packLoad();
+  const total = pack.reduce((a, c) => a + c.items.length, 0);
+  const done = pack.reduce((a, c) => a + c.items.filter(it => it.done).length, 0);
+  const pct = total ? Math.round(done / total * 100) : 0;
+  $("#day").innerHTML = `
+    <section class="pack-head">
+      <div class="day-summary">
+        <div class="kicker">טרולי + תיק גב · 24–27 בספטמבר</div>
+        <h2>רשימת אריזה 🎒</h2>
+        <p class="blurb">מסודר לפי הלו"ז: סירה בשישי, 3 ארוחות שף, BIRO בחמישי, ושכבה דקה ל-18° בפודגוריצה ולטיסה. סימון נשמר בטלפון שלך.</p>
+        <div class="pack-progress">
+          <div class="txt">${done} מתוך ${total} נארזו · ${pct}%</div>
+          <div class="bar"><i style="width:${pct}%"></i></div>
+        </div>
+      </div>
+      <div class="mapcard" style="padding:16px 18px">
+        <h3>איך זה עובד?</h3>
+        <p class="blurb" style="margin-top:6px">סמן V על מה שנארז · ✎ לערוך שם פריט · × למחוק · הוסף פריט חדש בכל קטגוריה למטה.</p>
+      </div>
+    </section>
+    <section class="timeline" id="packList">
+      ${pack.map((c, ci) => {
+        const cd = c.items.filter(it => it.done).length;
+        return `<article class="pack-cat" data-c="${ci}">
+        <header><h3>${esc(c.title)}</h3><span class="count">${cd}/${c.items.length}</span></header>
+        <ul class="pack-list">
+          ${c.items.map((it, ii) => `<li class="pack-item${it.done ? " done" : ""}" data-c="${ci}" data-ii="${ii}">
+            <button class="pack-check" type="button" data-pack="toggle" data-c="${ci}" data-ii="${ii}" aria-label="סמן כנארז">✓</button>
+            ${packEdit && packEdit.c === ci && packEdit.ii === ii
+              ? `<input class="pack-edit-input" data-pack-edit="${ci}:${ii}" value="${esc(it.text)}">`
+              : `<span class="pack-label" data-pack="toggle" data-c="${ci}" data-ii="${ii}">${esc(it.text)}</span>`}
+            ${packEdit && packEdit.c === ci && packEdit.ii === ii
+              ? `<button class="btn primary" type="button" data-pack="saveEdit" data-c="${ci}" data-ii="${ii}">שמור</button>`
+              : `<button class="pack-icon-btn" type="button" data-pack="edit" data-c="${ci}" data-ii="${ii}" aria-label="ערוך">✎</button>`}
+            <button class="pack-icon-btn danger" type="button" data-pack="del" data-c="${ci}" data-ii="${ii}" aria-label="מחק">×</button>
+          </li>`).join("")}
+        </ul>
+        <div class="pack-add">
+          <input data-pack-add="${ci}" placeholder="הוסף פריט ל${esc(c.title)}…" aria-label="הוסף פריט">
+          <button class="btn primary" type="button" data-pack="add" data-c="${ci}">הוסף</button>
+        </div>
+      </article>`; }).join("")}
+      <div class="pack-foot">
+        <button class="btn danger" type="button" data-pack="reset">אפס לרשימת ברירת מחדל</button>
+      </div>
+    </section>
+  `;
+  isolate($("#day"));
+  bindPack();
+  renderRail();
+}
+
+function bindPack(){
+  $("#day").querySelectorAll('[data-pack="toggle"]').forEach(el => {
+    el.addEventListener("click", () => {
+      const c = +el.dataset.c, ii = +el.dataset.ii;
+      pack[c].items[ii].done = !pack[c].items[ii].done;
+      packSave(); renderPack();
+    });
+  });
+  $("#day").querySelectorAll('[data-pack="edit"]').forEach(el => {
+    el.addEventListener("click", () => {
+      packEdit = {c:+el.dataset.c, ii:+el.dataset.ii};
+      renderPack();
+      const inp = document.querySelector(`[data-pack-edit="${packEdit.c}:${packEdit.ii}"]`);
+      if (inp){ inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
+    });
+  });
+  const commitEdit = (c, ii) => {
+    const inp = document.querySelector(`[data-pack-edit="${c}:${ii}"]`);
+    if (inp && inp.value.trim()) pack[c].items[ii].text = inp.value.trim();
+    packEdit = null; packSave(); renderPack();
+  };
+  $("#day").querySelectorAll('[data-pack="saveEdit"]').forEach(el => {
+    el.addEventListener("click", () => commitEdit(+el.dataset.c, +el.dataset.ii));
+  });
+  $("#day").querySelectorAll("[data-pack-edit]").forEach(inp => {
+    inp.addEventListener("keydown", e => {
+      const [c, ii] = inp.dataset.packEdit.split(":").map(Number);
+      if (e.key === "Enter") commitEdit(c, ii);
+      if (e.key === "Escape"){ packEdit = null; renderPack(); }
+    });
+  });
+  const commitAdd = (ci) => {
+    const inp = document.querySelector(`[data-pack-add="${ci}"]`);
+    if (inp && inp.value.trim()){
+      pack[ci].items.push({id:packUid(), text:inp.value.trim(), done:false});
+      packSave(); renderPack();
+    }
+  };
+  $("#day").querySelectorAll('[data-pack="add"]').forEach(el => {
+    el.addEventListener("click", () => commitAdd(+el.dataset.c));
+  });
+  $("#day").querySelectorAll("[data-pack-add]").forEach(inp => {
+    inp.addEventListener("keydown", e => {
+      if (e.key === "Enter") commitAdd(+inp.dataset.packAdd);
+    });
+  });
+  $("#day").querySelectorAll('[data-pack="del"]').forEach(el => {
+    el.addEventListener("click", () => {
+      if (!el.classList.contains("armed")){
+        el.classList.add("armed");
+        el.style.color = "var(--red)"; el.style.fontWeight = "700";
+        setTimeout(() => { el.classList.remove("armed"); el.style.color = ""; }, 3000);
+        return;
+      }
+      pack[+el.dataset.c].items.splice(+el.dataset.ii, 1);
+      packSave(); renderPack();
+    });
+  });
+  const rst = document.querySelector('[data-pack="reset"]');
+  if (rst) rst.addEventListener("click", () => {
+    if (!rst.classList.contains("armed")){
+      rst.classList.add("armed"); rst.textContent = "לאשר איפוס?";
+      setTimeout(() => { rst.classList.remove("armed"); rst.textContent = "אפס לרשימת ברירת מחדל"; }, 3000);
+      return;
+    }
+    pack = packDefault(); packEdit = null; packSave(); renderPack();
+  });
+  observeStops();
 }
 
 function animateIn(){
@@ -1965,6 +2275,15 @@ function bind(){
       }
     });
   });
+  $("#day").querySelectorAll("[data-daynav]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const k = btn.dataset.daynav;
+      if (k === "prev" && active > 0) go(active - 1);
+      else if (k === "next" && active < days.length - 1) go(active + 1);
+      else if (k === "pack") go(days.length);
+      window.scrollTo({top: 0, behavior: "smooth"});
+    });
+  });
   observeStops();
 }
 function closeActionMenus(){
@@ -1984,13 +2303,33 @@ function scrollToCard(i){
   });
 }
 
-/* ========================= villa navigation ========================= */
-const navVillaBtn = $("#navVillaBtn");
-navVillaBtn.addEventListener("click", () => {
+/* ========================= side drawer ========================= */
+function openDrawer(){
+  $("#drawer").classList.add("open");
+  $("#drawer").setAttribute("aria-hidden", "false");
+  $("#scrim").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeDrawer(){
+  const dr = $("#drawer");
+  if (!dr || !dr.classList.contains("open")) return;
+  dr.classList.remove("open");
+  dr.setAttribute("aria-hidden", "true");
+  $("#scrim").classList.remove("open");
+  document.body.style.overflow = "";
+}
+$("#menuBtn").addEventListener("click", openDrawer);
+$("#drawerClose").addEventListener("click", closeDrawer);
+$("#scrim").addEventListener("click", closeDrawer);
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeDrawer(); });
+$("#drawerVilla").addEventListener("click", () => {
   const villa = PLACES.villa;
-  if (villa && villa.link) {
-    window.open(villa.link, "_blank");
-  }
+  if (villa && villa.link) window.open(villa.link, "_blank");
+  closeDrawer();
+});
+document.querySelector('#drawer [data-go="pack"]').addEventListener("click", () => {
+  closeDrawer();
+  go(days.length);
 });
 
 /* ========================= boot ========================= */
