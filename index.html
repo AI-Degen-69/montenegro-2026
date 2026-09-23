@@ -1517,17 +1517,17 @@ const mapIcon = kind => {
 function wxChipsInner(day){
   const weather = liveWeatherFor(day);
   if (!weather) return `<span class="map-chip">טוען…</span>`;
-  return `<span class="map-chip">${mapIcon("sun")}<span class="k">יום</span><span class="v">${weather.high}°</span></span>
-    <span class="map-chip">${mapIcon("moon")}<span class="k">ערב</span><span class="v">${weather.low}°</span></span>
-    <span class="map-chip">${mapIcon("sea")}<span class="k">ים</span><span class="v">${weather.sea == null ? "—" : `${weather.sea}°`}</span></span>`;
+  return `<span class="map-chip" aria-label="יום ${weather.high} מעלות">${mapIcon("sun")}<span class="v">${weather.high}°</span></span>
+    <span class="map-chip" aria-label="ערב ${weather.low} מעלות">${mapIcon("moon")}<span class="v">${weather.low}°</span></span>
+    <span class="map-chip" aria-label="ים ${weather.sea == null ? "—" : `${weather.sea} מעלות`}">${mapIcon("sea")}<span class="v">${weather.sea == null ? "—" : `${weather.sea}°`}</span></span>`;
 }
 function mapOverlays(day){
   const weather = liveWeatherFor(day);
   const drive = (day.stats.find(s => s[0] === "נהיגה") || [])[1] || "";
   const sunset = weather?.sunset;
   const bottom = (sunset || drive) ? `<div class="map-overlay bottom">
-      ${sunset ? `<span class="map-chip">${mapIcon("set")}<span class="k">שקיעה</span><span class="v" data-sunset>${esc(sunset)}</span></span>` : ""}
-      ${drive ? `<span class="map-chip">${mapIcon("drive")}<span class="k">נהיגה</span><span class="v">${esc(drive)}</span></span>` : ""}
+      ${sunset ? `<span class="map-chip" aria-label="שקיעה ${esc(sunset)}">${mapIcon("set")}<span class="v" data-sunset>${esc(sunset)}</span></span>` : ""}
+      ${drive ? `<span class="map-chip" aria-label="נהיגה ${esc(drive)}">${mapIcon("drive")}<span class="v">${esc(drive)}</span></span>` : ""}
     </div>` : "";
   return `<div class="map-overlay top" data-wx title="${esc(weather ? weatherDescription(weather.code) : "")}">${wxChipsInner(day)}</div>${bottom}`;
 }
@@ -1559,8 +1559,8 @@ function mapViewBox(keys){
 
   let minX = Math.min(...points.map(p => p.x)) - 72;
   let maxX = Math.max(...points.map(p => p.x)) + 72;
-  let minY = Math.min(...points.map(p => p.y)) - 38;
-  let maxY = Math.max(...points.map(p => p.y)) + 38;
+  let minY = Math.min(...points.map(p => p.y)) - 96;
+  let maxY = Math.max(...points.map(p => p.y)) + 96;
   let width = maxX - minX;
   let height = maxY - minY;
 
