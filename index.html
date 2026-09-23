@@ -842,6 +842,7 @@ a.drawer-link{text-decoration:none}
  </div>
 </aside>
 
+<script src="./utils.cjs"></script>
 <script>
 /* =========================================================
    nodes — schematic projection of the Montenegrin coast
@@ -1255,22 +1256,8 @@ function packSave(){
   try { localStorage.setItem(PACK_KEY, JSON.stringify(pack)); } catch (_) {}
 }
 const packUid = () => "p" + Math.random().toString(36).slice(2, 9);
-function calcEndTime(time, dur) {
-  if (!time || !dur) return null;
-  const open = /פתוח/.test(dur);
-  if (open) return null;
-  const [h, m] = time.split(":").map(Number);
-  let addMin = 0;
-  const hrs = dur.match(/([\d.]+)\s*שע/);
-  const mins = dur.match(/(\d+)\s*דק/);
-  if (hrs) addMin += parseFloat(hrs[1]) * 60;
-  if (mins) addMin += parseInt(mins[1], 10);
-  if (!addMin) return null;
-  const total = h * 60 + m + addMin;
-  const eh = Math.floor(total / 60) % 24;
-  const em = total % 60;
-  return String(eh).padStart(2, "0") + ":" + String(em).padStart(2, "0");
-}
+/* pure helpers live in utils.js (also consumed by node tests) */
+const { calcEndTime, weatherDescription } = window.TripUtils;
 
 function getCategory(stop) {
   const map = {
@@ -1475,17 +1462,6 @@ const statIcon = lab => {
   if (lab === "תקציב") return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 6.5c-1-.9-2.2-1.4-3.6-1.4-2.7 0-4.6 2.1-4.6 5s1.9 5 4.6 5c1.4 0 2.6-.5 3.6-1.4M7 8.5h6M7 11.5h6"/></svg>`;
   return "";
 };
-function weatherDescription(code){
-  if (code === 0) return "בהיר";
-  if ([1,2].includes(code)) return "מעונן חלקית";
-  if (code === 3) return "מעונן";
-  if ([45,48].includes(code)) return "ערפל";
-  if ([51,53,55,56,57].includes(code)) return "טפטוף";
-  if ([61,63,65,66,67,80,81,82].includes(code)) return "גשם";
-  if ([71,73,75,77,85,86].includes(code)) return "שלג";
-  if ([95,96,99].includes(code)) return "סופות";
-  return "מזג אוויר משתנה";
-}
 function weatherDate(day){
   const match = String(day.date || "").match(/(\d{1,2}) בספטמבר 2026/);
   return match ? `2026-09-${String(match[1]).padStart(2, "0")}` : "";

@@ -2,6 +2,9 @@
   "name": "montenegro-2026",
   "private": true,
   "type": "module",
+  "scripts": {
+    "test": "node --test \"test/*.cjs\""
+  },
   "description": "Static Hebrew trip itinerary + /api/plan shared state on Vercel Blob",
   "dependencies": {
     "@vercel/blob": "^2.8.0"
