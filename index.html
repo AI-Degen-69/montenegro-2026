@@ -198,7 +198,10 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .mapcard svg{display:block; width:100%; height:auto; max-width:100%; background:var(--land)}
 .mapwrap{position:relative}
 .map-overlay{position:absolute; left:8px; right:8px; display:flex; gap:6px; z-index:2; pointer-events:none}
-.map-overlay.corner{left:auto; right:8px; bottom:8px; width:52%; display:grid; grid-template-columns:1fr 1fr}
+.map-overlay.corner{left:auto; right:8px; bottom:8px; width:42%; display:grid; grid-template-columns:1fr 1fr}
+.map-overlay.corner .map-chip{padding:5px 2px}
+.map-overlay.corner .map-chip .v{font-size:13px}
+.map-overlay.corner .map-chip svg{width:12px; height:12px}
 .map-chip{flex:1 1 0; min-width:0; display:flex; align-items:center; justify-content:center; gap:5px; padding:6px 4px; border-radius:9px; border:1px solid var(--line-soft);
   background:color-mix(in srgb, var(--surface) 82%, transparent); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
   font-size:12px; font-weight:700; white-space:nowrap}
@@ -1513,9 +1516,9 @@ const mapIcon = kind => {
 };
 function cornerChipsInner(day){
   const weather = liveWeatherFor(day);
-  const drive = (day.stats.find(s => s[0] === "נהיגה") || [])[1] || "";
   if (!weather) return `<span class="map-chip">טוען…</span>`;
-  return `<span class="map-chip" aria-label="נהיגה ${esc(drive)}">${mapIcon("drive")}<span class="v">${esc(drive)}</span></span>
+  const sunset = weather.sunset || "—";
+  return `<span class="map-chip" aria-label="שקיעה ${sunset}">${mapIcon("set")}<span class="v">${sunset}</span></span>
     <span class="map-chip" aria-label="יום ${weather.high} מעלות">${mapIcon("sun")}<span class="v">${weather.high}°</span></span>
     <span class="map-chip" aria-label="ערב ${weather.low} מעלות">${mapIcon("moon")}<span class="v">${weather.low}°</span></span>
     <span class="map-chip" aria-label="ים ${weather.sea == null ? "—" : `${weather.sea} מעלות`}">${mapIcon("sea")}<span class="v">${weather.sea == null ? "—" : `${weather.sea}°`}</span></span>`;
