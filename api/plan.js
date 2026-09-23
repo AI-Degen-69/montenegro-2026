@@ -8,6 +8,7 @@
 // instead of silently overwriting someone else's edit.
 
 import { put, list } from '@vercel/blob';
+import { validatePlanPayload } from './validate-plan.js';
 
 // random segment keeps the public blob URL from being guessable
 const KEY = 'plan-9c41f7b2e6.json';
@@ -42,8 +43,9 @@ export default async function handler(req, res) {
 
     if (req.method === 'PUT' || req.method === 'POST') {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-      if (!body || !Array.isArray(body.days) || !body.days.length) {
-        return res.status(400).json({ error: 'days missing' });
+      const valid = validatePlanPayload(body);
+      if (!valid.ok) {
+        return res.status(400).json({ error: valid.error });
       }
 
       const current = await readPlan();
