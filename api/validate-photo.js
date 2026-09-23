@@ -6,10 +6,15 @@ const MAX_ID = 40;
 const JPEG_PREFIX = 'data:image/jpeg;base64,';
 
 function isJpeg(s) {
-  return typeof s === 'string'
-    && s.startsWith(JPEG_PREFIX)
-    && s.length > JPEG_PREFIX.length + 100
-    && s.length <= MAX_IMG_CHARS + JPEG_PREFIX.length;
+  if (typeof s !== 'string'
+    || !s.startsWith(JPEG_PREFIX)
+    || s.length <= JPEG_PREFIX.length + 100
+    || s.length > MAX_IMG_CHARS + JPEG_PREFIX.length) return false;
+  const b64 = s.slice(JPEG_PREFIX.length);
+  if (!/^[A-Za-z0-9+/]+={0,2}$/.test(b64)
+    || b64.length % 4 !== 0) return false;
+  const head = Buffer.from(b64.slice(0, 8), 'base64');
+  return head[0] === 0xFF && head[1] === 0xD8 && head[2] === 0xFF;
 }
 
 export function validatePhotoUpload(body) {

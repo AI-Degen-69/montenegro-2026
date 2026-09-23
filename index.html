@@ -1549,7 +1549,14 @@ async function albumRefresh(rerenderAlbumPage){
       try {
         const sent = await albumPost(p.url, p.thumb, p.stopId);
         albumPhotos = albumPhotos.filter(x => x.id !== p.id);
-        if (sent) albumPhotos.unshift(sent);
+        if (sent){
+          albumPhotos.unshift(sent);
+          let moved = false;
+          days.forEach(d => (d.stops || []).forEach(s => {
+            if (s.photoUrl && (s.photoUrl === p.url || s.photoUrl === p.thumb)){ s.photoUrl = sent.thumb; moved = true; }
+          }));
+          if (moved) scheduleSave();
+        }
       } catch (_) { /* stays local, retried next time */ }
     }
     const r = await fetch(ALBUM_API + "?t=" + Date.now(), {cache: "no-store"});
@@ -3086,6 +3093,7 @@ function bind(){
           if (albumPhotos === null) albumLoad();
           albumPhotos.unshift(sent);
           albumCache();
+          if (sent && sent.thumb) stop.photoUrl = sent.thumb;
         } catch (_) {
           albumAdd(full, stop.id, stop.photoUrl); // offline: stays local, syncs later
         }

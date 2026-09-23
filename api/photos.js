@@ -53,8 +53,14 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
-      const { blobs } = await list({ prefix: PREFIX, limit: 500 });
-      const metas = blobs.filter(b => b.pathname.endsWith('.json'));
+      res.setHeader('Cache-Control', 'public, s-maxage=15, stale-while-revalidate=60');
+      const metas = [];
+      let cursor;
+      do {
+        const page = await list({ prefix: PREFIX, limit: 1000, cursor });
+        metas.push(...page.blobs.filter(b => b.pathname.endsWith('.json')));
+        cursor = page.hasMore ? page.cursor : undefined;
+      } while (cursor);
       const photos = (await Promise.all(metas.map(b => readJson(b.url))))
         .map(cleanMeta)
         .filter(Boolean)

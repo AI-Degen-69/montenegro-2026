@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { validatePhotoUpload, validatePhotoLink, validatePhotoId } from '../api/validate-photo.js';
 
-const jpeg = (n = 500) => 'data:image/jpeg;base64,' + 'a'.repeat(n);
+const jpeg = (n = 500) => 'data:image/jpeg;base64,/9j/' + 'a'.repeat(Math.max(0, n - (n % 4)));
 const upload = (over = {}) => ({ image: jpeg(), thumb: jpeg(), stopId: 's101', ...over });
 
 describe('validatePhotoUpload', () => {
@@ -20,10 +20,11 @@ describe('validatePhotoUpload', () => {
   it('rejects non-jpeg images', () => {
     assert.equal(validatePhotoUpload({ image: 'data:image/png;base64,' + 'a'.repeat(500) }).ok, false);
     assert.equal(validatePhotoUpload({ image: 'not-a-data-url' }).ok, false);
+    assert.equal(validatePhotoUpload({ image: 'data:image/jpeg;base64,' + 'a'.repeat(500) }).ok, false);
     assert.equal(validatePhotoUpload({}).ok, false);
   });
   it('rejects oversized images', () => {
-    assert.equal(validatePhotoUpload(upload({ image: jpeg(2000001) })).ok, false);
+    assert.equal(validatePhotoUpload(upload({ image: jpeg(2000004) })).ok, false);
   });
   it('rejects oversized stopId', () => {
     assert.equal(validatePhotoUpload(upload({ stopId: 'x'.repeat(65) })).ok, false);
