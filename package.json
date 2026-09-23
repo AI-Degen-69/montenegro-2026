@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test \"test/*.cjs\""
+    "test": "node --test \"test/*.cjs\" \"test/*.test.js\""
   },
   "description": "Static Hebrew trip itinerary + /api/plan shared state on Vercel Blob",
   "dependencies": {
