@@ -629,12 +629,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 
 /* --- Meal — terracotta, food emoji --- */
 .card.category-meal{border-inline-start-color:var(--cat-meal)}
-.card.category-meal::before{
-  content:"א"; position:absolute; inset-inline-end:6px; bottom:-24px;
-  font-family:"Frank Ruhl Libre",serif; font-weight:900; font-size:130px; line-height:1;
-  color:transparent; -webkit-text-stroke:1.5px var(--line);
-  opacity:.8; pointer-events:none; z-index:0;
-}
+.card.category-meal{--wm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 17.5h16'/%3E%3Cpath d='M5 17.5a7 7 0 0 1 14 0'/%3E%3Cpath d='M12 10.5V9'/%3E%3Ccircle cx='12' cy='7.5' r='1'/%3E%3C/svg%3E"); --wm-rot:-14deg; --wm-rot2:12deg}
 .card.category-meal .category-label{
   display:inline-flex; align-items:center; color:var(--cat-meal-ink); background:var(--cat-meal-soft);
   border:1px solid color-mix(in srgb, var(--cat-meal) 30%, transparent);
@@ -642,12 +637,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 
 /* --- Beach — aqua, sea emoji --- */
 .card.category-beach{border-inline-start-color:var(--cat-beach)}
-.card.category-beach::before{
-  content:"ח"; position:absolute; inset-inline-end:6px; bottom:-24px;
-  font-family:"Frank Ruhl Libre",serif; font-weight:900; font-size:130px; line-height:1;
-  color:transparent; -webkit-text-stroke:1.5px var(--line);
-  opacity:.8; pointer-events:none; z-index:0;
-}
+.card.category-beach{--wm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='3.5'/%3E%3Cpath d='M2.5 17c2.4-2.4 4.8 2.4 7.2 0s4.8 2.4 7.2 0 3-1.6 4.6-.4'/%3E%3Cpath d='M2.5 20.5c2.4-2.4 4.8 2.4 7.2 0s4.8 2.4 7.2 0 3-1.6 4.6-.4'/%3E%3C/svg%3E"); --wm-rot:10deg; --wm-rot2:-16deg}
 .card.category-beach .category-label{
   display:inline-flex; align-items:center; color:var(--cat-beach-ink); background:var(--cat-beach-soft);
   border:1px solid color-mix(in srgb, var(--cat-beach) 30%, transparent);
@@ -655,12 +645,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 
 /* --- Tourism — sea teal (page accent), landmark emoji --- */
 .card.category-tourism{border-inline-start-color:var(--cat-tourism)}
-.card.category-tourism::before{
-  content:"ת"; position:absolute; inset-inline-end:6px; bottom:-24px;
-  font-family:"Frank Ruhl Libre",serif; font-weight:900; font-size:130px; line-height:1;
-  color:transparent; -webkit-text-stroke:1.5px var(--line);
-  opacity:.8; pointer-events:none; z-index:0;
-}
+.card.category-tourism{--wm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5 12 4l8 5.5'/%3E%3Cpath d='M4.5 9.5h15'/%3E%3Cpath d='M6.5 9.5V16M10.2 9.5V16M13.8 9.5V16M17.5 9.5V16'/%3E%3Cpath d='M4 19.5h16'/%3E%3C/svg%3E"); --wm-rot:-8deg; --wm-rot2:18deg}
 .card.category-tourism .category-label{
   display:inline-flex; align-items:center; color:var(--cat-tourism-ink); background:var(--cat-tourism-soft);
   border:1px solid color-mix(in srgb, var(--cat-tourism) 30%, transparent);
@@ -668,12 +653,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 
 /* --- Chore — neutral gray, dashed side border, tools emoji --- */
 .card.category-chore{border-style:solid; border-inline-start:4px dashed color-mix(in srgb, var(--cat-chore) 65%, var(--line))}
-.card.category-chore::before{
-  content:"מ"; position:absolute; inset-inline-end:6px; bottom:-24px;
-  font-family:"Frank Ruhl Libre",serif; font-weight:900; font-size:130px; line-height:1;
-  color:transparent; -webkit-text-stroke:1.5px var(--line);
-  opacity:.8; pointer-events:none; z-index:0;
-}
+.card.category-chore{--wm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 10h14l-1.4 9H6.4L5 10z'/%3E%3Cpath d='M8.5 10 12 4l3.5 6'/%3E%3C/svg%3E"); --wm-rot:14deg; --wm-rot2:-10deg}
 .card.category-chore .category-label{
   display:inline-flex; align-items:center; color:var(--cat-chore-ink); background:var(--cat-chore-soft);
   border:1px solid color-mix(in srgb, var(--cat-chore) 32%, transparent);
@@ -681,12 +661,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 
 /* --- Drinks / Quick Grab — violet, cocktail emoji --- */
 .card.category-drinks-quick-grab{border-inline-start-color:var(--cat-drinks)}
-.card.category-drinks-quick-grab::before{
-  content:"ש"; position:absolute; inset-inline-end:6px; bottom:-24px;
-  font-family:"Frank Ruhl Libre",serif; font-weight:900; font-size:130px; line-height:1;
-  color:transparent; -webkit-text-stroke:1.5px var(--line);
-  opacity:.8; pointer-events:none; z-index:0;
-}
+.card.category-drinks-quick-grab{--wm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 5.5h16l-8 7.5-8-7.5z'/%3E%3Cpath d='M12 13v7'/%3E%3Cpath d='M8.5 20h7'/%3E%3Cpath d='M15 5.5 17 2.5'/%3E%3C/svg%3E"); --wm-rot:-18deg; --wm-rot2:8deg}
 .card.category-drinks-quick-grab .category-label{
   display:inline-flex; align-items:center; color:var(--cat-drinks-ink); background:var(--cat-drinks-soft);
   border:1px solid color-mix(in srgb, var(--cat-drinks) 30%, transparent);
@@ -694,15 +669,26 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 
 /* --- Party / Nightlife — magenta, party emoji --- */
 .card.category-party-nightlife{border-inline-start-color:var(--cat-party)}
-.card.category-party-nightlife::before{
-  content:"פ"; position:absolute; inset-inline-end:6px; bottom:-24px;
-  font-family:"Frank Ruhl Libre",serif; font-weight:900; font-size:130px; line-height:1;
-  color:transparent; -webkit-text-stroke:1.5px var(--line);
-  opacity:.8; pointer-events:none; z-index:0;
-}
+.card.category-party-nightlife{--wm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 17.5V6l10-2v11'/%3E%3Ccircle cx='7' cy='17.5' r='2.5'/%3E%3Ccircle cx='17' cy='15' r='2.5'/%3E%3C/svg%3E"); --wm-rot:12deg; --wm-rot2:-14deg}
 .card.category-party-nightlife .category-label{
   display:inline-flex; align-items:center; color:var(--cat-party-ink); background:var(--cat-party-soft);
   border:1px solid color-mix(in srgb, var(--cat-party) 30%, transparent);
+}
+
+/* wallpaper: two tilted instances of the category icon, different sizes */
+.card[class*="category-"]::before, .card[class*="category-"]::after{
+  content:""; position:absolute; pointer-events:none; z-index:0;
+  background-color:var(--line);
+  -webkit-mask:no-repeat center / contain; mask:no-repeat center / contain;
+  -webkit-mask-image:var(--wm); mask-image:var(--wm);
+}
+.card[class*="category-"]::before{
+  width:128px; height:128px; top:-26px; inset-inline-start:-26px;
+  opacity:.5; transform:rotate(var(--wm-rot,-12deg));
+}
+.card[class*="category-"]::after{
+  width:74px; height:74px; bottom:-16px; inset-inline-end:24%;
+  opacity:.35; transform:rotate(var(--wm-rot2,14deg));
 }
 
 /* keep card content above the watermark */
