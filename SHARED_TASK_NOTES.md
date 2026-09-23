@@ -22,4 +22,5 @@
 - **Benefits**: Fewer stale-cache incidents.
 
 ## Iterations
-- (pending) iter 1: C1 on `improve/loop-iter-1-utils-tests`
+- iter 1 (2026-09-23): C1 DONE — `improve/loop-iter-1-utils-tests`, PR #7. utils.cjs + 8 tests green, CodeRabbit APPROVED with no comments. No fix batch.
+- (next) iter 2: C2 on a fresh branch from main
