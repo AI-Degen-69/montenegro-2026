@@ -739,7 +739,7 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .rail-wrap .rail-inner{flex:1; min-width:0}
 .menu-btn{flex:none; width:44px; min-height:48px; background:none; border:0; color:var(--text); font-size:21px; line-height:1; border-radius:10px}
 .menu-btn:hover{background:var(--surface-2)}
-.scrim{position:fixed; inset:0; background:rgba(0,0,0,.45); opacity:0; visibility:hidden; transition:opacity .22s ease, visibility .22s ease; z-index:90}
+.scrim{position:fixed; inset:0; background:rgba(0,0,0,.4); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px); opacity:0; visibility:hidden; transition:opacity .22s ease, visibility .22s ease; z-index:90}
 .scrim.open{opacity:1; visibility:visible}
 .drawer{position:fixed; top:0; bottom:0; right:0; width:min(300px, 84vw); z-index:91;
   background:var(--surface); border-inline-end:1px solid var(--line);
