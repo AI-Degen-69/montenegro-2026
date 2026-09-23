@@ -35,7 +35,9 @@
       return { totalEur: 0, totalIls: 0, perPersonEur: 0, perPersonIls: 0, payers: {}, balances: [] };
     }
     let totalEur = 0;
-    const payers = {};
+    // null prototype: a payer literally named "constructor" must not read an
+    // inherited property instead of a real running total
+    const payers = Object.create(null);
     for (const exp of expenses) {
       const amt = Number(exp.amountEur) || 0;
       totalEur += amt;
@@ -62,6 +64,10 @@
     return { totalEur, totalIls, perPersonEur, perPersonIls, payers, balances };
   }
 
+  // Fixed approximations for the trip dates (late September 2026, Kotor/Tivat
+  // ~42.22N 18.92E). Real solar math drifts by <=12 minutes across 24-27 Sep,
+  // which is below the resolution of this display-only hint; dateStr is kept so
+  // callers stay forward-compatible if per-date values are needed later.
   function getKotorGoldenHour(dateStr = "2026-09-24") {
     return {
       goldenStart: "18:10",
