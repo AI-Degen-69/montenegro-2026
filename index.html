@@ -1882,7 +1882,7 @@ function loadLocal(){
     const raw = localStorage.getItem(STORE_KEY);
     if (!raw) return;
     const d = JSON.parse(raw);
-    if (d && Array.isArray(d.days) && d.days.length){
+    if (d && Array.isArray(d.days) && d.days.length === BASE.length){
       days = hydrate(d.days);
       rev = Number(d.rev) || 0;
       const clean = usableExpenses(d.expenses);
@@ -2507,7 +2507,7 @@ function render(i, animate = true){
         <p class="blurb">${esc(d.blurb)}</p>
         ${ghBadge}
         <div class="stats">
-          ${d.stats.filter(([lab]) => lab === "תקציב").map(([lab, val]) => {
+          ${d.stats.filter(([lab]) => lab !== "תקציב").map(([lab, val]) => {
             return `<div class="stat"><div class="lab"><span class="stat-icon" aria-hidden="true">${statIcon(lab)}</span>${esc(lab)}</div><div class="val">${esc(val)}</div></div>`;
           }).join("")}
         </div>
