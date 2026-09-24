@@ -2490,9 +2490,14 @@ function render(i, animate = true){
   }).join("");
   const headHtml = (A.start && !mergeStart) ? anchorCard(A.start, "start") : "";
   const tailHtml = (A.end && !mergeEnd) ? (legMap(A.end.leg || null, last, endStop) + anchorCard(A.end, "end")) : "";
+  const gh = TripUtils.getKotorGoldenHour(weatherDate(d));
   const ghBadge = `
     <div class="golden-hour-badge">
-      <span class="gh-title">שעת שקיעת שמש זהב</span>
+      <div>
+        <span class="gh-title">שעת שקיעת שמש זהב</span>
+        <div class="gh-sea">ים: ${gh.seaTemp} · ${gh.wind} · UV ${gh.uvIndex}</div>
+      </div>
+      <div class="gh-time">${gh.goldenStart} – ${gh.sunset}</div>
     </div>`;
   $("#day").innerHTML = `
     <section class="dayhead">
