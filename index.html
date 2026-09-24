@@ -2490,14 +2490,9 @@ function render(i, animate = true){
   }).join("");
   const headHtml = (A.start && !mergeStart) ? anchorCard(A.start, "start") : "";
   const tailHtml = (A.end && !mergeEnd) ? (legMap(A.end.leg || null, last, endStop) + anchorCard(A.end, "end")) : "";
-  const gh = TripUtils.getKotorGoldenHour(weatherDate(d));
   const ghBadge = `
     <div class="golden-hour-badge">
-      <div>
-        <span class="gh-title">🌅 שקיעת שמש ושעת זהב במפרץ קוטור</span>
-        <div class="gh-sea">ים: ${gh.seaTemp} · ${gh.wind} · UV ${gh.uvIndex}</div>
-      </div>
-      <div class="gh-time">${gh.goldenStart} – ${gh.sunset}</div>
+      <span class="gh-title">שעת שקיעת שמש זהב</span>
     </div>`;
   $("#day").innerHTML = `
     <section class="dayhead">
@@ -2507,7 +2502,7 @@ function render(i, animate = true){
         <p class="blurb">${esc(d.blurb)}</p>
         ${ghBadge}
         <div class="stats">
-          ${d.stats.filter(([lab]) => lab !== "תקציב").map(([lab, val]) => {
+          ${d.stats.filter(([lab]) => !["לבוש", "נהיגה", "תקציב"].includes(lab)).map(([lab, val]) => {
             return `<div class="stat"><div class="lab"><span class="stat-icon" aria-hidden="true">${statIcon(lab)}</span>${esc(lab)}</div><div class="val">${esc(val)}</div></div>`;
           }).join("")}
         </div>
