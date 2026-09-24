@@ -828,8 +828,15 @@ button{font-family:inherit; font-size:inherit; cursor:pointer}
 .pack-progress .txt{font-size:13px; color:var(--muted); font-weight:700}
 .pack-cat{background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--radius); padding:14px 16px; margin:12px 0; box-shadow:var(--shadow)}
 .pack-cat > header{display:flex; align-items:center; gap:10px; justify-content:space-between}
-.pack-cat h3{font-size:17px; display:flex; align-items:center; gap:8px}
+.pack-cat h3{font-size:17px; display:flex; align-items:center; gap:8px; flex:1; min-width:0}
+.pack-cat h3 > span{flex:1; min-width:0; overflow-wrap:break-word}
+.pack-cat-tools{display:flex; align-items:center; gap:2px; flex:none}
+.pack-cat-edit-input{flex:1; min-width:0; font-family:inherit; font-size:16px; font-weight:700; color:var(--text); background:var(--raise); border:1px solid var(--sea); border-radius:10px; padding:8px 10px; min-height:44px}
 .pack-cat-ico{width:1.25em; height:1.25em; flex:none; color:var(--sea)}
+.pack-cat-ico.custom{color:var(--muted)}
+.pack-cat-new{background:var(--surface); border:1px dashed var(--line); border-radius:var(--radius); padding:14px 16px; margin:18px 0 0}
+.pack-cat-new h4{margin:0; font-size:14px; color:var(--muted)}
+.pack-cat-hint{margin:6px 0 0; font-size:12.5px; color:var(--faint)}
 .list-title{display:flex; align-items:center; gap:10px}
 .list-title .ico{width:1.1em; height:1.1em; flex:none; color:var(--sea)}
 .pack-cat .count{font-size:11.5px; color:var(--faint); font-weight:700; white-space:nowrap}
@@ -1497,12 +1504,14 @@ const PACK_ICONS = {
   "p-villa":'<path d="M4 11l8-7 8 7"/><path d="M6 9.5V20h5v-6h2v6h5V9.5"/>',
   "p-health":'<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/>'
 };
-const packCatIcon = id => PACK_ICONS[id]
-  ? `<svg class="ico pack-cat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PACK_ICONS[id]}</svg>`
-  : "";
+const PACK_CUSTOM_ICON = '<path d="M12 3.2l1.9 4.9 4.9 1.9-4.9 1.9L12 16.8l-1.9-4.9L5.2 10l4.9-1.9z"/><path d="M18.4 15.5l.9 2.3 2.3.9-2.3.9-.9 2.3-.9-2.3-2.3-.9 2.3-.9z"/>';
+const packCatIcon = c => (c && c.custom) || !(c && PACK_ICONS[c.id])
+  ? `<svg class="ico pack-cat-ico custom" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="קטגוריה שהוספת">${PACK_CUSTOM_ICON}</svg>`
+  : `<svg class="ico pack-cat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PACK_ICONS[c.id]}</svg>`;
 const PACK_KEY = "mne2026.pack.v1";
 let pack = null;
 let packEdit = null;
+let packCatEdit = null;
 function packDefault(){
   return PACK_BASE.map(c => ({id:c.id, title:c.title,
     items:c.items.map(t => ({id:packUid(), text:t, done:false}))}));
@@ -1512,14 +1521,22 @@ function packLoad(){
     const raw = localStorage.getItem(PACK_KEY);
     if (!raw){ pack = packDefault(); return; }
     const d = JSON.parse(raw);
-    if (d && Array.isArray(d) && d.length){
-      pack = d;
-      // add any new base items missing locally
-      PACK_BASE.forEach((bc, ci) => {
-        if (!pack[ci] || pack[ci].id !== bc.id) return;
+    if (d && Array.isArray(d)){
+      if (!d.length){ pack = []; return; }        // every category deleted on purpose
+      const clean = d.filter(c => c && typeof c.title === "string" && Array.isArray(c.items))
+        .map(c => ({id:String(c.id || "pc" + packUid()), title:c.title, custom:!!c.custom,
+          items:c.items.filter(it => it && typeof it.text === "string")
+            .map(it => ({id:String(it.id || packUid()), text:it.text, done:!!it.done}))}));
+      if (!clean.length){ pack = packDefault(); return; }   // corrupt cache -> defaults
+      pack = clean;
+      // add any new base items missing locally, matched by id so added/removed/renamed
+      // categories never shift the sync; a deleted base category is not resurrected
+      PACK_BASE.forEach(bc => {
+        const c = pack.find(x => x.id === bc.id);
+        if (!c) return;
         bc.items.forEach(t => {
-          if (!pack[ci].items.some(it => it.text === t))
-            pack[ci].items.push({id:packUid(), text:t, done:false});
+          if (!c.items.some(it => it.text === t))
+            c.items.push({id:packUid(), text:t, done:false});
         });
       });
       return;
@@ -2488,8 +2505,20 @@ function renderPack(){
     <section class="timeline" id="packList">
       ${pack.map((c, ci) => {
         const cd = c.items.filter(it => it.done).length;
+        const editing = packCatEdit === ci;
         return `<article class="pack-cat" data-c="${ci}">
-        <header><h3>${packCatIcon(c.id)}<span>${esc(c.title)}</span></h3><span class="count">${cd}/${c.items.length}</span></header>
+        <header>
+          <h3>${packCatIcon(c)}${editing
+            ? `<input class="pack-cat-edit-input" data-pack-catedit="${ci}" value="${esc(c.title)}" aria-label="שם הקטגוריה">`
+            : `<span>${esc(c.title)}</span>`}</h3>
+          <div class="pack-cat-tools">
+            <span class="count">${cd}/${c.items.length}</span>
+            ${editing
+              ? `<button class="btn primary" type="button" data-pack="saveCatEdit" data-c="${ci}">שמור</button>`
+              : `<button class="pack-icon-btn" type="button" data-pack="editCat" data-c="${ci}" aria-label="שנה שם קטגוריה" title="שנה שם קטגוריה">✎</button>
+            <button class="pack-icon-btn danger" type="button" data-pack="delCat" data-c="${ci}" aria-label="מחק קטגוריה" title="מחק קטגוריה">×</button>`}
+          </div>
+        </header>
         <ul class="pack-list">
           ${c.items.map((it, ii) => `<li class="pack-item${it.done ? " done" : ""}" data-c="${ci}" data-ii="${ii}">
             <button class="pack-check" type="button" data-pack="toggle" data-c="${ci}" data-ii="${ii}" aria-label="סמן כנארז">✓</button>
@@ -2507,6 +2536,14 @@ function renderPack(){
           <button class="btn primary" type="button" data-pack="add" data-c="${ci}">הוסף</button>
         </div>
       </article>`; }).join("")}
+      <div class="pack-cat-new">
+        <h4>קטגוריה משלך</h4>
+        <div class="pack-add">
+          <input data-pack-catadd placeholder="למשל: מסמכים, כסף, בגדי יום…" aria-label="שם קטגוריה חדשה">
+          <button class="btn primary" type="button" data-pack="addCat">הוסף קטגוריה</button>
+        </div>
+        <p class="pack-cat-hint">קטגוריה שתוסיפו תסומן באייקון ✦ ונשמרת במכשיר שלכם.</p>
+      </div>
       <div class="pack-foot">
         <button class="btn danger" type="button" data-pack="reset">אפס לרשימת ברירת מחדל</button>
       </div>
@@ -2579,6 +2616,57 @@ function bindPack(){
       packSave(); renderPack();
     });
   });
+  $("#day").querySelectorAll('[data-pack="editCat"]').forEach(el => {
+    el.addEventListener("click", () => {
+      packCatEdit = +el.dataset.c;
+      renderPack();
+      const inp = document.querySelector(`[data-pack-catedit="${packCatEdit}"]`);
+      if (inp){ inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
+    });
+  });
+  const commitCatEdit = (ci) => {
+    const inp = document.querySelector(`[data-pack-catedit="${ci}"]`);
+    if (inp && inp.value.trim()) pack[ci].title = inp.value.trim();
+    packCatEdit = null; packSave(); renderPack();
+  };
+  $("#day").querySelectorAll('[data-pack="saveCatEdit"]').forEach(el => {
+    el.addEventListener("click", () => commitCatEdit(+el.dataset.c));
+  });
+  $("#day").querySelectorAll("[data-pack-catedit]").forEach(inp => {
+    inp.addEventListener("keydown", e => {
+      if (e.key === "Enter") commitCatEdit(+inp.dataset.packCatedit);
+      if (e.key === "Escape"){ packCatEdit = null; renderPack(); }
+    });
+  });
+  const commitCatAdd = () => {
+    const inp = document.querySelector("[data-pack-catadd]");
+    if (!inp) return;
+    const title = inp.value.trim();
+    if (!title) return;
+    pack.push({id:"pc" + packUid(), title, custom:true, items:[]});
+    packCatEdit = null; packSave(); renderPack();
+    const again = document.querySelector("[data-pack-catadd]");
+    if (again) again.focus();
+  };
+  const addCatBtn = document.querySelector('[data-pack="addCat"]');
+  if (addCatBtn) addCatBtn.addEventListener("click", commitCatAdd);
+  const addCatInp = document.querySelector("[data-pack-catadd]");
+  if (addCatInp) addCatInp.addEventListener("keydown", e => {
+    if (e.key === "Enter") commitCatAdd();
+  });
+  $("#day").querySelectorAll('[data-pack="delCat"]').forEach(el => {
+    el.addEventListener("click", () => {
+      if (!el.classList.contains("armed")){
+        el.classList.add("armed");
+        el.style.color = "var(--red)"; el.style.fontWeight = "700";
+        el.title = "לחץ שוב כדי למחוק את הקטגוריה וכל הפריטים שבה";
+        setTimeout(() => { el.classList.remove("armed"); el.style.color = ""; el.style.fontWeight = ""; }, 3000);
+        return;
+      }
+      pack.splice(+el.dataset.c, 1);
+      packEdit = null; packCatEdit = null; packSave(); renderPack();
+    });
+  });
   const rst = document.querySelector('[data-pack="reset"]');
   if (rst) rst.addEventListener("click", () => {
     if (!rst.classList.contains("armed")){
@@ -2586,7 +2674,7 @@ function bindPack(){
       setTimeout(() => { rst.classList.remove("armed"); rst.textContent = "אפס לרשימת ברירת מחדל"; }, 3000);
       return;
     }
-    pack = packDefault(); packEdit = null; packSave(); renderPack();
+    pack = packDefault(); packEdit = null; packCatEdit = null; packSave(); renderPack();
   });
   bindListNav();
   observeStops();
